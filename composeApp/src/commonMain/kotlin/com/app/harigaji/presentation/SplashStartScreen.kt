@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -47,6 +48,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -78,6 +80,7 @@ import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_envelop
 import harigaji.composeapp.generated.resources.ic_farward
 import harigaji.composeapp.generated.resources.ic_invalid
+import harigaji.composeapp.generated.resources.ic_lock
 import harigaji.composeapp.generated.resources.logo_app
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -311,7 +314,11 @@ fun LoginScreen(
                         },
                         unfocusedContainerColor = Color.White,
                         focusedContainerColor = Color.White,
-                        cursorColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        selectionColors = TextSelectionColors(
+                            handleColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                        )
                     ),
                     singleLine = true,
                     isError = emailError
@@ -410,7 +417,7 @@ fun LoginScreen(
                     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(Res.drawable.ic_envelop),
+                            painter = painterResource(Res.drawable.ic_lock),
                             contentDescription = "Password Icon",
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(24.dp)
@@ -426,7 +433,11 @@ fun LoginScreen(
                         },
                         unfocusedContainerColor = Color.White,
                         focusedContainerColor = Color.White,
-                        cursorColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        selectionColors = TextSelectionColors(
+                            handleColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                        )
                     ),
                     singleLine = true,
                     isError = passwordError

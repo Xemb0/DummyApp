@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -8,6 +7,12 @@ plugins {
     alias(libs.plugins.composeCompiler)
 
     alias(libs.plugins.jetbrains.kotlin.serialization)
+
+
+    //Room
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
+//    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 kotlin {
@@ -22,9 +27,13 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
+            export("io.github.mirzemehdi:kmpnotifier:1.6.0")
             baseName = "ComposeApp"
             isStatic = true
         }
+    }
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
     
     sourceSets {
@@ -36,6 +45,10 @@ kotlin {
             //Koin DI
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+
+            //Ktor
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -58,6 +71,38 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
+
+            //Room
+//            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
+
+            //Ktor
+            implementation(libs.bundles.ktor)
+
+            //Datetime
+            implementation(libs.kotlinx.datetime)
+
+            //datastore
+            api(libs.datastore.pref)
+            api(libs.datastore)
+            implementation(libs.atomicfu)
+
+            // Kermit logger
+            implementation(libs.kermit)
+
+            //Firestore DB
+            implementation(libs.firebase.firestore)
+
+
+            //notification
+            api("io.github.mirzemehdi:kmpnotifier:1.6.0")
+
+
+        }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
 
 
         }
@@ -97,4 +142,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-
