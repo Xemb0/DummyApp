@@ -10,12 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+
+
 val LightColorTheme = lightColorScheme(
     primary = Primary,
+    secondary = Secondary,
     surface = Surface,
     surfaceContainerLowest = SurfaceLowest,
     background = Background,
     onSurface = OnSurface,
+
+    secondaryContainer = SecondaryContainer,
     onSurfaceVariant = OnSurfaceVariant
 )
 

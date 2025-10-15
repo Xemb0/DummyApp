@@ -2,10 +2,24 @@ package com.app.harigaji.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Background = Color(0xFF58A1F8)
-val Primary = Color(0xFF5977F7)
-val PrimaryDark = Color(0xFF592346)
-val Surface = Color(0xFFEFEFF2)
-val OnSurface = Color(0xFF1B1B1C)
-val OnSurfaceVariant = Color(0xFF535364)
-val SurfaceLowest = Color(0xFFFFFFFF)
+
+// Define your app colors
+val Primary = Color(0xFF6200EE)
+val Secondary = Color(0xFF2ECA83)
+
+
+val SecondaryExtraDark = Color(0xFF208A5C)
+
+val SecondaryContainer = Color(0xFF208A5C)
+
+val Tertiary = Color(0xFF03DAC5)
+
+val TertiaryExtraDark = Color(0xFF018786)
+val Surface = Color(0xFFFFFFFF)
+val SurfaceLowest = Color(0xFFF5F5F5)
+val Background = Color(0xFFF1F2F3)
+
+
+
+val OnSurface = Color(0xFF000000)
+val OnSurfaceVariant = Color(0xFF186745)
