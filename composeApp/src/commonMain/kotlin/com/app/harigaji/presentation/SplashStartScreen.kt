@@ -162,12 +162,12 @@ fun LoginScreen(
         showButton = true
     }
 
-    val scrollState = remember { mutableStateOf(0) }
+    val scrollState = rememberScrollState()
     val atTop by remember { derivedStateOf { scrollState.value < 20 } }
 
     val arcHeight by animateFloatAsState(
         targetValue = if (atTop && arcAnimationStarted) 150f else 0f,
-        animationSpec = tween(2000),
+        animationSpec = tween(500),
         label = "arcHeightAnim"
     )
     val scale = remember { Animatable(1f) }
@@ -230,7 +230,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(scrollState)
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

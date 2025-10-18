@@ -15,7 +15,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         modules(
             listOf(
                 platFormModule, appModule,
-                authModule,
+                authModule,notificationModule,
                 dataStoreModule, databaseModule,
                 notificationModule, appConfigModule, userModule
             )

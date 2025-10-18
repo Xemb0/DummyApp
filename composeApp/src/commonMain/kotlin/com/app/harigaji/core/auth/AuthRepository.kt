@@ -9,5 +9,6 @@ interface AuthRepository {
     suspend fun verifyOtp(phone: String, otp: String,type: Int): MyResult<AuthResponse, MyAppError>
     suspend fun refreshAppConfig()
     suspend fun logout()
+    suspend fun login(userName: String, password: String) : MyResult<AuthResponse, MyAppError>
 
 }

@@ -13,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.app.harigaji.core.auth.AuthViewModel
+import com.app.harigaji.core.shared.SharedViewModel
+import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.navigation.NavScreen
 import com.app.harigaji.theme.LightColorTheme
 import com.app.harigaji.theme.MyMaterialTheme
@@ -20,11 +23,16 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import harigaji.composeapp.generated.resources.Res
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
 fun App() {
+//    val sharedViewModel = koinViewModel<SharedViewModel>()
+    val userViewModel = koinViewModel<UserViewModel>()
+    val authViewModel = koinViewModel<AuthViewModel>()
+
     MyMaterialTheme {
-        NavScreen()
+        NavScreen(authViewModel, userViewModel)
     }
 }

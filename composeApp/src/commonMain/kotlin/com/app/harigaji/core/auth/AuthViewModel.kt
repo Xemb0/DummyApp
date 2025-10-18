@@ -41,7 +41,7 @@ init {
 }
 
     private val _state = MutableStateFlow(AuthScreenState())
-    val state: StateFlow<AuthScreenState> = _state.asStateFlow()
+    val authState: StateFlow<AuthScreenState> = _state.asStateFlow()
 
     private val _uiEvent: Channel<UiEvent> = Channel()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -78,7 +78,7 @@ init {
     }
 
     private fun onKeyboardBack() {
-        val previousIndex = getPreviousFocusedIndex(state.value.focusedIndex) ?: return
+        val previousIndex = getPreviousFocusedIndex(authState.value.focusedIndex) ?: return
         _state.update {
             it.copy(
                 otp = it.otp.mapIndexed { index, number ->
@@ -95,7 +95,7 @@ init {
             val otp = _state.value.otp.mapNotNull { it?.toString() }.joinToString("")
             return otp.length == 4
         }
-        val newCode = state.value.otp.mapIndexed { currentIndex, currentNumber ->
+        val newCode = authState.value.otp.mapIndexed { currentIndex, currentNumber ->
             if(currentIndex == index) {
                 number
             } else {
@@ -176,6 +176,25 @@ init {
         }
     }
 
+    fun login(userName:String,password: String){
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+
+          val result =   authRepository.login(userName,password)
+            println("Login result: $result")
+            _state.update { it.copy(isLoading = false) }
+            when (result) {
+                is MyResult.Success -> {
+                    _uiEvent.send(UiEvent.ShowSnackBar("${result.data?.response?.client_name} logged in successfully"))
+                    _uiEvent.send(UiEvent.Auth.LoginSuccess(result.data?.response))
+                }
+                is MyResult.Error -> handleError(
+                    MyAppError.Remote.CLIENT_ERROR
+                    , "Error logging in")
+            }
+        }
+    }
+
      fun verifyOtp() {
         viewModelScope.launch {
             val otp = _state.value.otp.mapNotNull { it?.toString() }.joinToString("")
@@ -193,7 +212,6 @@ init {
                 is MyResult.Success -> {
                     authRepository.refreshAppConfig()
                         _uiEvent.send(UiEvent.ShowSnackBar("${result.data?.response?.client_name} logged in successfully"))
-                        _uiEvent.send(UiEvent.Navigate.HolderScreen)
                     _uiEvent.send(UiEvent.Auth.LoginSuccess(result.data?.response))
 
                 }

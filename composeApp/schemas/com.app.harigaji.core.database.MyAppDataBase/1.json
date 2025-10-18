@@ -1,0 +1,176 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "3b46f5ca4d228a99c2346cae4b3762b7",
+    "entities": [
+      {
+        "tableName": "app_config",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `userId` TEXT, `surveyId` INTEGER, `appVersion` TEXT, `releaseDate` TEXT, `surveyUploadUrl` TEXT, `imageUploadUrl` TEXT, `getProductDetails` TEXT, `offlineDropdownApi` TEXT, `loginValidateOtpUrl` TEXT, `loginOtpUrl` TEXT, `getOrderDetails` TEXT, `getNotificationUrl` TEXT, `updateFcmToken` TEXT, `mostFrequentBuys` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "surveyId",
+            "columnName": "surveyId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "appVersion",
+            "columnName": "appVersion",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "releaseDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "surveyUploadUrl",
+            "columnName": "surveyUploadUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imageUploadUrl",
+            "columnName": "imageUploadUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "getProductDetails",
+            "columnName": "getProductDetails",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "offlineDropdownApi",
+            "columnName": "offlineDropdownApi",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "loginValidateOtpUrl",
+            "columnName": "loginValidateOtpUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "loginOtpUrl",
+            "columnName": "loginOtpUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "getOrderDetails",
+            "columnName": "getOrderDetails",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "getNotificationUrl",
+            "columnName": "getNotificationUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "updateFcmToken",
+            "columnName": "updateFcmToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mostFrequentBuys",
+            "columnName": "mostFrequentBuys",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "NotificationDetail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notificationId` TEXT NOT NULL, `notificationType` INTEGER NOT NULL, `teamId` TEXT NOT NULL, `notificationTitle` TEXT NOT NULL, `notificationText` TEXT NOT NULL, `notificationDateTime` TEXT NOT NULL, `dateTimeMili` INTEGER NOT NULL, `color` TEXT, `icon` TEXT, `imageIfAny` TEXT, `isRead` INTEGER NOT NULL, PRIMARY KEY(`notificationId`))",
+        "fields": [
+          {
+            "fieldPath": "notificationId",
+            "columnName": "notificationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationType",
+            "columnName": "notificationType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teamId",
+            "columnName": "teamId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationTitle",
+            "columnName": "notificationTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationText",
+            "columnName": "notificationText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationDateTime",
+            "columnName": "notificationDateTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateTimeMili",
+            "columnName": "dateTimeMili",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imageIfAny",
+            "columnName": "imageIfAny",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isRead",
+            "columnName": "isRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "notificationId"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3b46f5ca4d228a99c2346cae4b3762b7')"
+    ]
+  }
+}
