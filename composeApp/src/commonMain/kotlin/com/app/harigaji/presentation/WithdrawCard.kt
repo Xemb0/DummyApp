@@ -70,7 +70,7 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
             defaultElevation = 4.dp,
             pressedElevation = 8.dp
         ),
-        modifier = modifier.width(300.dp),
+        modifier = modifier.width(200.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 1f)),
         shape = RoundedCornerShape(16.dp)
     ) {
@@ -82,7 +82,7 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
         ) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(60.dp)
                     .clip(CircleShape)
                     .background(color),
                 contentAlignment = Alignment.Center
@@ -91,24 +91,25 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
                     painter = painterResource(Res.drawable.ic_power),
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(32.dp)
                 )
             }
 
 
             Column {
 
-                Spacer( modifier = Modifier.height(8.dp))
+                Spacer( modifier = Modifier.height(12.dp))
                 Text(
                     text = "WITHDRAWAL",
                     fontSize = 10.sp,
+                    letterSpacing = 2.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clip(CircleShape)
                         .background(MaterialTheme.colorScheme.secondary.copy(alpha = .15f))
                         .padding(horizontal = 8.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer( modifier = Modifier.height(8.dp))
+                Spacer( modifier = Modifier.height(12.dp))
                 Text(
                     text = amount,
                     fontSize = 18.sp,

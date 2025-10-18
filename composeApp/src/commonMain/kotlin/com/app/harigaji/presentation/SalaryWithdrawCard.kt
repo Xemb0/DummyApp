@@ -10,12 +10,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.input.key.Key.Companion.R
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import harigaji.composeapp.generated.resources.Res
+import harigaji.composeapp.generated.resources.bg_card
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -31,43 +41,54 @@ fun SalaryWithdrawCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .wrapContentSize()
                 .height(IntrinsicSize.Min)
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color(0xFFFDE68A), // Yellow
-                            Color(0xFFFAD4E4), // Pink
-                            Color(0xFFBFE9F7), // Light Blue
-                            Color(0xFFA5F3FC)  // Cyan
-                        ),
-                        start = Offset(0f, 300f),
-                        end = Offset(1000f, 0f)
-                    )
-                )
-        ) {
-            // Radial blur effects on the right side
+        ){
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .align(Alignment.TopEnd)
-                    .offset(x = 300.dp, y = (-50).dp)
-                    .background(
-                        color = Color(0x66A5F3FC), // Cyan with transparency
-                        shape = CircleShape
+                    .blur(10.dp)
+                    .paint(
+                        painter = painterResource(Res.drawable.bg_card),
+                        contentScale = ContentScale.Fit
                     )
-                    .blur(80.dp)
             )
 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.TopEnd)
-                    .offset(x = 200.dp, y = 40.dp)
+                    .rotate(-30f)
+                    .offset(x = 250.dp, y = 10.dp)
+                    .background(
+                        color = Color.White.copy(alpha = .4f), // Lighter blue with transparency
+                        shape = CircleShape
+                    )
+                    .blur(20.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(.9f)
+                    .align(Alignment.TopEnd)
+                    .rotate(-30f)
+                    .offset(x = 230.dp, y = 8.dp)
                     .background(
                         color = Color(0x8086DCFB), // Lighter blue with transparency
                         shape = CircleShape
                     )
-                    .blur(60.dp)
+                    .blur(10.dp)
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(.4f)
+                    .align(Alignment.TopEnd)
+                    .rotate(-90f)
+                    .offset(x = 80.dp, y = 30.dp)
+                    .background(
+                        color = Color.White.copy(alpha = .4f), // Lighter blue with transparency
+                        shape = CircleShape
+                    )
+                    .blur(20.dp)
+            )
+
 
             // Content
             Column(
@@ -106,7 +127,7 @@ fun SalaryWithdrawCard(modifier: Modifier = Modifier) {
                     )
                     Text(
                         text = "RM 12,689",
-                        fontSize = 35.sp,
+                        fontSize = 48.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF111827),
                         lineHeight = 22.sp

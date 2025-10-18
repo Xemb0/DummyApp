@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +59,6 @@ fun OptionTabs(
 //                    radius = 3.dp,
 //                    spread = 3.dp,
 //                    color = bgColor
-//
 //                )
 //            )
     ) {
@@ -70,23 +71,32 @@ fun OptionTabs(
             animationSpec = tween(durationMillis = 300), label = ""
         )
 
-        Box(
+        Card(
             modifier = Modifier
                 .offset(x = animatedOffset)
                 .width(indicatorWidth)
                 .fillMaxHeight()
-                .padding(4.dp)
-                .dropShadow(
-                    shape = CircleShape,
-                    shadow = Shadow(
-                        offset = DpOffset(0.dp, 0.dp),
-                        radius = 3.dp,
-                        spread = 3.dp,
-                        color = bgColor
-
-                    )
-                )
-                .background(ascentColor, CircleShape) // Replaced `mySecondary`
+//                .padding(4.dp)
+//                .dropShadow(
+//                    shape = CircleShape,
+//                    shadow = Shadow(
+//                        offset = DpOffset(0.dp, 0.dp),
+//                        radius = 3.dp,
+//                        spread = 3.dp,
+//                        color = bgColor
+//
+//                    )
+//                )
+                .background(ascentColor, CircleShape),
+            shape = RoundedCornerShape(50),
+            colors = CardDefaults.cardColors(containerColor = ascentColor),
+            elevation = CardDefaults.elevatedCardElevation(
+                defaultElevation = 16.dp,
+                pressedElevation = 8.dp,
+                focusedElevation = 32.dp,
+                hoveredElevation = 32.dp
+            ),
+            content ={}
         )
 
         // The clickable labels for each option.
@@ -106,7 +116,7 @@ fun OptionTabs(
                 ) {
                     Text(
                         text = option.name,
-                        color = if (selectedOption == option) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onBackground, // Fixed color reference
+                        color = if (selectedOption == option) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onBackground.copy(alpha = .7f), // Fixed color reference
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )

@@ -21,5 +21,5 @@ val Background = Color(0xFFF1F2F3)
 
 
 
-val OnSurface = Color(0xFF000000)
+val OnSurface = Color(0xFF254B2B)
 val OnSurfaceVariant = Color(0xFF186745)

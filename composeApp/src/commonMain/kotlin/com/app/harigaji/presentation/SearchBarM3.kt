@@ -55,6 +55,7 @@ import org.jetbrains.compose.resources.painterResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBarM3(
+    modifier : Modifier = Modifier,
     onSearch:(String) -> Unit,
     onItemClick:(String)->Unit,
     searchHeading:String = "Recent search",
@@ -66,7 +67,7 @@ fun SearchBarM3(
 
 //    val keyboard
     SearchBar (
-        modifier = Modifier.clip(RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)).animateContentSize(),
+        modifier = modifier.clip(RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp)).animateContentSize(),
         shape = if(active) RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp) else RoundedCornerShape(32.dp),
         colors = SearchBarDefaults.colors(
 
@@ -89,24 +90,25 @@ fun SearchBarM3(
         active = active,
         onActiveChange = { active = it },
         placeholder = {
-            Text(text = "Search")
+            Text(text = searchHeading)
         },
         leadingIcon = {
-            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
-        },
-        trailingIcon = {
-//            Row {
-//                IconButton(onClick = { /* open mic dialog */ }) {
-//                    Icon(painter = painterResource(Res.drawable.ic_go_to_cart), contentDescription = "Mic")
-//                }
-                if (active) {
+            if (active) {
                     IconButton(
                         onClick = { if (query.isNotEmpty()) query = "" else active = false }
                     ) {
                         Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
                     }
                 }
+        },
+        trailingIcon = {
+//            Row {
+//                IconButton(onClick = { /* open mic dialog */ }) {
+//                    Icon(painter = painterResource(Res.drawable.ic_go_to_cart), contentDescription = "Mic")
+//                }
+//
 //            }
+            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
         }
     ) {
         LazyColumn {
