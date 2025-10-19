@@ -23,9 +23,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.icons.filled.ArrowCircleDown
+import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.PunchClock
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SyncLock
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ScrollableTabRow
@@ -48,9 +57,10 @@ fun TransactionItem(
     statusColor: Color
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(12.dp)
+        elevation = CardDefaults.cardElevation(2.dp),
+        shape = RoundedCornerShape(24.dp)
     ) {
         Row(
             modifier = Modifier
@@ -79,39 +89,44 @@ fun TransactionItem(
                 Text(
                     text = name,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = bank,
-                    fontSize = 12.sp,
-                    color = Color.Gray
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
                 )
                 Text(
                     text = date,
-                    fontSize = 10.sp,
+                    fontSize = 12.sp,
                     color = Color.Gray
                 )
             }
             
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = amount,
+                    text = "RM $amount",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = statusColor
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        imageVector = if (status == "Failed") Icons.Default.Close else Icons.Default.Check,
+                        imageVector = when(status) {
+                            "Successful" -> Icons.Default.ArrowCircleUp
+                            "Failed" -> Icons.Default.ArrowCircleDown
+                            else -> Icons.Default.Schedule
+
+                        },
                         contentDescription = null,
                         tint = statusColor,
-                        modifier = Modifier.size(14.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = status,
                         fontSize = 12.sp,
-                        color = statusColor
+                        fontWeight = FontWeight.Medium
                     )
                 }
             }

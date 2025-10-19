@@ -3,6 +3,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class Route {
+
+        companion object
+
         @Serializable
         data object SendOTP : Route()
         @Serializable
@@ -46,6 +49,9 @@ sealed class Route {
         data object Login : Route()
         @Serializable
         data object Settings : Route()
+
+        @Serializable
+        data class ClockIn(val clockInTime:Long,val isClockedIn: Boolean) : Route()
         @Serializable
         data object GetStarted : Route()
         @Serializable

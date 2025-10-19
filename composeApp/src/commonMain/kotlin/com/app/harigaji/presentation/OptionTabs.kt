@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,17 +40,19 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun OptionTabs(
+    height: Dp = 48.dp,
     modifier: Modifier = Modifier,
     bgColor: Color,
     ascentColor: Color,
     options: List<OptionTab>,
+    selectedOptionTextColor: Color,
     selectedOption: OptionTab,
     onOptionSelected: (OptionTab) -> Unit
 ) {
     BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .height(height)
             .clip(CircleShape)
             .background(bgColor.copy(alpha = .3f)) // Fixed missing color reference
 //            .dropShadow(
@@ -116,8 +119,9 @@ fun OptionTabs(
                 ) {
                     Text(
                         text = option.name,
-                        color = if (selectedOption == option) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onBackground.copy(alpha = .7f), // Fixed color reference
+                        color = if (selectedOption == option) selectedOptionTextColor else bgColor, // Fixed color reference
                         fontSize = 16.sp,
+                        modifier = Modifier.padding(horizontal = 4.dp),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -146,6 +150,7 @@ fun OptionTabsPreview() {
 //            OptionTab("3", "Tab 3", "", "")
         ),
         selectedOption = OptionTab("1", "Tab 1", "", ""),
-        onOptionSelected = {}
+        onOptionSelected = {},
+        selectedOptionTextColor = Color.Yellow
     )
 }

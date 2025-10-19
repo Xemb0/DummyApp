@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import com.app.harigaji.core.datastore.DataStoreRepository
 import com.app.harigaji.core.language.Language
 import com.app.harigaji.core.language.Localization
+import com.app.harigaji.data.UserProgressDetail
 
 
 data class UserUiState(
@@ -33,6 +34,9 @@ class UserViewModel (
     private val _currentLang = MutableStateFlow("")
     val currentLang: StateFlow<String?> get() = _currentLang
 
+    private val _userProgressDetail = MutableStateFlow<UserProgressDetail?>(null)
+    val userProgressDetail: StateFlow<UserProgressDetail?> get() = _userProgressDetail
+
     val userDetails: StateFlow<UserDetails> = userRepository.getUserDetails()
         .stateIn(
             scope = viewModelScope,
@@ -53,11 +57,20 @@ class UserViewModel (
             }
         }
         viewModelScope.launch {
-        userRepository.getUserDetails().collectLatest { user->
-            println("DSFlow use details : $user")
+        userRepository.getUserDetails().collectLatest { user ->
             _isUserLoggedIn.value = user.token?.isNotEmpty() ?: false
-            println("isUserLoggedIn : ${_isUserLoggedIn.value}")
+            _userProgressDetail.value = _userProgressDetail.value?.copy(
+                name = user.name.orEmpty(),
+                email = user.email.orEmpty(),
+                phone = user.phone.orEmpty(),
+                profilePic = user.profilePic.orEmpty(),
+                token = user.token.orEmpty(),
+                id = user.id.orEmpty(),
+                baseUrl = user.baseUrl.orEmpty(),
+                language = user.language.orEmpty(),
+            )
         }
+
     }
 
     }

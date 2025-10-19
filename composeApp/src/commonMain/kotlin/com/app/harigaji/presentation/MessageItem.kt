@@ -1,5 +1,6 @@
 package com.app.harigaji.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -43,23 +45,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import harigaji.composeapp.generated.resources.Res
+import harigaji.composeapp.generated.resources.ic_profile
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MessageItem(sender: String, message: String, time: String, date: String?) {
     Column {
-        if (date != null) {
-            Text(
-                text = date,
-                fontSize = 12.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-        }
+
         
         Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            shape = RoundedCornerShape(12.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(2.dp),
+            shape = RoundedCornerShape(24.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -67,12 +66,13 @@ fun MessageItem(sender: String, message: String, time: String, date: String?) {
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
+               Image(
+                    painter = painterResource(Res.drawable.ic_profile),
+                    contentDescription = "Avatar",
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(40.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFFFCDD2))
-                )
+               )
                 
                 Spacer(modifier = Modifier.width(12.dp))
                 

@@ -1,4 +1,4 @@
-package com.app.harigaji.presentation
+package com.app.harigaji.presentation.tabs
 
 import SalaryWithdrawCard
 import androidx.compose.animation.AnimatedVisibility
@@ -42,14 +42,14 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-val listOfTabOptions = listOf(
-    OptionTab(
+private val listOfTabOptions = listOf(
+    _root_ide_package_.com.app.harigaji.presentation.OptionTab(
         id = "1",
         name = "Salary",
         icon = "ic_launcher_foreground",
         color = "#FF0000"
     ),
-    OptionTab(
+    _root_ide_package_.com.app.harigaji.presentation.OptionTab(
         id = "2",
         name = "Attendance",
         icon = "ic_launcher_foreground",
@@ -62,6 +62,7 @@ val listOfTabOptions = listOf(
 fun HomeScreen(
     paddingValues: PaddingValues,
     userDetails: UserDetails,
+    onClockIn: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -143,7 +144,7 @@ fun HomeScreen(
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    DateRow()
+                                    _root_ide_package_.com.app.harigaji.presentation.DateRow()
                                 }
 
                                 OutlinedIconButton(
@@ -236,13 +237,17 @@ fun HomeScreen(
                         enter = fadeIn() + expandVertically(),
                         exit = fadeOut() + shrinkVertically()
                     ) {
-                        SearchBarM3(
+                        _root_ide_package_.com.app.harigaji.presentation.SearchBarM3(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp)
                                 .padding(bottom = 8.dp)
                                 .graphicsLayer {
-                                    alpha = 1f - (scrollBehavior.state.collapsedFraction * 2).coerceIn(0f, 1f)
+                                    alpha =
+                                        1f - (scrollBehavior.state.collapsedFraction * 2).coerceIn(
+                                            0f,
+                                            1f
+                                        )
                                 },
                             onSearch = {},
                             onItemClick = {},
@@ -292,7 +297,7 @@ fun HomeScreen(
             }
 
             item {
-                OptionTabs(
+                _root_ide_package_.com.app.harigaji.presentation.OptionTabs(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
@@ -306,7 +311,8 @@ fun HomeScreen(
                             )
                         }
                     },
-                    options = listOfTabOptions
+                    options = listOfTabOptions,
+                    selectedOptionTextColor = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -340,7 +346,8 @@ fun HomeScreen(
                                         label = "Last Logged out at",
                                         value = "21 Jan 2024"
                                     )
-                                )
+                                ),
+                                onClockIn = onClockIn
                             )
                         }
                     }
@@ -382,7 +389,7 @@ fun SalaryTabContent(
         ) {
             itemsIndexed(listWithdraw) { index, item ->
                 val color = colors[index % colors.size]
-                WithdrawCard(
+                _root_ide_package_.com.app.harigaji.presentation.WithdrawCard(
                     amount = item.amount,
                     month = item.month,
                     color = color,
@@ -446,16 +453,14 @@ fun SalaryTabContent(
             Spacer(modifier = Modifier.height(8.dp))
             SalaryEarnedCard(date = "14 Oct 2025", salary = "1,800")
             Spacer(modifier = Modifier.height(8.dp))
-            SalaryEarnedCard(date = "13 Oct 2025", salary = "2,750")
-            Spacer(modifier = Modifier.height(8.dp))
-            SalaryEarnedCard(date = "12 Oct 2025", salary = "2,900")
         }
     }
 }
 
 @Composable
 fun AttendanceTabContent(
-    listAttendanceContent:List<KpiData> = emptyList()
+    listAttendanceContent:List<KpiData> = emptyList(),
+    onClockIn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -515,8 +520,8 @@ fun AttendanceTabContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp).fillMaxWidth()
         )
-        SlideToClockIn(
-
+        _root_ide_package_.com.app.harigaji.presentation.SlideToClockIn(
+            onClockIn = onClockIn
         )
 
     }
@@ -706,7 +711,8 @@ fun HomeScreenPreview() {
         UserDetails(
             name = "John Doe",
             email = ""
-        )
+        ),
+        onClockIn = {}
     )
 }
 

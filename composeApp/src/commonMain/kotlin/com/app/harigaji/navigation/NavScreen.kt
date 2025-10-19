@@ -3,6 +3,7 @@ package com.app.harigaji.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger.Companion.a
 import com.app.harigaji.core.auth.AuthViewModel
 import com.app.harigaji.core.shared.SharedViewModel
@@ -28,14 +30,21 @@ import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.core.utils.ObserverAsEvent
 import com.app.harigaji.core.utils.SnackBarController
 import com.app.harigaji.core.utils.SnackBarEvent
+import com.app.harigaji.core.utils.extract12HourTime
 import com.app.harigaji.data.UiEvent
 import com.app.harigaji.presentation.LoginScreen
 import com.app.harigaji.presentation.ScreenHolder
+import com.app.harigaji.presentation.popups.AttendanceClockScreen
+import com.app.harigaji.presentation.popups.ClockState
+import com.app.harigaji.presentation.tabs.profile.ProfileEditScreen
 import com.app.harigaji.splash.SplashScreen
 import com.app.harigaji.splash.SplashStartScreen
 import kotlinx.coroutines.flow.merge
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun NavScreen(
     authViewModel: AuthViewModel,
@@ -46,6 +55,8 @@ fun NavScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
+
+    val userProgressDetail by userViewModel.userProgressDetail.collectAsState()
     val mergedEvents = merge(authViewModel.uiEvent)
 
     val authState by authViewModel.authState.collectAsState()
@@ -89,8 +100,6 @@ fun NavScreen(
                 }
             }
 
-
-
             else -> {
 
             }
@@ -100,7 +109,6 @@ fun NavScreen(
 
 
     Scaffold(
-
 
         modifier = Modifier.fillMaxSize(),
         snackbarHost = {
@@ -142,7 +150,7 @@ fun NavScreen(
             popExitTransition = { fadeOut(animationSpec = tween(600)) }
         ) {
             navigation<Route.NavGraph>(
-                startDestination = Route.Splash
+                startDestination = Route.Profile
             ) {
                 composable<Route.Splash> {
                     SplashScreen(
@@ -189,11 +197,63 @@ fun NavScreen(
 //                                )
                             navController.navigate(Route.Notification)
                         },
+                        onClockIn = {
+                            navController.navigate(Route.ClockIn(
+                                clockInTime = Clock.System.now().toEpochMilliseconds(),
+                                isClockedIn = true
+                            ))
+                        },
+                        onLogout = {
+                            authViewModel.logout()
+                            userViewModel.logout()
+                            navController.navigate(Route.Login) {
+                                popUpTo(Route.NavGraph) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                        onProfileClick = {
+                            navController.navigate(Route.Profile)
+                        }
 
                     )
 
                 }
+                composable<Route.ClockIn>{ entry ->
+                    val args = entry.toRoute<Route.ClockIn>()
+                    AttendanceClockScreen(
+                        paddingValues = innerPadding,
+                        onGoToHome = {
+                            navController.navigate(Route.HolderScreen) {
+                                popUpTo(Route.NavGraph) {
+                                    inclusive = false
+                                }
+                            }
+                        },
+                        clockState = ClockState(args.isClockedIn, extract12HourTime(args.clockInTime))
+                    )
+                }
+
+                composable<Route.Settings> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background)
+                    ) {
+                        // Settings Screen Content
+                    }
+                }
+                composable<Route.Profile> {
+                    ProfileEditScreen(
+                        innerPadding, userProgressDetail = userProgressDetail,
+                        onPrevious = {
+                            navController.navigateUp()
+                        }
+                    )
+                }
+
             }
         }
     }
 }
+

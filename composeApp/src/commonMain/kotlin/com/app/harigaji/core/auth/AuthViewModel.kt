@@ -243,4 +243,10 @@ init {
         }
         _uiEvent.send(UiEvent.ShowSnackBar(message))
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            userRepository.logout()
+        }
+    }
 }

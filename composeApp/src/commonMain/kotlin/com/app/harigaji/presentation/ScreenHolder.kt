@@ -1,11 +1,15 @@
 package com.app.harigaji.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -36,14 +40,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.app.harigaji.core.language.Language
 import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.navigation.getBottomNavIcons
-import kotlinx.serialization.json.JsonNull.content
+import com.app.harigaji.presentation.tabs.HistoryScreen
+import com.app.harigaji.presentation.tabs.HomeScreen
+import com.app.harigaji.presentation.tabs.MessageScreen
+import com.app.harigaji.presentation.tabs.profile.ProfileScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +62,9 @@ import kotlinx.serialization.json.JsonNull.content
 fun ScreenHolder(
     paddingValues: PaddingValues,
     userViewModel: UserViewModel,
+    onClockIn:()->Unit,
+    onLogout:()->Unit,
+    onProfileClick:()->Unit,
     onUserIconClick:()->Unit,
     onNotificationClick:()->Unit,
     newNotificationCount: Int = 0,
@@ -105,107 +119,151 @@ fun ScreenHolder(
 
                 Card(
                     shape = CircleShape,
-                    elevation = CardDefaults.cardElevation(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White.copy(alpha = 0f),
+
+                    ),
+                    elevation = CardDefaults.cardElevation(32.dp
+                    ),
                     modifier = Modifier.fillMaxWidth(.99f)
                         .padding(paddingValues.calculateBottomPadding())
                         .wrapContentSize()
                 ) {
-                    NavigationBar(
-                        containerColor = MaterialTheme.colorScheme.onSurface,
-                        windowInsets = WindowInsets(0.dp),
+                    Box(
                         modifier = Modifier
-//                                .padding(horizontal = 8.dp)
-                            .clip(CircleShape)
+                            .wrapContentSize()
+                            .height(IntrinsicSize.Min)
                     ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.surface.copy(alpha = .7f),
+                                    shape = CircleShape
+                                )
+                                .dropShadow(
+                                    shadow = Shadow(
+                                        offset = DpOffset(0.dp, 0.dp),
+                                        radius = 9.dp,
+                                        spread = 3.dp,
+                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = .1f)
+                                    ),
+                                    shape = CircleShape
+                                )
+                                .blur(40.dp)
 
 
-                        getBottomNavIcons().forEachIndexed { index, bottomNavItem ->
-                            NavigationBarItem(
-                                colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = Color.Transparent,
-                                    indicatorColor = Color.Transparent,
-                                    unselectedIconColor = Color.Transparent,
-                                    selectedTextColor = Color.Transparent,
-                                    unselectedTextColor = Color.Transparent,
-                                    disabledIconColor = Color.Transparent,
-                                    disabledTextColor = Color.Transparent,
-                                ),
-                                interactionSource = null,
-                                modifier = Modifier.windowInsetsPadding(WindowInsets(0.dp)),
-                                selected = index == selectedItem,
-                                onClick = {
+                        )
+                        NavigationBar(
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = .1f),
+                            windowInsets = WindowInsets(0.dp),
+                            modifier = Modifier
+//                                .padding(horizontal = 8.dp)
+                                .clip(CircleShape)
+                        ) {
 
 
-                                    selectedItem = index
+                            getBottomNavIcons().forEachIndexed { index, bottomNavItem ->
+                                NavigationBarItem(
+                                    colors = NavigationBarItemDefaults.colors(
+                                        selectedIconColor = Color.Transparent,
+                                        indicatorColor = Color.Transparent,
+                                        unselectedIconColor = Color.Transparent,
+                                        selectedTextColor = Color.Transparent,
+                                        unselectedTextColor = Color.Transparent,
+                                        disabledIconColor = Color.Transparent,
+                                        disabledTextColor = Color.Transparent,
+                                    ),
+                                    interactionSource = null,
+                                    modifier = Modifier.windowInsetsPadding(WindowInsets(0.dp)),
+                                    selected = index == selectedItem,
+                                    onClick = {
 
-                                    when(index){
-                                        0->{
-                                        }
-                                        1->{
-                                        }
-                                        2->{
 
-                                        }
-                                        3->{
-                                        }
-                                    }
+                                        selectedItem = index
 
-                                },
-                                icon = {
-                                    BadgedBox(
-                                        badge = {
-                                            if (bottomNavItem.badgeCount > 0) {
-                                                Badge {
-                                                    Text(text = bottomNavItem.badgeCount.toString())
-                                                }
-                                            } else if (bottomNavItem.hasNews) {
-                                                Badge()
+                                        when (index) {
+                                            0 -> {
                                             }
-                                        },
-                                        content = {
+
+                                            1 -> {
+                                            }
+
+                                            2 -> {
+
+                                            }
+
+                                            3 -> {
+                                            }
+                                        }
+
+                                    },
+                                    icon = {
+                                        BadgedBox(
+                                            badge = {
+                                                if (bottomNavItem.badgeCount > 0) {
+                                                    Badge {
+                                                        Text(text = bottomNavItem.badgeCount.toString())
+                                                    }
+                                                } else if (bottomNavItem.hasNews) {
+                                                    Badge()
+                                                }
+                                            },
+                                            content = {
 
 
-                                            Icon(
-                                                painter = if (index == selectedItem) bottomNavItem.selectedIcon else bottomNavItem.unSelectedIcon,
-                                                contentDescription = bottomNavItem.title,
-                                                tint = if (index == selectedItem) MaterialTheme.colorScheme.secondary.copy(
-                                                    alpha = .8f
-                                                ) else  MaterialTheme.colorScheme.secondary.copy(
-                                                    alpha = 1f
-                                                ),
-                                                modifier = Modifier
-                                                    .clip(CircleShape)
-                                                    .background(if (selectedItem == index)  MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface)
-                                                    .clickable {
-                                                        selectedItem = index
-                                                        showBottomSheet = index==3
+                                                Icon(
+                                                    painter = if (index == selectedItem) bottomNavItem.selectedIcon else bottomNavItem.unSelectedIcon,
+                                                    contentDescription = bottomNavItem.title,
+                                                    tint = if (index == selectedItem) MaterialTheme.colorScheme.secondary.copy(
+                                                        alpha = .8f
+                                                    ) else MaterialTheme.colorScheme.secondary.copy(
+                                                        alpha = 1f
+                                                    ),
+                                                    modifier = Modifier
+                                                        .clip(CircleShape)
+                                                        .border(
+                                                            width = if (selectedItem == index) 2.dp else 0.dp,
+                                                            color = if (selectedItem == index) MaterialTheme.colorScheme.secondary.copy(
+                                                                alpha = .8f
+                                                            ) else Color.Transparent,
+                                                            shape = CircleShape
+                                                        )
+                                                        .background(if (selectedItem == index) MaterialTheme.colorScheme.surface.copy(alpha = .9f) else MaterialTheme.colorScheme.surface.copy(alpha = .7f))
+                                                        .clickable {
+                                                            selectedItem = index
+                                                            showBottomSheet = index == 3
 
-                                                        when(index){
-                                                            0->{
+                                                            when (index) {
+                                                                0 -> {
 
-                                                            }
-                                                            1->{}
-                                                            2->{
-                                                            }
-                                                            3->{
+                                                                }
+
+                                                                1 -> {}
+                                                                2 -> {
+                                                                }
+
+                                                                3 -> {
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                    .padding(10.dp)
-                                                    .size(28.dp)
-                                            )
+                                                        .padding(10.dp)
+                                                        .size(28.dp)
+                                                )
 
 
-                                        }
-                                    )
-                                },
+                                            }
+                                        )
+                                    },
 //                                    label = {
 //                                        Text(text = bottomNavItem.label, maxLines = 1)
 //                                    }
-                            )
+                                )
+
+                            }
 
                         }
-
                     }
                 }
 
@@ -220,12 +278,20 @@ fun ScreenHolder(
 //                verticalAlignment = Alignment.Top,
 //            ) { page ->
                 when (selectedItem) {
-                    0 -> HomeScreen(paddingValues,userDetails)
+                    0 -> HomeScreen(
+                        paddingValues = paddingValues,
+                        userDetails = userDetails,
+                        onClockIn = onClockIn
 
-                    3 -> ProfileScreen()
+                    )
 
-                    2 -> MessageScreen()
-                    1 -> HistoryScreen()
+                    3 -> ProfileScreen(paddingValues,
+                        onLogout = onLogout,
+                        onProfileClick = onProfileClick
+                    )
+
+                    2 -> MessageScreen(paddingValues)
+                    1 -> HistoryScreen(paddingValues)
                 }
 //            }
 

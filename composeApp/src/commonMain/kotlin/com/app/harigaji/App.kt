@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import coil3.compose.setSingletonImageLoaderFactory
 import com.app.harigaji.core.auth.AuthViewModel
 import com.app.harigaji.core.shared.SharedViewModel
 import com.app.harigaji.core.user.UserViewModel
@@ -33,6 +34,9 @@ fun App() {
     val authViewModel = koinViewModel<AuthViewModel>()
 
     MyMaterialTheme {
+//        setSingletonImageLoaderFactory { context ->
+//            getAsyncImageLoader(context)
+//        }
         NavScreen(authViewModel, userViewModel)
     }
 }

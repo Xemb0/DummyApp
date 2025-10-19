@@ -1,5 +1,6 @@
 package com.app.harigaji.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,11 +33,13 @@ fun ProfileMenuItem(
     title: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     showBadge: Boolean = false,
-    badgeText: String = ""
+    badgeText: String = "",
+    onClick: () -> Unit={}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
