@@ -55,5 +55,32 @@ sealed class Route {
         @Serializable
         data object GetStarted : Route()
         @Serializable
-        data object Profile : Route()
+        data object ProfileEdit : Route()
+
+
+        @Serializable
+        data object ForgetPassword : Route()
+        @Serializable
+        data object WithdrawalRequest : Route()
+
+        @Serializable
+        data object PrivacyPolicy : Route()
+
+        @Serializable
+        data object TermsAndConditions : Route()
+
+        @Serializable
+        data object LanguageSelection : Route()
+
+        @Serializable
+        data object Article : Route()
+
+        @Serializable
+        data class Chat(val id: Int) : Route()
+
+        @Serializable
+        data object ChangePassword : Route()
+
+        @Serializable
+        data class Verification(val emailID: String?=null,val label:String,val buttonText:String) : Route()
 }

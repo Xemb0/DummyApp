@@ -27,22 +27,22 @@ import kotlinx.coroutines.launch
 fun SplashScreen(navController: NavHostController, isLoggedIn: Boolean?) {
     val scale = remember { Animatable(0.5f) }
     val alpha = remember { Animatable(0f) }
-
-    LaunchedEffect(Unit) {
-        // Launch both animations simultaneously
-        launch {
-            scale.animateTo(
-                targetValue = 1.6f,
-                animationSpec = tween(durationMillis = 2000)
-            )
-        }
-        launch {
-            alpha.animateTo(
-                targetValue = 1f,
-                animationSpec = tween(durationMillis = 2000)
-            )
-        }
-    }
+//
+//    LaunchedEffect(Unit) {
+//        // Launch both animations simultaneously
+//        launch {
+//            scale.animateTo(
+//                targetValue = 1.6f,
+//                animationSpec = tween(durationMillis = 200)
+//            )
+//        }
+//        launch {
+//            alpha.animateTo(
+//                targetValue = 1f,
+//                animationSpec = tween(durationMillis = 200)
+//            )
+//        }
+//    }
 
     Box(
         modifier = Modifier
@@ -54,9 +54,6 @@ fun SplashScreen(navController: NavHostController, isLoggedIn: Boolean?) {
             painter = painterResource(Res.drawable.logo_splash),
             contentDescription = "App Logo",
             modifier = Modifier
-                .fillMaxSize(0.5f)
-                .scale(scale.value)
-                .alpha(alpha.value)
         )
     }
 

@@ -45,16 +45,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.harigaji.chat.ChatMessage
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun MessageItem(sender: String, message: String, time: String, date: String?) {
+fun MessageItem(sender: String, message: List<ChatMessage>, time: String, onClick: () -> Unit) {
     Column {
 
         
         Card(
+            onClick = onClick,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(2.dp),
@@ -73,7 +75,7 @@ fun MessageItem(sender: String, message: String, time: String, date: String?) {
                         .size(40.dp)
                         .clip(CircleShape)
                )
-                
+
                 Spacer(modifier = Modifier.width(12.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
@@ -84,12 +86,12 @@ fun MessageItem(sender: String, message: String, time: String, date: String?) {
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = message,
+                        text = message.firstOrNull()?.message?:"",
                         fontSize = 14.sp,
                         color = Color.Gray
                     )
                 }
-                
+
                 Text(
                     text = time,
                     fontSize = 12.sp,

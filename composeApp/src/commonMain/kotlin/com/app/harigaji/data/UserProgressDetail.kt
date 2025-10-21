@@ -7,10 +7,11 @@ import androidx.room.PrimaryKey
 @Entity
 data class UserProgressDetail(
     @PrimaryKey(autoGenerate = false)
-val id: String,
+val id: Int=1,
 val name: String?=null,
     val firstName: String?=null,
     val lastName: String?=null,
+    val totalBalance: Double?=0.0,
 val email: String?=null,
 val phone: String?=null,
 val token: String?=null,

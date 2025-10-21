@@ -97,23 +97,15 @@ class AuthRepositoryImpl(
                     client_name = "Test user"
                 )
 
-             val userDetails =  UserDetails(
-                    phone = userName,
-                    token = dummyLoginData.token,
-                    email = userName,
-                    name = dummyLoginData.client_name,
-                    id = dummyLoginData.token,
-                    baseUrl = dummyLoginData.json_link
-                ).also {
                     updateUserDetailsUseCase(
-                        phone = it.phone ?: "",
-                        token = it.token ?: "",
-                        email = it.email ?: "",
-                        name = it.name ?: "",
-                        id = it.id ?: "",
-                        baseUrl = it.baseUrl ?: ""
+                        phone = userName ?: "",
+                        token = dummyLoginData.token ?: "",
+                        email = userName ?: "",
+                        name = "Test User" ?: "",
+                        id = dummyLoginData.token ?: "",
+                        baseUrl = dummyLoginData.json_link ?: ""
                     )
-                }
+
                 delay(200)
 
                 return@withContext MyResult.Success(

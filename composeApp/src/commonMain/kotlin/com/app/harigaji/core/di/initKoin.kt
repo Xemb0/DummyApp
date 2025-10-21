@@ -1,5 +1,7 @@
 package com.app.harigaji.core.di
 
+import com.app.harigaji.artical.articleModule
+import com.app.harigaji.chat.chatModule
 import com.app.harigaji.core.appconfig.di.appConfigModule
 import com.app.harigaji.core.auth.di.authModule
 import com.app.harigaji.core.database.di.databaseModule
@@ -15,6 +17,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         modules(
             listOf(
                 platFormModule, appModule,
+                chatModule,
+                articleModule,
                 authModule,notificationModule,
                 dataStoreModule, databaseModule,
                 notificationModule, appConfigModule, userModule

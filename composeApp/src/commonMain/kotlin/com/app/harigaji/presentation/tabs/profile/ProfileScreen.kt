@@ -57,8 +57,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import coil3.compose.AsyncImage
 import com.app.harigaji.presentation.ProfileMenuItem
 import com.app.harigaji.presentation.popups.LogoutDialog
+import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
@@ -66,7 +68,18 @@ import org.jetbrains.compose.resources.painterResource
 // Profile Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileClick: () ->Unit) {
+fun ProfileScreen(
+    paddingValues: PaddingValues,
+    onLogout: () -> Unit,
+    onProfileClick: () ->Unit,
+    onForgetPassClick: () ->Unit,
+    onUpdatePinClick: () ->Unit,
+    onLanguageClick: () ->Unit,
+    onClearCacheClick: () ->Unit,
+    onPrivacyPolicyClick: () ->Unit,
+    onTermsConditionsClick: () ->Unit,
+    onArticleClick: () ->Unit,
+    ) {
 
     var showLogoutDialog by remember { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -83,6 +96,13 @@ fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileCli
             // Interpolate from 48.dp to 12.dp based on scroll
             (48 - (36 * fraction)).dp.coerceAtLeast(24.dp)
         }
+    }
+
+    var showFilePicker by remember { mutableStateOf(false) }
+
+    val fileType = listOf("jpg", "png")
+    FilePicker(show = showFilePicker, fileExtensions = fileType) { platformFile ->
+        showFilePicker = false
     }
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection).blur(if(isBlur) 8.dp else 0.dp),
@@ -129,6 +149,7 @@ fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileCli
                             .padding(horizontal = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+
                         Image(
                             painter = painterResource(Res.drawable.ic_profile),
                             contentDescription = "Avatar",
@@ -186,9 +207,9 @@ fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileCli
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
-                    ProfileMenuItem("Profile", Icons.Default.Person)
+                    ProfileMenuItem("Profile", Icons.Default.Person, onClick = onProfileClick)
                     HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
-                    ProfileMenuItem("Articles", Icons.Default.Article)
+                    ProfileMenuItem("Articles", Icons.Default.Article, onClick = onArticleClick)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -209,11 +230,11 @@ fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileCli
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
-                    ProfileMenuItem("Change Password", Icons.Default.Lock)
+                    ProfileMenuItem("Change Password", Icons.Default.Lock, onClick = onForgetPassClick)
                     Divider()
-                    ProfileMenuItem("Forgot Password", Icons.Default.Lock)
+                    ProfileMenuItem("Forgot Password", Icons.Default.Lock, onClick = onForgetPassClick)
                     Divider()
-                    ProfileMenuItem("Update PIN", Icons.Default.Pin)
+                    ProfileMenuItem("Update PIN", Icons.Default.Pin, onClick = onUpdatePinClick)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -234,13 +255,14 @@ fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileCli
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
-                    ProfileMenuItem("Language", Icons.Default.Language)
+                    ProfileMenuItem("Language", Icons.Default.Language, onClick = onLanguageClick)
                     Divider()
                     ProfileMenuItem(
                         "Clear Cache",
                         Icons.Default.Delete,
                         showBadge = true,
-                        badgeText = "48 MB"
+                        badgeText = "48 MB",
+                        onClick = onClearCacheClick
                     )
                 }
 
@@ -262,9 +284,9 @@ fun ProfileScreen(paddingValues: PaddingValues,onLogout: () -> Unit,onProfileCli
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
-                    ProfileMenuItem("Privacy Policy", Icons.Default.PrivacyTip)
+                    ProfileMenuItem("Privacy Policy", Icons.Default.PrivacyTip, onClick = onPrivacyPolicyClick)
                     Divider()
-                    ProfileMenuItem("Terms and Conditions", Icons.Default.Description)
+                    ProfileMenuItem("Terms and Conditions", Icons.Default.Description, onClick =  onTermsConditionsClick)
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))

@@ -1,4 +1,5 @@
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,12 +30,13 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SalaryWithdrawCard(modifier: Modifier = Modifier) {
+fun SalaryWithdrawCard(modifier: Modifier = Modifier,onBalanceCardClick: () -> Unit = {}) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         shape = RoundedCornerShape(28.dp),
+        onClick = onBalanceCardClick,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Box(

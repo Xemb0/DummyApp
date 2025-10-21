@@ -79,7 +79,7 @@ fun OptionTabs(
                 .offset(x = animatedOffset)
                 .width(indicatorWidth)
                 .fillMaxHeight()
-//                .padding(4.dp)
+                .padding(4.dp)
 //                .dropShadow(
 //                    shape = CircleShape,
 //                    shadow = Shadow(

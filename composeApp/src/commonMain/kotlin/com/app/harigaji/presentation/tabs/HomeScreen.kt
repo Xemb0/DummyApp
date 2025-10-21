@@ -63,6 +63,8 @@ fun HomeScreen(
     paddingValues: PaddingValues,
     userDetails: UserDetails,
     onClockIn: () -> Unit,
+    onBalanceCardClick: () -> Unit = {},
+
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -288,7 +290,8 @@ fun HomeScreen(
                 SalaryWithdrawCard(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 16.dp),
+                    onBalanceCardClick = onBalanceCardClick
                 )
             }
 

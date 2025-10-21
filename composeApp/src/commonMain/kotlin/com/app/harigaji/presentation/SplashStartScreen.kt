@@ -88,7 +88,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 // Language data class
-data class Language(val flag: String, val name: String)
+data class Language(val flag: String, val name: String,val codeName: String = "")
 
 @Composable
 fun LoginScreen(

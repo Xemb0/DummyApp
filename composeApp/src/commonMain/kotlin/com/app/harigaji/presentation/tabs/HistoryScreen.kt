@@ -153,7 +153,7 @@ fun HistoryScreen(
     Scaffold(
         topBar = {
             Column (
-                modifier = Modifier.fillMaxWidth().padding(paddingValues)
+                modifier = Modifier.fillMaxWidth().padding(top = paddingValues.calculateTopPadding())
             ){
                 TopAppBar(
                     windowInsets = WindowInsets
@@ -180,23 +180,25 @@ fun HistoryScreen(
 
                             OutlinedIconButton(
                                 onClick = {},
-                                modifier = Modifier.padding(8.dp)
+                                modifier = Modifier.padding(6.dp)
+                                    .size(56.dp)
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.size(46.dp).padding(4.dp)
+                                    modifier = Modifier.size(28.dp)
                                 )
                             }
                         }
                     }
                 )
+                Spacer( modifier = Modifier.height(16.dp))
                 OptionTabs(
                     height = 48.dp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(horizontal = 16.dp, vertical = 0.dp),
                     bgColor = Color.Gray,
                     ascentColor = Color.White,
                     selectedOption = selectedTabOption,
@@ -231,6 +233,7 @@ fun HistoryScreen(
                     ) { page ->
                         LazyColumn(
                             modifier = Modifier.fillMaxSize()
+                                .padding(horizontal = 8.dp)
                         ) {
                             when (page) {
                                 0 -> {

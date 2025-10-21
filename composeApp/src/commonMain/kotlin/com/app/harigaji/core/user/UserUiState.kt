@@ -2,6 +2,7 @@ package com.app.harigaji.core.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,8 @@ import com.app.harigaji.core.datastore.DataStoreRepository
 import com.app.harigaji.core.language.Language
 import com.app.harigaji.core.language.Localization
 import com.app.harigaji.data.UserProgressDetail
+import com.app.harigaji.user.domain.UpdateUserProgressDetailsUseCase
+import com.app.harigaji.user.domain.UserRepository
 
 
 data class UserUiState(
@@ -26,6 +29,8 @@ data class UserUiState(
 class UserViewModel (
     private val userRepository: DataStoreRepository,
     private val localization: Localization,
+    private val updateUserProgressDetailsUseCase: UpdateUserProgressDetailsUseCase,
+    private val userProgressRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserUiState())
@@ -51,6 +56,12 @@ class UserViewModel (
 
     init {
         viewModelScope.launch {
+            userProgressRepository.getUserProgressDetails().collectLatest { userProgress->
+                println("User Progress Detail in ViewModel: $userProgress")
+                _userProgressDetail.value = userProgress
+            }
+        }
+        viewModelScope.launch {
             userRepository.getCurrentLanguage().collectLatest { currLang->
                 println("Current Language viewmodel: $currLang")
                 _currentLang.value = currLang
@@ -58,21 +69,26 @@ class UserViewModel (
         }
         viewModelScope.launch {
         userRepository.getUserDetails().collectLatest { user ->
+            // log with karmit
+            Logger.d( "userDetails :$user")
+
             _isUserLoggedIn.value = user.token?.isNotEmpty() ?: false
-            _userProgressDetail.value = _userProgressDetail.value?.copy(
-                name = user.name.orEmpty(),
-                email = user.email.orEmpty(),
-                phone = user.phone.orEmpty(),
-                profilePic = user.profilePic.orEmpty(),
-                token = user.token.orEmpty(),
-                id = user.id.orEmpty(),
-                baseUrl = user.baseUrl.orEmpty(),
-                language = user.language.orEmpty(),
+
+            updateUserProgressDetailsUseCase(
+                email = user.email,
+                token = user.token,
+                baseUrl = user.baseUrl,
+                balance = 12689.0,
+                id = user.token,
+                language = user.language,
+                profilePic = user.profilePic,
+                firstName = user.name?.substringBefore(" "),
+                lastName = user.name?.substringAfter(" ")
             )
+
         }
 
     }
-
     }
 
     val profilePic: StateFlow<String> = userRepository.getProfilePicFlow()

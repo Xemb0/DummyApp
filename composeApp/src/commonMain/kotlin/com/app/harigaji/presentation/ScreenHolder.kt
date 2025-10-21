@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.app.harigaji.chat.UserMessageDetails
 import com.app.harigaji.core.language.Language
 import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.navigation.getBottomNavIcons
@@ -64,10 +65,20 @@ fun ScreenHolder(
     userViewModel: UserViewModel,
     onClockIn:()->Unit,
     onLogout:()->Unit,
+    onForgetPassClick:()->Unit,
     onProfileClick:()->Unit,
     onUserIconClick:()->Unit,
     onNotificationClick:()->Unit,
     newNotificationCount: Int = 0,
+    onUpdatePinClick:()->Unit,
+    onLanguageClick:()->Unit,
+    onClearCacheClick:()->Unit,
+    onPrivacyPolicyClick:()->Unit,
+    onTermsConditionsClick:()->Unit,
+    onBalanceCardClick:()->Unit,
+    onChatMessageClick:(id:Int)->Unit,
+    onArticleClick:()->Unit,
+    listUserMessages:List<UserMessageDetails>
     ) {
 
 
@@ -281,16 +292,30 @@ fun ScreenHolder(
                     0 -> HomeScreen(
                         paddingValues = paddingValues,
                         userDetails = userDetails,
-                        onClockIn = onClockIn
+                        onClockIn = onClockIn,
+                        onBalanceCardClick = onBalanceCardClick,
 
                     )
 
-                    3 -> ProfileScreen(paddingValues,
+                    3 -> ProfileScreen(
+                        paddingValues,
                         onLogout = onLogout,
-                        onProfileClick = onProfileClick
+                        onProfileClick = onProfileClick,
+                        onForgetPassClick = onForgetPassClick,
+                        onUpdatePinClick = onUpdatePinClick,
+                        onLanguageClick = onLanguageClick,
+                        onClearCacheClick = onClearCacheClick,
+                        onPrivacyPolicyClick = onPrivacyPolicyClick,
+                        onTermsConditionsClick = onTermsConditionsClick,
+                        onArticleClick = onArticleClick
                     )
 
-                    2 -> MessageScreen(paddingValues)
+                    2 -> MessageScreen(
+                        paddingValues,
+                        onChatMessageClick = onChatMessageClick,
+                        listUserMessages = listUserMessages
+
+                    )
                     1 -> HistoryScreen(paddingValues)
                 }
 //            }

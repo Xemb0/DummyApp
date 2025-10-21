@@ -8,9 +8,10 @@ import com.app.harigaji.core.appconfig.AppConfigDao
 import com.app.harigaji.core.appconfig.AppConfigEntity
 import com.app.harigaji.core.notification.NotificationDao
 import com.app.harigaji.core.notification.NotificationDetail
+import com.app.harigaji.data.UserProgressDetail
+import com.app.harigaji.user.domain.UserProgressDao
 
-@Database(entities = [
-    AppConfigEntity::class,NotificationDetail::class] ,version = 1)
+@Database(entities = [AppConfigEntity::class,NotificationDetail::class, UserProgressDetail::class] ,version = 1)
 @TypeConverters(Converters::class)
 @ConstructedBy(DatabaseConstructor::class)
 
@@ -18,6 +19,8 @@ abstract class MyAppDataBase : RoomDatabase() {
     abstract fun appConfigDao(): AppConfigDao
 
     abstract fun NotificationDao(): NotificationDao
+
+    abstract fun userProgressDao(): UserProgressDao
 
     companion object {
         const val DB_NAME = "ds_database.db"
