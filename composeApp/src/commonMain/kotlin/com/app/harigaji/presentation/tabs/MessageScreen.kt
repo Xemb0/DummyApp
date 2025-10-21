@@ -30,30 +30,68 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.app.harigaji.chat.UserMessageDetails
 import com.app.harigaji.presentation.MessageItem
-import com.app.harigaji.presentation.ScreenHeader
 
 // Message Screen
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MessageScreen(
     paddingValues: PaddingValues,
-    onPreviousClick: () -> Unit = {},
     onChatMessageClick: (id:Int) -> Unit = {},
+    onPrevious: () -> Unit = {},
     listUserMessages: List<UserMessageDetails>
 ){
 
 
+
     Scaffold(topBar = {
-        ScreenHeader(
-            paddingValues = paddingValues,
-            title = listUserMessages.firstOrNull()?.sender?:"User",
-            onBackClick = onPreviousClick
-        )
+        Column (
+            modifier = Modifier.fillMaxWidth().padding(paddingValues)
+        ) {
+            TopAppBar(
+                windowInsets = WindowInsets
+                    .systemBars
+                    .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ),
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                    ) {
+
+                        Text("Messages",
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(1f),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 32.sp
+                        )
+
+                        OutlinedIconButton(
+                            onClick = {},
+                            modifier = Modifier.padding(6.dp)
+                                .size(56.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
+                    }
+                }
+            )
+        }
     }){pv ->
         Box(modifier = Modifier.padding(pv)) {
             LazyColumn(

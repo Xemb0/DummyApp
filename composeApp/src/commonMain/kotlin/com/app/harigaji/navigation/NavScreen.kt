@@ -28,6 +28,7 @@ import com.app.harigaji.artical.ArticlesScreen
 import com.app.harigaji.artical.ArticlesViewModel
 import com.app.harigaji.chat.ChatViewModel
 import com.app.harigaji.core.auth.AuthViewModel
+import com.app.harigaji.core.shared.SharedViewModel
 import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.core.utils.ObserverAsEvent
 import com.app.harigaji.core.utils.SnackBarController
@@ -61,7 +62,10 @@ fun NavScreen(
     userViewModel: UserViewModel,
     chatViewModel: ChatViewModel,
     articlesViewModel: ArticlesViewModel,
+    sharedViewModel: SharedViewModel,
 ) {
+
+    val currentTab by sharedViewModel.currentTab.collectAsState()
 
     val navController = rememberNavController()
     val snackbarHostState = remember {
@@ -119,6 +123,7 @@ fun NavScreen(
         }
     }
 
+    var initialIndex = remember { mutableStateOf(0)}
 
 
     Scaffold(
@@ -186,15 +191,16 @@ fun NavScreen(
                 }
                 composable<Route.Login> {
                     LoginScreen(onSignIn = authViewModel::login, onSignUp = {
-                        navController.navigate(Route.Home) {
+                        navController.navigate(Route.HolderScreen) {
                             popUpTo(Route.NavGraph) {
                                 inclusive = true
                             }
                         }
                     })
                 }
-                composable<Route.HolderScreen> {
+                composable<Route.HolderScreen> { entry ->
                     ScreenHolder(
+                        currentTab = currentTab,
                         paddingValues = innerPadding,
                         userViewModel = userViewModel,
                         listUserMessages = listUserMessages,
@@ -255,7 +261,8 @@ fun NavScreen(
                         },
                         onArticleClick = {
                             navController.navigate(Route.Article)
-                        }
+                        },
+                        setCurrentTab = sharedViewModel::setCurrentTab
                     )
 
                 }
@@ -288,6 +295,8 @@ fun NavScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
                             navController.navigateUp()
+                            sharedViewModel.setCurrentTab(3)
+
                         },
                         onSaveChanges = {
                             navController.navigateUp()
@@ -299,6 +308,8 @@ fun NavScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
                             navController.navigateUp()
+                            sharedViewModel.setCurrentTab(3)
+
                         },
                         onResetClick = { emailID ->
                             navController.navigate(Route.Verification(
@@ -352,6 +363,8 @@ fun NavScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
                             navController.navigateUp()
+                            sharedViewModel.setCurrentTab(0)
+
                         },
                         onNext = {
                             navController.navigate(Route.Verification(null,
@@ -366,6 +379,8 @@ fun NavScreen(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
+                            sharedViewModel.setCurrentTab(3)
+
                         },
                     )
                 }
@@ -374,6 +389,7 @@ fun NavScreen(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
+                            sharedViewModel.setCurrentTab(3)
                         },
                     )
                 }
@@ -382,6 +398,8 @@ fun NavScreen(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
+                            sharedViewModel.setCurrentTab(3)
+
                         },
                     )
                 }

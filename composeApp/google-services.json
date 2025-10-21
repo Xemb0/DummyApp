@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "856076595035",
+    "project_id": "cospaces-harigaji",
+    "storage_bucket": "cospaces-harigaji.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856076595035:android:20551fbb1cf5200e0cb47e",
+        "android_client_info": {
+          "package_name": "com.app.harigaji"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkmf09aTO9aFOXVCpA_ra8Ky2J_6XPlj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
