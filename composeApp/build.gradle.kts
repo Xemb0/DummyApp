@@ -12,6 +12,8 @@ plugins {
     //Room
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 //    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
@@ -49,6 +51,7 @@ kotlin {
 
             //Ktor
             implementation(libs.ktor.client.okhttp)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -149,6 +152,7 @@ android {
 
 dependencies {
 
+    implementation(libs.firebase.crashlytics)
     //Room KSP
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)

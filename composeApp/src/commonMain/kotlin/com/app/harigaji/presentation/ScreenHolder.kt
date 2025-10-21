@@ -48,6 +48,7 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.util.Logger
 import com.app.harigaji.chat.UserMessageDetails
 import com.app.harigaji.core.language.Language
 import com.app.harigaji.core.user.UserViewModel
@@ -61,6 +62,8 @@ import com.app.harigaji.presentation.tabs.profile.ProfileScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenHolder(
+    currentTab :Int,
+    setCurrentTab:(Int)->Unit,
     paddingValues: PaddingValues,
     userViewModel: UserViewModel,
     onClockIn:()->Unit,
@@ -99,15 +102,18 @@ fun ScreenHolder(
 
     val coroutineScope = rememberCoroutineScope()
 
-    var selectedItem by remember { mutableIntStateOf(0) }
 
     val pagerState = rememberPagerState(pageCount = { 4 })
 
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page ->
-            selectedItem = page
+    LaunchedEffect(currentTab){
+
+        co.touchlab.kermit.Logger.d("current tab changed $currentTab")
+        if (pagerState.currentPage != currentTab) {
+            pagerState.animateScrollToPage(currentTab)
         }
     }
+
+
 
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -188,11 +194,11 @@ fun ScreenHolder(
                                     ),
                                     interactionSource = null,
                                     modifier = Modifier.windowInsetsPadding(WindowInsets(0.dp)),
-                                    selected = index == selectedItem,
+                                    selected = index == currentTab,
                                     onClick = {
 
 
-                                        selectedItem = index
+                                        setCurrentTab(index)
 
                                         when (index) {
                                             0 -> {
@@ -225,9 +231,9 @@ fun ScreenHolder(
 
 
                                                 Icon(
-                                                    painter = if (index == selectedItem) bottomNavItem.selectedIcon else bottomNavItem.unSelectedIcon,
+                                                    painter = if (index == currentTab) bottomNavItem.selectedIcon else bottomNavItem.unSelectedIcon,
                                                     contentDescription = bottomNavItem.title,
-                                                    tint = if (index == selectedItem) MaterialTheme.colorScheme.secondary.copy(
+                                                    tint = if (index == currentTab) MaterialTheme.colorScheme.secondary.copy(
                                                         alpha = .8f
                                                     ) else MaterialTheme.colorScheme.secondary.copy(
                                                         alpha = 1f
@@ -235,15 +241,15 @@ fun ScreenHolder(
                                                     modifier = Modifier
                                                         .clip(CircleShape)
                                                         .border(
-                                                            width = if (selectedItem == index) 2.dp else 0.dp,
-                                                            color = if (selectedItem == index) MaterialTheme.colorScheme.secondary.copy(
+                                                            width = if (currentTab == index) 2.dp else 0.dp,
+                                                            color = if (currentTab == index) MaterialTheme.colorScheme.secondary.copy(
                                                                 alpha = .8f
                                                             ) else Color.Transparent,
                                                             shape = CircleShape
                                                         )
-                                                        .background(if (selectedItem == index) MaterialTheme.colorScheme.surface.copy(alpha = .9f) else MaterialTheme.colorScheme.surface.copy(alpha = .7f))
+                                                        .background(if (currentTab == index) MaterialTheme.colorScheme.surface.copy(alpha = .9f) else MaterialTheme.colorScheme.surface.copy(alpha = .7f))
                                                         .clickable {
-                                                            selectedItem = index
+                                                            setCurrentTab(index)
                                                             showBottomSheet = index == 3
 
                                                             when (index) {
@@ -288,7 +294,7 @@ fun ScreenHolder(
 //                modifier = Modifier.fillMaxSize(),
 //                verticalAlignment = Alignment.Top,
 //            ) { page ->
-                when (selectedItem) {
+                when (currentTab) {
                     0 -> HomeScreen(
                         paddingValues = paddingValues,
                         userDetails = userDetails,
@@ -312,6 +318,9 @@ fun ScreenHolder(
 
                     2 -> MessageScreen(
                         paddingValues,
+                        onPrevious = {
+                            setCurrentTab(0)
+                        },
                         onChatMessageClick = onChatMessageClick,
                         listUserMessages = listUserMessages
 

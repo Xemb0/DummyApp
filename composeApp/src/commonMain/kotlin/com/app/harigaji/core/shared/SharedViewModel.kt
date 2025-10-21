@@ -24,6 +24,10 @@ class SharedViewModel(private val notificationRepository: NotificationRepository
 
     private val _appConfig = MutableStateFlow<AppConfigEntity?>(null)
     val appConfig: StateFlow<AppConfigEntity?> = _appConfig.asStateFlow()
+
+
+    private val _currentTab = MutableStateFlow(0)
+    val currentTab: StateFlow<Int> = _currentTab.asStateFlow()
     private val _state = MutableStateFlow(AuthScreenState())
     val state: StateFlow<AuthScreenState> = _state.asStateFlow()
 
@@ -47,35 +51,38 @@ class SharedViewModel(private val notificationRepository: NotificationRepository
         }
     }
 
+    fun setCurrentTab(index: Int) {
+        _currentTab.value = index
+    }
 
     init {
-        viewModelScope.launch {
-            val token = NotifierManager.getPushNotifier().getToken()
-            println("my fcm ${NotifierManager.getPushNotifier().getToken()}")
-            updateFcmToken(token)
-        }
-        viewModelScope.launch {
-            notificationRepository.getNotificationFlow().collectLatest {
-                _listNotification.value = it
-            }
-        }
-        viewModelScope.launch {
-            combine(
-                notificationRepository.getNotificationFlow(),
-                notificationRepository.getPreviousNotificationCount()
-            ) { notifications, previousCount ->
-                Pair(notifications, previousCount)
-            }.collect { (notifications, previousCount) ->
-                _listNotification.value = notifications
-                println(" notifications: $notifications")
-                _unreadNotificationCount.value = (notifications.size - previousCount).coerceAtLeast(0)
-                println(" _unreadNotificationCount: ${_unreadNotificationCount.value} notificationsSize: ${notifications.size} previousCount: $previousCount")
-            }
-        }
-
-        viewModelScope.launch {
-            notificationRepository.refreshNotification()
-        }
+//        viewModelScope.launch {
+//            val token = NotifierManager.getPushNotifier().getToken()
+//            println("my fcm ${NotifierManager.getPushNotifier().getToken()}")
+//            updateFcmToken(token)
+//        }
+//        viewModelScope.launch {
+//            notificationRepository.getNotificationFlow().collectLatest {
+//                _listNotification.value = it
+//            }
+//        }
+//        viewModelScope.launch {
+//            combine(
+//                notificationRepository.getNotificationFlow(),
+//                notificationRepository.getPreviousNotificationCount()
+//            ) { notifications, previousCount ->
+//                Pair(notifications, previousCount)
+//            }.collect { (notifications, previousCount) ->
+//                _listNotification.value = notifications
+//                println(" notifications: $notifications")
+//                _unreadNotificationCount.value = (notifications.size - previousCount).coerceAtLeast(0)
+//                println(" _unreadNotificationCount: ${_unreadNotificationCount.value} notificationsSize: ${notifications.size} previousCount: $previousCount")
+//            }
+//        }
+//
+//        viewModelScope.launch {
+//            notificationRepository.refreshNotification()
+//        }
     }
 
     fun refreshNotification() {
