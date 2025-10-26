@@ -67,8 +67,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier = Modifier) {
     Card(
         elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 4.dp,
-            pressedElevation = 8.dp
+            defaultElevation = 2.dp,
+            pressedElevation = 1.dp
         ),
         modifier = modifier.width(200.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 1f)),

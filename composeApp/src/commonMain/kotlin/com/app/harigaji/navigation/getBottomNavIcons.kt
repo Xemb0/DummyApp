@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_home
-import harigaji.composeapp.generated.resources.ic_message
 import harigaji.composeapp.generated.resources.ic_message_dot
 import harigaji.composeapp.generated.resources.ic_recent
 import harigaji.composeapp.generated.resources.ic_user
+import harigaji.composeapp.generated.resources.ic_user_check
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

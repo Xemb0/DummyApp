@@ -213,8 +213,7 @@ fun LoginScreen(
                         Image(
                             painter = painterResource(Res.drawable.logo_app),
                             contentDescription = "App Logo",
-                            modifier = Modifier.padding(vertical = 48.dp)
-                                .scale(scale.value)
+                            modifier = Modifier.padding(vertical = 48.dp).width(150.dp)
                         )
                     }
                 }
@@ -234,28 +233,32 @@ fun LoginScreen(
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(32.dp))
 
                 // Title and subtitle
                 Text(
                     text = "Login to Your Account",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textAlign = TextAlign.Center
+                    ),
                     color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = "Get salary in advance.",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = .7f),
+                        textAlign = TextAlign.Center
+                    ),
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 // Email Address Field
                 Text(
@@ -292,6 +295,11 @@ fun LoginScreen(
                     placeholder = {
                         Text(
                             "Enter your email...",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                textAlign = TextAlign.Center
+                            ),
                             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                         )
                     },
@@ -346,8 +354,13 @@ fun LoginScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(CircleShape)
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.error.copy(alpha = .7f),
+                                shape = CircleShape
+                            )
                             .background(MaterialTheme.colorScheme.errorContainer)
-                            .padding(12.dp),
+                            .padding(horizontal = 12.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -366,7 +379,7 @@ fun LoginScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 // Password Field
                 Text(
@@ -402,6 +415,11 @@ fun LoginScreen(
                     placeholder = {
                         Text(
                             "Enter your password...",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                textAlign = TextAlign.Center
+                            ),
                             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                         )
                     },
@@ -464,8 +482,13 @@ fun LoginScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(CircleShape)
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.error.copy(alpha = .7f),
+                                shape = CircleShape
+                            )
                             .background(MaterialTheme.colorScheme.errorContainer)
-                            .padding(12.dp),
+                            .padding(horizontal = 12.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -484,7 +507,7 @@ fun LoginScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 // Language Selection
                 Text(

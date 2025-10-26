@@ -75,7 +75,7 @@ fun SlideToClockIn(
                         }
                     )
                     .background(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = if(isDragging) 0.2f else 0f),
                         shape = RoundedCornerShape(28.dp)
                     )
             )

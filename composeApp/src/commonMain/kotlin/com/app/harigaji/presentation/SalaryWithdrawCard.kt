@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.rotate
@@ -30,73 +31,78 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SalaryWithdrawCard(modifier: Modifier = Modifier,onBalanceCardClick: () -> Unit = {}) {
+fun SalaryWithdrawCard(modifier: Modifier = Modifier, onBalanceCardClick: () -> Unit = {}) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         shape = RoundedCornerShape(28.dp),
         onClick = onBalanceCardClick,
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Box(
             modifier = Modifier
-                .wrapContentSize()
-                .height(IntrinsicSize.Min)
-        ){
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clipToBounds() // Clip children to bounds
+        ) {
+            // Background layer - fills the size determined by content
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .blur(10.dp)
+                    .matchParentSize()
+                    .blur(20.dp)
                     .paint(
                         painter = painterResource(Res.drawable.bg_card),
-                        contentScale = ContentScale.Fit
+                        contentScale = ContentScale.Crop
                     )
             )
 
+            // Decorative circles - positioned absolutely, won't affect parent size
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .size(150.dp)
                     .align(Alignment.TopEnd)
-                    .rotate(-30f)
-                    .offset(x = 250.dp, y = 10.dp)
+                    .rotate(-90f)
+                    .offset(x = 120.dp, y = (10).dp)
                     .background(
-                        color = Color.White.copy(alpha = .4f), // Lighter blue with transparency
+                        color = Color.White.copy(alpha = .4f),
                         shape = CircleShape
                     )
                     .blur(20.dp)
             )
+
             Box(
                 modifier = Modifier
-                    .fillMaxSize(.9f)
+                    .size(30.dp)
                     .align(Alignment.TopEnd)
                     .rotate(-30f)
-                    .offset(x = 230.dp, y = 8.dp)
+                    .offset(x = 200.dp, y = (-70).dp)
                     .background(
-                        color = Color(0x8086DCFB), // Lighter blue with transparency
+                        color = Color(0x8086DCFB),
                         shape = CircleShape
                     )
                     .blur(10.dp)
             )
+
             Box(
                 modifier = Modifier
-                    .fillMaxSize(.4f)
+                    .size(150.dp)
                     .align(Alignment.TopEnd)
                     .rotate(-90f)
-                    .offset(x = 80.dp, y = 30.dp)
+                    .offset(x = 50.dp, y = (-30).dp)
                     .background(
-                        color = Color.White.copy(alpha = .4f), // Lighter blue with transparency
+                        color = Color.White.copy(alpha = .4f),
                         shape = CircleShape
                     )
                     .blur(20.dp)
             )
 
-
-            // Content
+            // Content - This determines the card size
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .wrapContentHeight()
-                    .padding(24.dp),
+                    .padding(horizontal = 24.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 // Top Section
@@ -117,7 +123,8 @@ fun SalaryWithdrawCard(modifier: Modifier = Modifier,onBalanceCardClick: () -> U
                     )
                 }
 
-                Spacer( modifier = Modifier.height(16.dp) )
+                Spacer(modifier = Modifier.height(16.dp))
+
                 // Bottom Section
                 Column {
                     Text(
@@ -139,7 +146,6 @@ fun SalaryWithdrawCard(modifier: Modifier = Modifier,onBalanceCardClick: () -> U
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun SalaryWithdrawCardPreview() {
