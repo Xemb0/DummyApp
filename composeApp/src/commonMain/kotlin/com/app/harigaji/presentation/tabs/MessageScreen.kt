@@ -51,7 +51,7 @@ fun MessageScreen(
 
     Scaffold(topBar = {
         Column (
-            modifier = Modifier.fillMaxWidth().padding(paddingValues)
+//            modifier = Modifier.fillMaxWidth().padding(paddingValues)
         ) {
             TopAppBar(
                 windowInsets = WindowInsets

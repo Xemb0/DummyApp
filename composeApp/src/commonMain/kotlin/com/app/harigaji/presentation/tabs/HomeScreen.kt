@@ -2,6 +2,9 @@ package com.app.harigaji.presentation.tabs
 
 import SalaryWithdrawCard
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,37 +13,45 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.material3.FloatingActionButtonDefaults.elevation
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import co.touchlab.kermit.Logger
 import com.app.harigaji.core.user.UserDetails
+import com.app.harigaji.presentation.DateRow
+import com.app.harigaji.presentation.OptionTabs
+import com.app.harigaji.presentation.SearchBarM3
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
+import harigaji.composeapp.generated.resources.ic_exit
 import harigaji.composeapp.generated.resources.ic_message_dot
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.math.abs
 
 private val listOfTabOptions = listOf(
     _root_ide_package_.com.app.harigaji.presentation.OptionTab(
@@ -57,353 +68,482 @@ private val listOfTabOptions = listOf(
     ),
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+private val WITHDRAW_COLORS = listOf(
+    Color(0xFFF48FB1),
+    Color(0xFF81D4FA),
+    Color(0xFF4DD0E1)
+)
+
 @Composable
 fun HomeScreen(
     paddingValues: PaddingValues,
     userDetails: UserDetails,
     onClockIn: () -> Unit,
     onBalanceCardClick: () -> Unit = {},
-
 ) {
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        initialPageOffsetFraction = 0f,
-        pageCount = { listOfTabOptions.size }
-    )
+    var selectedTabOption by remember { mutableStateOf(listOfTabOptions[0]) }
+    val listState = rememberLazyListState()
 
-    val scope = rememberCoroutineScope()
-
-    val selectedTabOption by remember {
-        derivedStateOf { listOfTabOptions[pagerState.currentPage] }
+    // Optimized scroll calculations with snapshotFlow
+    val scrollOffset by produceState(0, listState) {
+        snapshotFlow { listState.firstVisibleItemScrollOffset }
+            .collect { value = it }
     }
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = rememberTopAppBarState()
-    )
+    val firstVisibleItem by produceState(0, listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .collect { value = it }
+    }
 
-    val cornerRadius by remember {
-        derivedStateOf {
-            val fraction = scrollBehavior.state.collapsedFraction
-            // Interpolate from 48.dp to 12.dp based on scroll
-            (48 - (36 * fraction)).dp.coerceAtLeast(24.dp)
+    // Simplified derived states
+    val isHeaderStuck = firstVisibleItem >= 4
+
+    val collapseFraction = remember(firstVisibleItem, scrollOffset) {
+        when {
+            firstVisibleItem > 0 -> 1f
+            else -> (scrollOffset / 300f).coerceIn(0f, 1f)
         }
     }
 
-    val listWithdraw = listOf(
-        WithdrawData("RM 12,000", "October"),
-        WithdrawData("RM 10,000", "September"),
-        WithdrawData("RM 8,000", "August"),
-        WithdrawData("RM 15,000", "July"),
-        WithdrawData("RM 9,500", "June"),
+    // Pre-calculate layout values
+    val cornerRadius = remember(collapseFraction) {
+        (48 - (24 * collapseFraction)).dp.coerceAtLeast(24.dp)
+    }
+
+    // Animated values with reduced frequency
+    val stickyHeaderElevation by animateDpAsState(
+        targetValue = if (isHeaderStuck) 16.dp else 0.dp,
+        animationSpec = tween(durationMillis = 200),
+        label = "headerElevation"
     )
 
-    val colors = listOf(
-        Color(0xFFF48FB1),
-        Color(0xFF81D4FA),
-        Color(0xFF4DD0E1)
+    val stickyHeaderCornerRadius by animateDpAsState(
+        targetValue = if (isHeaderStuck) 24.dp else 0.dp,
+        animationSpec = tween(durationMillis = 200),
+        label = "headerCornerRadius"
     )
+
+    val stickyHeaderBackgroundColor by animateColorAsState(
+        targetValue = if (isHeaderStuck)
+            MaterialTheme.colorScheme.surface
+        else
+            MaterialTheme.colorScheme.background,
+        animationSpec = tween(durationMillis = 200),
+        label = "headerBackground"
+    )
+
+    // Static data - moved outside composition
+    val listWithdraw = remember {
+        listOf(
+            WithdrawData("RM 12,000", "October"),
+            WithdrawData("RM 10,000", "September"),
+            WithdrawData("RM 8,000", "August"),
+            WithdrawData("RM 15,000", "July"),
+            WithdrawData("RM 9,500", "June"),
+        )
+    }
+
+    val lazyRowState = rememberLazyListState()
+
+    // Optimized carousel index with debouncing
+    val currentIndex by produceState(0, lazyRowState) {
+        snapshotFlow {
+            val layoutInfo = lazyRowState.layoutInfo
+            val visibleItems = layoutInfo.visibleItemsInfo
+            if (visibleItems.isEmpty()) {
+                0
+            } else {
+                val viewportCenter = layoutInfo.viewportStartOffset +
+                        layoutInfo.viewportSize.width / 2
+                visibleItems.minByOrNull { item ->
+                    abs((item.offset + item.size / 2) - viewportCenter)
+                }?.index ?: 0
+            }
+        }.collect { value = it }
+    }
+
+    // Stable callbacks
+    val onTabSelected = remember {
+        { option: Any ->
+            selectedTabOption = option as _root_ide_package_.com.app.harigaji.presentation.OptionTab
+        }
+    }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.elevatedCardElevation(
-                    defaultElevation = 8.dp,
-                ),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
-                shape = RoundedCornerShape(bottomStart = cornerRadius, bottomEnd = cornerRadius)
+            TopBarContent(paddingValues)
+        }
+    ) { pv ->
+        Box(
+            modifier = Modifier
+                .padding(pv)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                state = listState
             ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    TopAppBar(
-                        scrollBehavior = scrollBehavior,
-                        windowInsets = WindowInsets
-                            .systemBars
-                            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent,
-                            scrolledContainerColor = Color.Transparent,
-                        ),
-                        title = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Start,
-                                modifier = Modifier.fillMaxWidth().padding(end = 16.dp)
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Start,
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Icon(
-                                        painter = painterResource(Res.drawable.ic_calender),
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.size(16.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    _root_ide_package_.com.app.harigaji.presentation.DateRow()
-                                }
-
-                                OutlinedIconButton(
-                                    onClick = {},
-                                    modifier = Modifier.padding(4.dp)
-                                ) {
-                                    Icon(
-                                        painter = painterResource(Res.drawable.ic_message_dot),
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.size(26.dp).padding(4.dp)
-                                    )
-                                }
-                            }
-                        }
+                stickyHeader(key = "user_header") {
+                    UserHeaderCard(
+                        userDetails = userDetails,
+                        collapseFraction = collapseFraction
                     )
+                }
 
-                    Row(
+                item(key = "search_section") {
+                    SearchSection(
+                        cornerRadius = cornerRadius,
+                        collapseFraction = collapseFraction
+                    )
+                }
+
+                item(key = "salary_card") {
+                    SalaryWithdrawCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                top = if (scrollBehavior.state.collapsedFraction == 0f) {
-                                    4.dp
-                                } else 16.dp,
-                                bottom = 8.dp,
-                            ),
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .clip(CircleShape)
-                                .background(Color.Gray)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .align(Alignment.Center)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Text(
-                                text = "Hi, ${userDetails.name ?: ""} !",
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Row(
-                                modifier = Modifier
-                                    .background(
-                                        shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.secondary.copy(
-                                            alpha = .15f
-                                        )
-                                    )
-                                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = "Pro Member",
-                                    fontSize = 12.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        onBalanceCardClick = onBalanceCardClick
+                    )
+                }
 
-                    // Search bar with smooth fade and slide animation
-                    AnimatedVisibility(
-                        visible = scrollBehavior.state.collapsedFraction < 0.5f,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
-                    ) {
-                        _root_ide_package_.com.app.harigaji.presentation.SearchBarM3(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                                .padding(bottom = 8.dp)
-                                .graphicsLayer {
-                                    alpha =
-                                        1f - (scrollBehavior.state.collapsedFraction * 2).coerceIn(
-                                            0f,
-                                            1f
-                                        )
-                                },
-                            onSearch = {},
-                            onItemClick = {},
-                            searchHeading = "Search for anything",
+
+                stickyHeader(key = "tab_header") {
+                    TabHeaderSection(
+                        stickyHeaderBackgroundColor = stickyHeaderBackgroundColor,
+                        stickyHeaderCornerRadius = stickyHeaderCornerRadius,
+                        stickyHeaderElevation = stickyHeaderElevation,
+                        selectedTabOption = selectedTabOption,
+                        onOptionSelected = onTabSelected,
+                        listOfTabOptions = listOfTabOptions
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                when (selectedTabOption.id) {
+                    "1" -> {
+                        salaryTabContent(
+                            listWithdraw = listWithdraw,
+                            colors = WITHDRAW_COLORS,
+                            lazyRowState = lazyRowState,
+                            currentIndex = currentIndex
+                        )
+                    }
+                    "2" -> {
+                        attendanceTabContent(
+                            listAttendanceContent = listOf(
+                                KpiData(
+                                    label = "Last Logged out at",
+                                    value = "21 Jan 2024"
+                                )
+                            ),
+                            onClockIn = onClockIn
                         )
                     }
                 }
-            }
-        }
-    ) { pv ->
-        val lazyRowState = rememberLazyListState()
-        val currentIndex by remember {
-            derivedStateOf {
-                val layoutInfo = lazyRowState.layoutInfo
-                val visibleItems = layoutInfo.visibleItemsInfo
-                if (visibleItems.isEmpty()) 0
-                else {
-                    val viewportCenter = layoutInfo.viewportStartOffset + layoutInfo.viewportSize.width / 2
-                    visibleItems.minByOrNull { item ->
-                        kotlin.math.abs((item.offset + item.size / 2) - viewportCenter)
-                    }?.index ?: 0
-                }
-            }
-        }
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .padding(pv)
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
-                SalaryWithdrawCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    onBalanceCardClick = onBalanceCardClick
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                _root_ide_package_.com.app.harigaji.presentation.OptionTabs(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    bgColor = Color.Gray,
-                    ascentColor = Color.White,
-                    selectedOption = selectedTabOption,
-                    onOptionSelected = { option ->
-                        scope.launch {
-                            pagerState.scrollToPage(
-                                page = listOfTabOptions.indexOf(option)
-                            )
-                        }
-                    },
-                    options = listOfTabOptions,
-                    selectedOptionTextColor = MaterialTheme.colorScheme.onSurface
-                )
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            // HorizontalPager for tab content
-            item {
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(700.dp)
-                ) { page ->
-                    when (page) {
-                        0 -> {
-                            // Salary Tab Content
-                            SalaryTabContent(
-                                listWithdraw = listWithdraw,
-                                colors = colors,
-                                lazyRowState = lazyRowState,
-                                currentIndex = currentIndex
-                            )
-                        }
-                        1 -> {
-                            // Attendance Tab Content
-                            AttendanceTabContent(
-                                listAttendanceContent = listOf(
-                                    KpiData(
-                                        label = "Last Logged out at",
-                                        value = "21 Jan 2024"
-                                    )
-                                ),
-                                onClockIn = onClockIn
-                            )
-                        }
-                    }
-                }
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(150.dp))
             }
         }
     }
 }
 
 @Composable
-fun SalaryTabContent(
+private fun TopBarContent(paddingValues: PaddingValues) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surface
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = paddingValues.calculateTopPadding())
+                .padding(horizontal = 16.dp)
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.ic_calender),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(16.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            DateRow()
+        }
+    }
+}
+
+@Composable
+private fun UserHeaderCard(
+    userDetails: UserDetails,
+    collapseFraction: Float
+) {
+    // Use Surface instead of Card for better performance
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surface
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 4.dp,
+                        bottom = 8.dp,
+                    ),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.Top
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(54.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+                Spacer(modifier = Modifier.width(12.dp))
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = "Hi, ${userDetails.name ?: ""} !",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier
+                            .background(
+                                shape = CircleShape,
+                                color = MaterialTheme.colorScheme.secondary.copy(alpha = .15f)
+                            )
+                            .padding(horizontal = 8.dp, vertical = 2.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Pro Member",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                OutlinedIconButton(
+                    onClick = {},
+                    modifier = Modifier.padding(0.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_message_dot),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.size(26.dp).padding(4.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchSection(
+    cornerRadius: Dp,
+    collapseFraction: Float
+) {
+    // Optimize shadow rendering with drawWithCache
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                shadowElevation = if (collapseFraction < 0.5f) 16f else 0f
+                shape = RoundedCornerShape(bottomEnd = cornerRadius, bottomStart = cornerRadius)
+                clip = true
+            },
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(
+            bottomStart = cornerRadius,
+            bottomEnd = cornerRadius
+        )
+    ) {
+        AnimatedVisibility(
+            visible = collapseFraction < 0.5f,
+            enter = fadeIn(tween(150)) + expandVertically(tween(150)),
+            exit = fadeOut(tween(150)) + shrinkVertically(tween(150))
+        ) {
+            SearchBarM3(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 8.dp)
+                    .graphicsLayer {
+                        alpha = 1f - (collapseFraction * 2).coerceIn(0f, 1f)
+                    },
+                onSearch = {},
+                onItemClick = {},
+                searchHeading = "Search for anything",
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@Composable
+private fun TabHeaderSection(
+    stickyHeaderBackgroundColor: Color,
+    stickyHeaderCornerRadius: Dp,
+    stickyHeaderElevation: Dp,
+    selectedTabOption: _root_ide_package_.com.app.harigaji.presentation.OptionTab,
+    onOptionSelected: (Any) -> Unit,
+    listOfTabOptions: List<_root_ide_package_.com.app.harigaji.presentation.OptionTab>
+) {
+    // Remove LaunchedEffect logger for better performance
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                shadowElevation = stickyHeaderElevation.toPx()
+                shape = RoundedCornerShape(
+                    bottomStart = stickyHeaderCornerRadius,
+                    bottomEnd = stickyHeaderCornerRadius
+                )
+                clip = true
+            },
+        color = stickyHeaderBackgroundColor,
+        shape = RoundedCornerShape(
+            bottomStart = stickyHeaderCornerRadius,
+            bottomEnd = stickyHeaderCornerRadius
+        )
+    ) {
+        OptionTabs(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
+            bgColor = Color.Gray,
+            ascentColor = Color.White,
+            selectedOption = selectedTabOption,
+            onOptionSelected = onOptionSelected,
+            options = listOfTabOptions,
+            selectedOptionTextColor = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+fun LazyListScope.salaryTabContent(
     listWithdraw: List<WithdrawData>,
     colors: List<Color>,
     lazyRowState: androidx.compose.foundation.lazy.LazyListState,
     currentIndex: Int
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    val listSalaryEarned = listOf(
+        SalaryEarnedData("16 Oct 2025", "2,500"),
+        SalaryEarnedData("15 Oct 2025", "3,200"),
+        SalaryEarnedData("14 Oct 2025", "1,800"),
+        SalaryEarnedData("13 Oct 2025", "2,500"),
+        SalaryEarnedData("12 Oct 2025", "3,200"),
+        SalaryEarnedData("11 Oct 2025", "1,800"),
+    )
 
+    item(key = "withdraw_title") {
         TitleWithMoreRow(
             title = "My Withdraw",
-            onSeeAllClick = {
-
-            },
+            onSeeAllClick = {},
             titleMore = "See All"
         )
+    }
 
+    item(key = "withdraw_carousel") {
+        WithdrawCarousel(
+            listWithdraw = listWithdraw,
+            colors = colors,
+            lazyRowState = lazyRowState,
+            currentIndex = currentIndex
+        )
+    }
+
+    item(key = "salary_earned_header") {
+        Spacer(modifier = Modifier.height(8.dp))
+        TitleWithMoreRow(
+            title = "Salary Earned",
+            onSeeAllClick = {}
+        )
+
+        Icon(
+            painter = painterResource(Res.drawable.ic_message_dot),
+            contentDescription = "message salary",
+            tint = Color.Gray,
+            modifier = Modifier
+                .padding(start = 16.dp, bottom = 8.dp)
+                .size(20.dp)
+        )
+    }
+
+    items(
+        items = listSalaryEarned,
+        key = { it.date }
+    ) { item ->
+        SalaryEarnedCard(date = item.date, salary = item.salary)
+        Spacer(modifier = Modifier.height(8.dp))
+    }
+
+    item(key = "bottom_spacer") {
+        Spacer(modifier = Modifier.height(100.dp))
+    }
+}
+
+@Composable
+private fun WithdrawCarousel(
+    listWithdraw: List<WithdrawData>,
+    colors: List<Color>,
+    lazyRowState: androidx.compose.foundation.lazy.LazyListState,
+    currentIndex: Int
+) {
+    Column {
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Withdraw Cards
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             state = lazyRowState,
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            itemsIndexed(listWithdraw) { index, item ->
+            itemsIndexed(
+                items = listWithdraw,
+                key = { _, item -> item.month }
+            ) { index, item ->
                 val color = colors[index % colors.size]
                 _root_ide_package_.com.app.harigaji.presentation.WithdrawCard(
                     amount = item.amount,
                     month = item.month,
                     color = color,
                     modifier = Modifier
-                        .width(250.dp)
+                        .width(200.dp)
                         .height(IntrinsicSize.Max)
                 )
             }
         }
 
-        // Indicators
         if (listWithdraw.size > 1) {
             Row(
                 modifier = Modifier
@@ -427,109 +567,88 @@ fun SalaryTabContent(
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TitleWithMoreRow(
-            title = "Salary Earned",
-            onSeeAllClick = {
-
-            }
-        )
-
-        Icon(
-            painter = painterResource(Res.drawable.ic_message_dot),
-            contentDescription = "message salary",
-            tint = Color.Gray,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .size(20.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Salary Earned Cards
-        Column(modifier = Modifier.fillMaxWidth()) {
-            SalaryEarnedCard(date = "16 Oct 2025", salary = "2,500")
-            Spacer(modifier = Modifier.height(8.dp))
-            SalaryEarnedCard(date = "15 Oct 2025", salary = "3,200")
-            Spacer(modifier = Modifier.height(8.dp))
-            SalaryEarnedCard(date = "14 Oct 2025", salary = "1,800")
-            Spacer(modifier = Modifier.height(8.dp))
-        }
     }
 }
 
-@Composable
-fun AttendanceTabContent(
-    listAttendanceContent:List<KpiData> = emptyList(),
+data class SalaryEarnedData(
+    val date: String,
+    val salary: String,
+)
+
+fun LazyListScope.attendanceTabContent(
+    listAttendanceContent: List<KpiData> = emptyList(),
     onClockIn: () -> Unit = {}
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {if(listAttendanceContent.isEmpty()){
-        Icon(
-            imageVector = Icons.Default.DateRange,
-            contentDescription = null,
-            modifier = Modifier.size(64.dp),
-            tint = MaterialTheme.colorScheme.primary
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Attendance",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Attendance tracking content goes here",
-            fontSize = 16.sp,
-            color = Color.Gray
-        )
-    }else{
+    item(key = "attendance_content") {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            if (listAttendanceContent.isEmpty()) {
+                Icon(
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = null,
+                    modifier = Modifier.size(64.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Attendance",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Attendance tracking content goes here",
+                    fontSize = 16.sp,
+                    color = Color.Gray
+                )
+            } else {
+                TitleWithMoreRow(
+                    title = "Logout History",
+                    onSeeAllClick = {}
+                )
 
-        TitleWithMoreRow(
-            title = "Logout History",
-            onSeeAllClick = {
+                listAttendanceContent.forEachIndexed { index, kpiData ->
+                    InfoCard(
+                        icon = when (index) {
+                            0 -> Res.drawable.ic_exit
+                            else -> Res.drawable.ic_calender
+                        },
+                        date = kpiData.value,
+                        label = kpiData.label,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
 
+                Text(
+                    text = "Note: if your login hours are fewer than 8, Your salary will not be updated for withdrawal",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .fillMaxWidth()
+                )
+                _root_ide_package_.com.app.harigaji.presentation.SlideToClockIn(
+                    onClockIn = onClockIn
+                )
             }
-        )
-
-        listAttendanceContent.forEachIndexed {
-            index, kpiData ->
-            InfoCard(
-                icon = when(index){
-                    0-> Res.drawable.ic_clock
-                    else-> Res.drawable.ic_calender
-                },
-                date = kpiData.value,
-                label = kpiData.label,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
         }
-
-        Text(
-            text = "Note: if your ogin hours are fewer than 8, Your salary will not be updated for withdrawal",
-            fontSize = 14.sp,
-            color = Color.Gray,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp).fillMaxWidth()
-        )
-        _root_ide_package_.com.app.harigaji.presentation.SlideToClockIn(
-            onClockIn = onClockIn
-        )
-
     }
+
+    item(key = "attendance_spacer") {
+        Spacer(modifier = Modifier.height(400.dp))
     }
 }
+
 @Composable
 fun TitleWithMoreRow(
     modifier: Modifier = Modifier,
@@ -558,21 +677,26 @@ fun TitleWithMoreRow(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
                     .padding(end = 8.dp)
+                    .clip(CircleShape)
+                    .clickable { onSeeAllClick() }
+                    .padding(horizontal = 16.dp)
+            )
+        } ?: run {
+            Icon(
+                Icons.Default.MoreVert,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clip(CircleShape)
                     .clickable { onSeeAllClick() }
             )
-        }?:run{
-        Icon(Icons.Default.MoreVert, contentDescription = null, modifier = Modifier
-            .padding(4.dp)
-            .clickable { onSeeAllClick() }
-        )
         }
     }
 }
 
-
 data class KpiData(
-    val label:String,
-    val value:String,
+    val label: String,
+    val value: String,
 )
 
 @Composable
@@ -650,10 +774,7 @@ fun InfoCard(
     label: String,
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-//            .padding(horizontal = 16.dp)
-        ,
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -661,8 +782,7 @@ fun InfoCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-            ,
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

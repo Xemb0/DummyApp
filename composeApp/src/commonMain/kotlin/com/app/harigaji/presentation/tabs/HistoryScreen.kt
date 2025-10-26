@@ -153,7 +153,7 @@ fun HistoryScreen(
     Scaffold(
         topBar = {
             Column (
-                modifier = Modifier.fillMaxWidth().padding(top = paddingValues.calculateTopPadding())
+//                modifier = Modifier.fillMaxWidth().padding(top = paddingValues.calculateTopPadding())
             ){
                 TopAppBar(
                     windowInsets = WindowInsets

@@ -3,6 +3,10 @@ package com.app.harigaji.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -144,7 +148,7 @@ fun NavScreen(
                         Snackbar(
                             snackbarData = data,
                             modifier = Modifier,
-                            actionOnNewLine = true, // or false
+                            actionOnNewLine = true,
                             actionContentColor = MaterialTheme.colorScheme.secondary,
                             dismissActionContentColor = MaterialTheme.colorScheme.surface,
                             containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -162,23 +166,40 @@ fun NavScreen(
         NavHost(
             navController = navController,
             startDestination = Route.NavGraph,
-            enterTransition = { fadeIn(animationSpec = tween(600)) },
-            exitTransition = { fadeOut(animationSpec = tween(600)) },
-            popEnterTransition = { fadeIn(animationSpec = tween(600)) },
-            popExitTransition = { fadeOut(animationSpec = tween(600)) }
+            enterTransition = { fadeIn(animationSpec = tween(400)) },
+            exitTransition = { fadeOut(animationSpec = tween(400)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(400)) },
+            popExitTransition = { fadeOut(animationSpec = tween(400)) }
         ) {
             navigation<Route.NavGraph>(
                 startDestination = Route.Splash
             ) {
-                composable<Route.Splash> {
+                // Splash Screen - Fade animation
+                composable<Route.Splash>(
+                    enterTransition = { fadeIn(animationSpec = tween(600)) },
+                    exitTransition = { fadeOut(animationSpec = tween(600)) }
+                ) {
                     SplashScreen(
                         navController = navController,
                         isLoggedIn = isLoggedIn
                     )
-
                 }
 
-                composable<Route.GetStarted> {
+                // Get Started - Slide from right
+                composable<Route.GetStarted>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(500)
+                        ) + fadeIn(animationSpec = tween(500))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(500)
+                        ) + fadeOut(animationSpec = tween(500))
+                    }
+                ) {
                     SplashStartScreen(
                         onGetStartedClick = {
                             navController.navigate(Route.Login) {
@@ -189,7 +210,34 @@ fun NavScreen(
                         }
                     )
                 }
-                composable<Route.Login> {
+
+                // Login Screen - Slide from right
+                composable<Route.Login>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(500)
+                        ) + fadeIn(animationSpec = tween(500))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(500)
+                        ) + fadeOut(animationSpec = tween(500))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(500)
+                        ) + fadeIn(animationSpec = tween(500))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(500)
+                        ) + fadeOut(animationSpec = tween(500))
+                    }
+                ) {
                     LoginScreen(onSignIn = authViewModel::login, onSignUp = {
                         navController.navigate(Route.HolderScreen) {
                             popUpTo(Route.NavGraph) {
@@ -198,7 +246,14 @@ fun NavScreen(
                         }
                     })
                 }
-                composable<Route.HolderScreen> { entry ->
+
+                // Holder Screen (Main) - Fade animation
+                composable<Route.HolderScreen>(
+                    enterTransition = { fadeIn(animationSpec = tween(400)) },
+                    exitTransition = { fadeOut(animationSpec = tween(400)) },
+                    popEnterTransition = { fadeIn(animationSpec = tween(400)) },
+                    popExitTransition = { fadeOut(animationSpec = tween(400)) }
+                ) { entry ->
                     ScreenHolder(
                         currentTab = currentTab,
                         paddingValues = innerPadding,
@@ -213,13 +268,7 @@ fun NavScreen(
                         onUserIconClick = {
                             navController.navigate(Route.Settings)
                         },
-
                         onNotificationClick = {
-//                                SnackBarController.sendEvent(
-//                                    event = SnackBarEvent(
-//                                        message = "Notification Clicked",
-//                                    )
-//                                )
                             navController.navigate(Route.Notification)
                         },
                         onClockIn = {
@@ -264,9 +313,35 @@ fun NavScreen(
                         },
                         setCurrentTab = sharedViewModel::setCurrentTab
                     )
-
                 }
-                composable<Route.ClockIn>{ entry ->
+
+                // Clock In - Slide from bottom (modal style)
+                composable<Route.ClockIn>(
+                    enterTransition = {
+                        slideInVertically(
+                            initialOffsetY = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutVertically(
+                            targetOffsetY = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInVertically(
+                            initialOffsetY = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutVertically(
+                            targetOffsetY = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ){ entry ->
                     val args = entry.toRoute<Route.ClockIn>()
                     AttendanceClockScreen(
                         paddingValues = innerPadding,
@@ -281,7 +356,33 @@ fun NavScreen(
                     )
                 }
 
-                composable<Route.Settings> {
+                // Settings - Slide from right
+                composable<Route.Settings>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -290,38 +391,116 @@ fun NavScreen(
                         // Settings Screen Content
                     }
                 }
-                composable<Route.ProfileEdit> {
+
+                // Profile Edit - Slide from right
+                composable<Route.ProfileEdit>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) {
                     ProfileEditScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
-
                         },
                         onSaveChanges = {
                             navController.navigateUp()
                         }
                     )
                 }
-                composable<Route.ForgetPassword> {
+
+                // Forget Password - Slide from right
+                composable<Route.ForgetPassword>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) {
                     ForgetPassScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
-
                         },
                         onResetClick = { emailID ->
                             navController.navigate(Route.Verification(
                                 emailID = emailID,
-                                label = "We’ve the code send to your email",
+                                label = "We've the code send to your email",
                                 buttonText = "Reset Password"
                             ))
                         }
                     )
                 }
 
-                composable<Route.Verification> { entry ->
+                // Verification - Slide from right
+                composable<Route.Verification>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     val args = entry.toRoute<Route.Verification>()
                     VerificationScreen(
                         emailId = args.emailID,
@@ -331,19 +510,45 @@ fun NavScreen(
                             navController.navigateUp()
                         },
                         onNext = {
-
                             if(args.emailID!=null){
                                 navController.navigate(Route.ChangePassword)
                             }else
-                            navController.navigate(Route.HolderScreen){
-                                popUpTo(Route.NavGraph) {
-                                    inclusive = false
+                                navController.navigate(Route.HolderScreen){
+                                    popUpTo(Route.NavGraph) {
+                                        inclusive = false
+                                    }
                                 }
-                            }
                         }
                     )
                 }
-                composable<Route.ChangePassword> { entry ->
+
+                // Change Password - Slide from right
+                composable<Route.ChangePassword>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     ChangePasswordScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
@@ -358,13 +563,39 @@ fun NavScreen(
                         }
                     )
                 }
-                composable<Route.WithdrawalRequest> { entry ->
+
+                // Withdrawal Request - Slide from right
+                composable<Route.WithdrawalRequest>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     WithdrawalRequestScreen(
                         innerPadding, userProgressDetail = userProgressDetail,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(0)
-
                         },
                         onNext = {
                             navController.navigate(Route.Verification(null,
@@ -374,17 +605,70 @@ fun NavScreen(
                         }
                     )
                 }
-                composable<Route.PrivacyPolicy> { entry ->
+
+                // Privacy Policy - Slide from right
+                composable<Route.PrivacyPolicy>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     PrivacyPolicyScreen(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
-
                         },
                     )
                 }
-                composable<Route.TermsAndConditions> { entry ->
+
+                // Terms and Conditions - Slide from right
+                composable<Route.TermsAndConditions>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     TermsAndConditionsScreen(
                         innerPadding,
                         onPrevious = {
@@ -393,18 +677,70 @@ fun NavScreen(
                         },
                     )
                 }
-                composable<Route.LanguageSelection> { entry ->
+
+                // Language Selection - Slide from right
+                composable<Route.LanguageSelection>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     LanguageSelectionScreen(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
-
                         },
                     )
                 }
 
-                composable<Route.Chat> { entry ->
+                // Chat - Slide from right
+                composable<Route.Chat>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     val args = entry.toRoute<Route.Chat>()
 
                     ChatScreen(
@@ -416,19 +752,42 @@ fun NavScreen(
                     )
                 }
 
-                composable<Route.Article> { entry ->
-
+                // Article - Slide from right
+                composable<Route.Article>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
                     ArticlesScreen(
                         paddingValues = innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                         },
-                        viewModel =articlesViewModel
+                        viewModel = articlesViewModel
                     )
                 }
-
             }
         }
     }
 }
-

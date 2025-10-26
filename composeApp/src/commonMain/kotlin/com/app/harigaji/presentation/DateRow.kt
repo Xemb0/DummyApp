@@ -35,8 +35,8 @@ fun DateRow() {
         Text(
             text = currentDate,
             fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurface
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface.copy( alpha = 0.8f)
         )
     }
 }

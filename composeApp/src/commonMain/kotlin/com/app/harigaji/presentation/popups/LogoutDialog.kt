@@ -100,7 +100,7 @@ fun LogoutDialog(
                 // Cancel Button
                 TextButton(
                     onClick = onDismiss,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(
                         text = "Cancel",
