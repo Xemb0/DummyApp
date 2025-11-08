@@ -35,19 +35,6 @@ interface UiConfigDao {
     )
     
     @Query("UPDATE ui_config SET " +
-            "paddingSmall = :small, " +
-            "paddingMedium = :medium, " +
-            "paddingLarge = :large, " +
-            "paddingExtraLarge = :extraLarge " +
-            "WHERE id = 1")
-    suspend fun updatePadding(
-        small: Float,
-        medium: Float,
-        large: Float,
-        extraLarge: Float
-    )
-    
-    @Query("UPDATE ui_config SET " +
             "iconSizeSmall = :small, " +
             "iconSizeMedium = :medium, " +
             "iconSizeLarge = :large, " +

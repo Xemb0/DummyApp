@@ -57,14 +57,6 @@ class UiConfigViewModel(
         }
     }
     
-    fun updatePadding(config: UiConfigEntity) {
-        viewModelScope.launch {
-            repository.updatePadding(config)
-            val updatedConfig = repository.getConfig()
-            _uiConfig.value = updatedConfig
-        }
-    }
-    
     fun updateIconSizes(config: UiConfigEntity) {
         viewModelScope.launch {
             repository.updateIconSizes(config)

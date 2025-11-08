@@ -33,15 +33,6 @@ class UiConfigRepositoryImpl(
         )
     }
     
-    override suspend fun updatePadding(config: UiConfigEntity) {
-        database.uiConfigDao().updatePadding(
-            small = config.paddingSmall,
-            medium = config.paddingMedium,
-            large = config.paddingLarge,
-            extraLarge = config.paddingExtraLarge
-        )
-    }
-    
     override suspend fun updateIconSizes(config: UiConfigEntity) {
         database.uiConfigDao().updateIconSizes(
             small = config.iconSizeSmall,
