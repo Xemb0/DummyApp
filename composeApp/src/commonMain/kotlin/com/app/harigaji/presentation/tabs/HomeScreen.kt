@@ -40,7 +40,8 @@ import com.app.harigaji.core.user.UserDetails
 import com.app.harigaji.presentation.DateRow
 import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
-import com.app.harigaji.theme.SpacerSmallHorizontal
+import com.app.harigaji.theme.SpacerMediumHorizontal
+import com.app.harigaji.theme.SpacerHorizontalSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
@@ -56,7 +57,9 @@ import com.app.harigaji.theme.debugUi
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberSizeExtraLarge
+import com.app.harigaji.theme.rememberSizeLarge
 import com.app.harigaji.theme.rememberSizeMedium
+import com.app.harigaji.theme.rememberVerticalSpacingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -290,7 +293,7 @@ private fun TopBarDate(paddingValues: PaddingValues) {
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(16.dp)
             )
-            SpacerSmallHorizontal()
+            SpacerHorizontalSmall()
             DateRow()
         }
     }
@@ -306,11 +309,13 @@ private fun UserHeaderCard(
          modifier = Modifier.fillMaxWidth().debugUi(),
           color = MaterialTheme.colorScheme.surface
       ) {
-        Column(modifier = Modifier.fillMaxWidth().debugUi()) {
+        Column(modifier = Modifier.fillMaxWidth().debugUi(), verticalArrangement = Arrangement.spacedBy(
+            rememberVerticalSpacingSmall()
+        )) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberOuterHorizontalPaddingLarge(), vertical = rememberOuterVerticalPaddingSmall())
+                    .padding(horizontal = rememberOuterHorizontalPaddingLarge())
                     .debugUi(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
@@ -319,18 +324,18 @@ private fun UserHeaderCard(
                     modifier = Modifier
                         .size(rememberSizeExtraLarge())
                         .clip(CircleShape)
-                        .background(Color.White)
+                        .background(Color.Gray)
                         .debugUi()
                 ) {
                     Image(
                         painter = painterResource(Res.drawable.ic_profile),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(size = rememberSizeMedium())
+                            .size(size = rememberSizeExtraLarge())
                             .align(Alignment.Center)
                     )
                 }
-                Spacer(modifier = Modifier.width(12.dp))
+                SpacerMediumHorizontal()
                 Column(
                     modifier = Modifier.weight(1f).debugUi(),
                     verticalArrangement = Arrangement.Center,

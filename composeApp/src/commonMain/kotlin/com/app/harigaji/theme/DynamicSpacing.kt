@@ -282,28 +282,28 @@ fun rememberSizeExtraLarge(): androidx.compose.ui.unit.Dp {
 
 // Custom Spacers - Vertical (uses spacing multipliers, not padding)
 @Composable
-fun SpacerSmallVertical() {
+fun SpacerVerticalSmall() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingSmall(config)
     Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
-fun SpacerMediumVertical() {
+fun SpacerVerticalMedium() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingMedium(config)
     Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
-fun SpacerLargeVertical() {
+fun SpacerVerticalLarge() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingLarge(config)
     Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
-fun SpacerExtraLargeVertical() {
+fun SpacerVerticalExtraLarge() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingExtraLarge(config)
     Spacer(modifier = Modifier.height(spacing))
@@ -311,28 +311,28 @@ fun SpacerExtraLargeVertical() {
 
 // Custom Spacers - Horizontal (uses spacing multipliers, not padding)
 @Composable
-fun SpacerSmallHorizontal() {
+fun SpacerHorizontalSmall() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingSmallHorizontal(config)
     Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
-fun SpacerMediumHorizontal() {
+fun SpacerHorizontalMedium() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingMediumHorizontal(config)
     Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
-fun SpacerLargeHorizontal() {
+fun SpacerHorizontalLarge() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingLargeHorizontal(config)
     Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
-fun SpacerExtraLargeHorizontal() {
+fun SpacerHorizontalExtraLarge() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingExtraLargeHorizontal(config)
     Spacer(modifier = Modifier.width(spacing))
