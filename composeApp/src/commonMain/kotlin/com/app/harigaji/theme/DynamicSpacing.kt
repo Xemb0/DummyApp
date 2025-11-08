@@ -280,7 +280,80 @@ fun rememberSizeExtraLarge(): androidx.compose.ui.unit.Dp {
     return ThemeValues.sizeExtraLarge(config)
 }
 
-// Text Sizes
+// Text Sizes - returns TextStyle with Urbanist font family
+@Composable
+fun rememberTextStyleSmall(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Normal): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeSmall(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun rememberTextStyleMedium(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Medium): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeMedium(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun rememberTextStyleLarge(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Normal): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeLarge(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun rememberTextStyleExtraLarge(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Normal): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeExtraLarge(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun rememberTextStyleTitle(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Medium): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeTitle(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun rememberTextStyleHeadline(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Bold): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeHeadline(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
+
+// Backward compatibility - returns TextUnit (for cases where only fontSize is needed)
 @Composable
 fun rememberTextSizeSmall(): androidx.compose.ui.unit.TextUnit {
     val config = rememberUiConfig()

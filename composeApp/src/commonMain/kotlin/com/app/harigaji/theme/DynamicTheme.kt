@@ -129,6 +129,28 @@ fun AppTheme(
 
 // Extension properties for easy access to config values
 object ThemeValues {
+    // Font families - Urbanist
+    @Composable
+    fun getFontFamily(fontWeight: androidx.compose.ui.text.font.FontWeight): androidx.compose.ui.text.font.FontFamily {
+        return when (fontWeight) {
+            androidx.compose.ui.text.font.FontWeight.Bold -> FontFamily(
+                Font(
+                    resource = Res.font.Urbanist,
+                    weight = FontWeight.Bold
+                )
+            )
+            else -> FontFamily(
+                Font(
+                    resource = Res.font.Urbanist,
+                    weight = FontWeight.Normal
+                ),
+                Font(
+                    resource = Res.font.Urbanist,
+                    weight = FontWeight.Medium
+                )
+            )
+        }
+    }
     // Inner Padding Horizontal - uses baseInner * innerMultiplier
     @Composable
     fun innerPaddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {

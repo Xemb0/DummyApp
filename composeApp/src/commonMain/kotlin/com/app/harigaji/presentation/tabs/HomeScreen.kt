@@ -67,6 +67,15 @@ import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberSizeExtraLarge
 import com.app.harigaji.theme.rememberSizeLarge
 import com.app.harigaji.theme.rememberSizeMedium
+import com.app.harigaji.theme.rememberTextSizeExtraLarge
+import com.app.harigaji.theme.rememberTextSizeMedium
+import com.app.harigaji.theme.rememberTextSizeSmall
+import com.app.harigaji.theme.rememberTextSizeTitle
+import com.app.harigaji.theme.rememberTextStyleLarge
+import com.app.harigaji.theme.rememberTextStyleSmall
+import com.app.harigaji.theme.rememberTextStyleMedium
+import com.app.harigaji.theme.rememberTextStyleExtraLarge
+import com.app.harigaji.theme.rememberTextStyleTitle
 import com.app.harigaji.theme.rememberVerticalSpacingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
@@ -348,11 +357,7 @@ private fun UserHeaderCard(
                 ) {
                     BasicText(
                         text = "Hi, ${userDetails.name ?: ""} !",
-                        style = TextStyle(
-                            fontSize = rememberTextSizeLarge(),
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        ),
+                        style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = Color.Black),
                         maxLines = 1,
                         modifier = Modifier.basicMarquee()
                     )
@@ -375,11 +380,7 @@ private fun UserHeaderCard(
                         Spacer(modifier = Modifier.width(4.dp))
                         BasicText(
                             text = "Pro Member",
-                            style = TextStyle(
-                                fontSize = rememberTextSizeSmall(),
-                                fontWeight = FontWeight.Medium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                            style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
                         )
                     }
                 }
@@ -634,18 +635,12 @@ fun LazyListScope.attendanceTabContent(
                 Spacer(modifier = Modifier.height(16.dp))
                 BasicText(
                     text = "Attendance",
-                    style = TextStyle(
-                        fontSize = rememberTextSizeTitle(),
-                        fontWeight = FontWeight.Bold
-                    )
+                    style = rememberTextStyleTitle(fontWeight = FontWeight.Bold)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 BasicText(
                     text = "Attendance tracking content goes here",
-                    style = TextStyle(
-                        fontSize = rememberTextSizeLarge(),
-                        color = Color.Gray
-                    )
+                    style = rememberTextStyleLarge().copy(color = Color.Gray)
                 )
             } else {
                 TitleWithMoreRow(
@@ -670,10 +665,8 @@ fun LazyListScope.attendanceTabContent(
 
                 BasicText(
                     text = "Note: if your login hours are fewer than 8, Your salary will not be updated for withdrawal",
-                    style = TextStyle(
-                        fontSize = rememberTextSizeMedium(),
+                    style = rememberTextStyleMedium(fontWeight = FontWeight.Medium).copy(
                         color = Color.Gray,
-                        fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center
                     ),
                     modifier = Modifier
@@ -709,20 +702,12 @@ fun TitleWithMoreRow(
     ) {
         BasicText(
             text = title,
-            style = TextStyle(
-                fontSize = rememberTextSizeExtraLarge(),
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold
-            )
+            style = rememberTextStyleExtraLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface)
         )
         titleMore?.let {
             BasicText(
                 text = it,
-                style = TextStyle(
-                    fontSize = rememberTextSizeSmall(),
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
+                style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .clip(CircleShape)
@@ -796,29 +781,17 @@ fun SalaryEarnedCard(
                 ) {
                     BasicText(
                         text = "Salary earned",
-                        style = TextStyle(
-                            fontSize = rememberTextSizeLarge(),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold
-                        )
+                        style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface)
                     )
                     BasicText(
                         text = date,
-                        style = TextStyle(
-                            fontSize = rememberTextSizeSmall(),
-                            fontWeight = FontWeight.Medium,
-                            color = Color.Gray
-                        )
+                        style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = Color.Gray)
                     )
                 }
             }
             BasicText(
                 text = "RM $salary",
-                style = TextStyle(
-                    fontSize = rememberTextSizeExtraLarge(),
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f)
-                )
+                style = rememberTextStyleExtraLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f))
             )
         }
     }
@@ -871,19 +844,11 @@ fun InfoCard(
                 ) {
                     BasicText(
                         text = label,
-                        style = TextStyle(
-                            fontSize = rememberTextSizeLarge(),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold
-                        )
+                        style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface)
                     )
                     BasicText(
                         text = date,
-                        style = TextStyle(
-                            fontSize = rememberTextSizeSmall(),
-                            fontWeight = FontWeight.Medium,
-                            color = Color.Gray
-                        )
+                        style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = Color.Gray)
                     )
                 }
             }
