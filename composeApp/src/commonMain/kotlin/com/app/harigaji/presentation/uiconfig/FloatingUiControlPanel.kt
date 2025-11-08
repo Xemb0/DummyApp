@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.app.harigaji.core.nativefetures.platformBlur
 import com.app.harigaji.core.uiconfig.UiConfigEntity
 import com.app.harigaji.core.uiconfig.UiConfigViewModel
+import com.app.harigaji.core.uiconfig.ColorPresets
 
 @Composable
 fun FloatingUiControlPanel(
@@ -85,9 +86,30 @@ fun FloatingUiControlPanel(
                     
                     Divider(modifier = Modifier.padding(vertical = 8.dp))
                     
+                    // Color Presets Section
+                    ConfigSection(
+                        title = "Color Presets",
+                        icon = Icons.Default.ColorLens
+                    ) {
+                        val presets = ColorPresets.getAllPresets()
+                        presets.forEach { (name, preset) ->
+                            PresetButton(
+                                name = name,
+                                preset = preset,
+                                isSelected = currentConfig.primaryColor == preset.primaryColor &&
+                                        currentConfig.secondaryColor == preset.secondaryColor,
+                                onApply = {
+                                    viewModel.updateColors(preset)
+                                }
+                            )
+                        }
+                    }
+                    
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    
                     // Colors Section
                     ConfigSection(
-                        title = "Colors",
+                        title = "Custom Colors",
                         icon = Icons.Default.Palette
                     ) {
                         ColorSlider(
@@ -453,6 +475,66 @@ fun ConfigInfoCard(config: UiConfigEntity) {
             ConfigInfoRow("Padding Large", "${config.paddingLarge.toInt()}dp")
             ConfigInfoRow("Icon Size Medium", "${config.iconSizeMedium.toInt()}dp")
             ConfigInfoRow("Text Size Large", "${config.textSizeLarge.toInt()}sp")
+        }
+    }
+}
+
+@Composable
+fun PresetButton(
+    name: String,
+    preset: UiConfigEntity,
+    isSelected: Boolean,
+    onApply: () -> Unit
+) {
+    Button(
+        onClick = onApply,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.surfaceContainerLowest
+            }
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.bodyMedium,
+                color = if (isSelected) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSurface
+                }
+            )
+            
+            // Color preview chips
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color(preset.primaryColor))
+                )
+                Box(
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color(preset.secondaryColor))
+                )
+            }
         }
     }
 }
