@@ -51,6 +51,7 @@ import com.app.harigaji.theme.rememberOuterVerticalPaddingSmall
 import com.app.harigaji.theme.rememberPaddingLarge
 import com.app.harigaji.theme.rememberPaddingMedium
 import com.app.harigaji.theme.rememberVerticalPaddingSmall
+import com.app.harigaji.theme.outlineIfEnabled
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -294,7 +295,7 @@ private fun UserHeaderCard(
 ) {
       // Use Surface instead of Card for better performance
       Surface(
-         modifier = Modifier.fillMaxWidth(),
+         modifier = Modifier.fillMaxWidth().outlineIfEnabled(),
           color = MaterialTheme.colorScheme.surface
       ) {
         Column(modifier = Modifier.fillMaxWidth()) {
