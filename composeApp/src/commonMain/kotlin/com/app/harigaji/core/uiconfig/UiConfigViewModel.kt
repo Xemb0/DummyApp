@@ -42,6 +42,14 @@ class UiConfigViewModel(
         isControlPanelVisible = !isControlPanelVisible
     }
     
+    fun resetToDefault() {
+        viewModelScope.launch {
+            val defaultConfig = UiConfigEntity(id = 1)
+            repository.saveConfig(defaultConfig)
+            _uiConfig.value = defaultConfig
+        }
+    }
+    
     fun updateConfig(config: UiConfigEntity) {
         viewModelScope.launch {
             repository.saveConfig(config)
