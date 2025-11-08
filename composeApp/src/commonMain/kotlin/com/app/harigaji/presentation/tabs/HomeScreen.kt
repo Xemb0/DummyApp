@@ -9,6 +9,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -52,11 +53,14 @@ import com.app.harigaji.theme.rememberPaddingLarge
 import com.app.harigaji.theme.rememberPaddingMedium
 import com.app.harigaji.theme.rememberVerticalPaddingSmall
 import com.app.harigaji.theme.debugUi
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
 import harigaji.composeapp.generated.resources.ic_exit
 import harigaji.composeapp.generated.resources.ic_message_dot
+import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -194,7 +198,7 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize().debugUi(),
                 state = listState,
-                 verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
+//                 verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
             ) {
                 stickyHeader(key = "user_header") {
                     UserHeaderCard(
@@ -304,7 +308,7 @@ private fun UserHeaderCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberOuterHorizontalPaddingSmall(), vertical = rememberOuterVerticalPaddingSmall())
+                    .padding(horizontal = rememberOuterHorizontalPaddingLarge(), vertical = rememberOuterVerticalPaddingSmall())
                     .debugUi(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
@@ -313,15 +317,14 @@ private fun UserHeaderCard(
                     modifier = Modifier
                         .size(54.dp)
                         .clip(CircleShape)
-                        .background(Color.Gray)
+                        .background(Color.White)
                         .debugUi()
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
+                    Image(
+                        painter = painterResource(Res.drawable.ic_profile),
                         contentDescription = null,
-                        tint = Color.White,
                         modifier = Modifier
-                            .size(48.dp)
+                            .size(24.dp)
                             .align(Alignment.Center)
                     )
                 }

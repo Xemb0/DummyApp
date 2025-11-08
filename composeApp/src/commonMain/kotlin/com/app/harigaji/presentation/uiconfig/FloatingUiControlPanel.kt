@@ -307,6 +307,21 @@ fun FloatingUiControlPanel(
                         )
                     }
                     
+                    // Icon Size - Single Multiplier
+                    ConfigSection(
+                        title = "Icon Size",
+                        icon = Icons.Default.Image
+                    ) {
+                        MultiplierSlider(
+                            label = "Icon Size",
+                            value = currentConfig.iconSizeMultiplier,
+                            range = 0.5f..2.0f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(iconSizeMultiplier = newValue))
+                            }
+                        )
+                    }
+                    
                     // Current Configuration Display
                     Spacer(modifier = Modifier.height(16.dp))
                     Divider()

@@ -28,6 +28,7 @@ data class UiConfigEntity(
     val spacingHorizontalMultiplier: Float = 1.0f,
     val spacingVerticalMultiplier: Float = 1.0f,
     val cornerRadiusMultiplier: Float = 1.0f,
+    val iconSizeMultiplier: Float = 1.0f,
     
     // Base values (defaults, stored as Float) - these define the base sizes
     // Inner padding: inside components (between text and icon in a card)
@@ -51,11 +52,11 @@ data class UiConfigEntity(
     val baseCornerRadiusMedium: Float = 8f,
     val baseCornerRadiusLarge: Float = 16f,
     
-    // Icon sizes (in dp, stored as Float)
-    val iconSizeSmall: Float = 16f,
-    val iconSizeMedium: Float = 24f,
-    val iconSizeLarge: Float = 32f,
-    val iconSizeExtraLarge: Float = 48f,
+    // Icon sizes - base values (in dp, stored as Float)
+    val baseIconSizeSmall: Float = 16f,
+    val baseIconSizeMedium: Float = 24f,
+    val baseIconSizeLarge: Float = 32f,
+    val baseIconSizeExtraLarge: Float = 48f,
     
     // Text sizes (in sp, stored as Float)
     val textSizeSmall: Float = 12f,
