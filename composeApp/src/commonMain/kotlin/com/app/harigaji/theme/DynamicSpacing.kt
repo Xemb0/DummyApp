@@ -280,6 +280,43 @@ fun rememberSizeExtraLarge(): androidx.compose.ui.unit.Dp {
     return ThemeValues.sizeExtraLarge(config)
 }
 
+// Text Sizes
+@Composable
+fun rememberTextSizeSmall(): androidx.compose.ui.unit.TextUnit {
+    val config = rememberUiConfig()
+    return ThemeValues.textSizeSmall(config)
+}
+
+@Composable
+fun rememberTextSizeMedium(): androidx.compose.ui.unit.TextUnit {
+    val config = rememberUiConfig()
+    return ThemeValues.textSizeMedium(config)
+}
+
+@Composable
+fun rememberTextSizeLarge(): androidx.compose.ui.unit.TextUnit {
+    val config = rememberUiConfig()
+    return ThemeValues.textSizeLarge(config)
+}
+
+@Composable
+fun rememberTextSizeExtraLarge(): androidx.compose.ui.unit.TextUnit {
+    val config = rememberUiConfig()
+    return ThemeValues.textSizeExtraLarge(config)
+}
+
+@Composable
+fun rememberTextSizeTitle(): androidx.compose.ui.unit.TextUnit {
+    val config = rememberUiConfig()
+    return ThemeValues.textSizeTitle(config)
+}
+
+@Composable
+fun rememberTextSizeHeadline(): androidx.compose.ui.unit.TextUnit {
+    val config = rememberUiConfig()
+    return ThemeValues.textSizeHeadline(config)
+}
+
 // Custom Spacers - Vertical (uses spacing multipliers, not padding)
 @Composable
 fun SpacerVerticalSmall() {

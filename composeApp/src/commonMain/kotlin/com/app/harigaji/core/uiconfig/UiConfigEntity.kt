@@ -29,6 +29,7 @@ data class UiConfigEntity(
     val spacingVerticalMultiplier: Float = 1.0f,
     val cornerRadiusMultiplier: Float = 1.0f,
     val sizeMultiplier: Float = 1.0f,
+    val textSizeMultiplier: Float = 1.0f,
     
     // Base values (defaults, stored as Float) - these define the base sizes
     // Inner padding: inside components (between text and icon in a card)
@@ -58,13 +59,13 @@ data class UiConfigEntity(
     val baseSizeLarge: Float = 32f,
     val baseSizeExtraLarge: Float = 48f,
     
-    // Text sizes (in sp, stored as Float)
-    val textSizeSmall: Float = 12f,
-    val textSizeMedium: Float = 14f,
-    val textSizeLarge: Float = 16f,
-    val textSizeExtraLarge: Float = 20f,
-    val textSizeTitle: Float = 24f,
-    val textSizeHeadline: Float = 32f,
+    // Text sizes - base values (in sp, stored as Float)
+    val baseTextSizeSmall: Float = 12f,
+    val baseTextSizeMedium: Float = 14f,
+    val baseTextSizeLarge: Float = 16f,
+    val baseTextSizeExtraLarge: Float = 20f,
+    val baseTextSizeTitle: Float = 24f,
+    val baseTextSizeHeadline: Float = 32f,
     
     // Elevation (in dp, stored as Float)
     val elevationSmall: Float = 2f,
