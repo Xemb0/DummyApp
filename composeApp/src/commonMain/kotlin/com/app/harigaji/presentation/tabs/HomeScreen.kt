@@ -40,7 +40,7 @@ import com.app.harigaji.core.user.UserDetails
 import com.app.harigaji.presentation.DateRow
 import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
-import com.app.harigaji.theme.SpacerMediumHorizontal
+import com.app.harigaji.theme.SpacerHorizontalMedium
 import com.app.harigaji.theme.SpacerHorizontalSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
