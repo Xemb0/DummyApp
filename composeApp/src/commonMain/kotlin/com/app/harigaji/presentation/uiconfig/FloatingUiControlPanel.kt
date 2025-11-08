@@ -51,7 +51,7 @@ fun FloatingUiControlPanel(
             // Glassmorphic Panel
             Card(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
+                    .fillMaxWidth()
                     .fillMaxHeight(0.5f)
                     .align(Alignment.Center)
                     .clickable(enabled = false) {} // Prevent click through
@@ -494,7 +494,7 @@ fun MultiplierSlider(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "${String.format("%.2f", value)}x",
+                text = "%.2f".format(value) + "x",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -525,13 +525,13 @@ fun ConfigInfoCard(config: UiConfigEntity) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            ConfigInfoRow("Inner Padding H", "${String.format("%.2f", config.innerPaddingHorizontalMultiplier)}x")
-            ConfigInfoRow("Outer Padding H", "${String.format("%.2f", config.outerPaddingHorizontalMultiplier)}x")
-            ConfigInfoRow("Inner Padding V", "${String.format("%.2f", config.innerPaddingVerticalMultiplier)}x")
-            ConfigInfoRow("Outer Padding V", "${String.format("%.2f", config.outerPaddingVerticalMultiplier)}x")
-            ConfigInfoRow("Spacing H", "${String.format("%.2f", config.spacingHorizontalMultiplier)}x")
-            ConfigInfoRow("Spacing V", "${String.format("%.2f", config.spacingVerticalMultiplier)}x")
-            ConfigInfoRow("Corner Radius", "${String.format("%.2f", config.cornerRadiusMultiplier)}x")
+            ConfigInfoRow("Inner Padding H", "%.2f".format(config.innerPaddingHorizontalMultiplier) + "x")
+            ConfigInfoRow("Outer Padding H", "%.2f".format(config.outerPaddingHorizontalMultiplier) + "x")
+            ConfigInfoRow("Inner Padding V", "%.2f".format(config.innerPaddingVerticalMultiplier) + "x")
+            ConfigInfoRow("Outer Padding V", "%.2f".format(config.outerPaddingVerticalMultiplier) + "x")
+            ConfigInfoRow("Spacing H", "%.2f".format(config.spacingHorizontalMultiplier) + "x")
+            ConfigInfoRow("Spacing V", "%.2f".format(config.spacingVerticalMultiplier) + "x")
+            ConfigInfoRow("Corner Radius", "%.2f".format(config.cornerRadiusMultiplier) + "x")
         }
     }
 }
