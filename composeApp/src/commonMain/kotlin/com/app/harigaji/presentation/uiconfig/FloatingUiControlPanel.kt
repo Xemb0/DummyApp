@@ -307,17 +307,17 @@ fun FloatingUiControlPanel(
                         )
                     }
                     
-                    // Icon Size - Single Multiplier
+                    // Size - Single Multiplier
                     ConfigSection(
-                        title = "Icon Size",
+                        title = "Size",
                         icon = Icons.Default.Image
                     ) {
                         MultiplierSlider(
-                            label = "Icon Size",
-                            value = currentConfig.iconSizeMultiplier,
+                            label = "Size",
+                            value = currentConfig.sizeMultiplier,
                             range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(iconSizeMultiplier = newValue))
+                                viewModel.updateConfig(currentConfig.copy(sizeMultiplier = newValue))
                             }
                         )
                     }
@@ -575,7 +575,7 @@ fun ConfigInfoCard(config: UiConfigEntity) {
             ConfigInfoRow("Spacing H", "${kotlin.math.round(config.spacingHorizontalMultiplier * 100) / 100f}x")
             ConfigInfoRow("Spacing V", "${kotlin.math.round(config.spacingVerticalMultiplier * 100) / 100f}x")
             ConfigInfoRow("Corner Radius", "${kotlin.math.round(config.cornerRadiusMultiplier * 100) / 100f}x")
-            ConfigInfoRow("Icon Size", "${kotlin.math.round(config.iconSizeMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Size", "${kotlin.math.round(config.sizeMultiplier * 100) / 100f}x")
         }
     }
 }

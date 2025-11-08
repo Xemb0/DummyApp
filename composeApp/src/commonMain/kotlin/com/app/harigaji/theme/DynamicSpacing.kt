@@ -255,29 +255,29 @@ fun rememberCornerRadiusLarge(): RoundedCornerShape {
     return ThemeValues.roundedCornerShapeLarge(config)
 }
 
-// Icon Sizes
+// Sizes
 @Composable
-fun rememberIconSizeSmall(): androidx.compose.ui.unit.Dp {
+fun rememberSizeSmall(): androidx.compose.ui.unit.Dp {
     val config = rememberUiConfig()
-    return ThemeValues.iconSizeSmall(config)
+    return ThemeValues.sizeSmall(config)
 }
 
 @Composable
-fun rememberIconSizeMedium(): androidx.compose.ui.unit.Dp {
+fun rememberSizeMedium(): androidx.compose.ui.unit.Dp {
     val config = rememberUiConfig()
-    return ThemeValues.iconSizeMedium(config)
+    return ThemeValues.sizeMedium(config)
 }
 
 @Composable
-fun rememberIconSizeLarge(): androidx.compose.ui.unit.Dp {
+fun rememberSizeLarge(): androidx.compose.ui.unit.Dp {
     val config = rememberUiConfig()
-    return ThemeValues.iconSizeLarge(config)
+    return ThemeValues.sizeLarge(config)
 }
 
 @Composable
-fun rememberIconSizeExtraLarge(): androidx.compose.ui.unit.Dp {
+fun rememberSizeExtraLarge(): androidx.compose.ui.unit.Dp {
     val config = rememberUiConfig()
-    return ThemeValues.iconSizeExtraLarge(config)
+    return ThemeValues.sizeExtraLarge(config)
 }
 
 // Custom Spacers - Vertical (uses spacing multipliers, not padding)

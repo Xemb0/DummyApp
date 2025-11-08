@@ -362,32 +362,32 @@ object ThemeValues {
         return (base * multiplier).dp
     }
     
-    // Icon sizes - uses base * multiplier
+    // Sizes - uses base * multiplier
     @Composable
-    fun iconSizeSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.baseIconSizeSmall ?: 16f
-        val multiplier = config?.iconSizeMultiplier ?: 1.0f
+    fun sizeSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSizeSmall ?: 16f
+        val multiplier = config?.sizeMultiplier ?: 1.0f
         return (base * multiplier).dp
     }
     
     @Composable
-    fun iconSizeMedium(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.baseIconSizeMedium ?: 24f
-        val multiplier = config?.iconSizeMultiplier ?: 1.0f
+    fun sizeMedium(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSizeMedium ?: 24f
+        val multiplier = config?.sizeMultiplier ?: 1.0f
         return (base * multiplier).dp
     }
     
     @Composable
-    fun iconSizeLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.baseIconSizeLarge ?: 32f
-        val multiplier = config?.iconSizeMultiplier ?: 1.0f
+    fun sizeLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSizeLarge ?: 32f
+        val multiplier = config?.sizeMultiplier ?: 1.0f
         return (base * multiplier).dp
     }
     
     @Composable
-    fun iconSizeExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.baseIconSizeExtraLarge ?: 48f
-        val multiplier = config?.iconSizeMultiplier ?: 1.0f
+    fun sizeExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSizeExtraLarge ?: 48f
+        val multiplier = config?.sizeMultiplier ?: 1.0f
         return (base * multiplier).dp
     }
     
