@@ -35,21 +35,23 @@ interface UiConfigDao {
     )
     
     
-    @Query("UPDATE ui_config SET " +
-            "textSizeSmall = :small, " +
-            "textSizeMedium = :medium, " +
-            "textSizeLarge = :large, " +
-            "textSizeExtraLarge = :extraLarge, " +
-            "textSizeTitle = :title, " +
-            "textSizeHeadline = :headline " +
-            "WHERE id = 1")
-    suspend fun updateTextSizes(
-        small: Float,
-        medium: Float,
-        large: Float,
-        extraLarge: Float,
-        title: Float,
-        headline: Float
-    )
+       @Query("UPDATE ui_config SET " +
+               "baseTextSizeSmall = :small, " +
+               "baseTextSizeMedium = :medium, " +
+               "baseTextSizeLarge = :large, " +
+               "baseTextSizeExtraLarge = :extraLarge, " +
+               "baseTextSizeTitle = :title, " +
+               "baseTextSizeHeadline = :headline, " +
+               "textSizeMultiplier = :multiplier " +
+               "WHERE id = 1")
+       suspend fun updateTextSizes(
+           small: Float,
+           medium: Float,
+           large: Float,
+           extraLarge: Float,
+           title: Float,
+           headline: Float,
+           multiplier: Float
+       )
 }
 
