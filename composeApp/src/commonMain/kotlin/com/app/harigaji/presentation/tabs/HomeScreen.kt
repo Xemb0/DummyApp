@@ -707,18 +707,22 @@ fun TitleWithMoreRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
+        BasicText(
             text = title,
-            fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Bold
+            style = TextStyle(
+                fontSize = rememberTextSizeExtraLarge(),
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold
+            )
         )
         titleMore?.let {
-            Text(
+            BasicText(
                 text = it,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = TextStyle(
+                    fontSize = rememberTextSizeSmall(),
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .clip(CircleShape)
