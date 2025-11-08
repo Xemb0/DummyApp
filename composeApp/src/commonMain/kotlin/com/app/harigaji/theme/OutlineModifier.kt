@@ -1,8 +1,6 @@
 package com.app.harigaji.theme
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
@@ -24,11 +22,15 @@ fun rememberOutlineMode(): Boolean {
 }
 
 /**
- * Extension function to add outline border when outline mode is enabled
+ * Simple debug modifier - just add .debugUi() to any composable modifier
  * Similar to CSS: outline: 2px solid red
+ * 
+ * Usage:
+ * Box(modifier = Modifier.fillMaxWidth().debugUi()) { ... }
+ * Column(modifier = Modifier.debugUi()) { ... }
  */
 @Composable
-fun Modifier.outlineIfEnabled(): Modifier {
+fun Modifier.debugUi(): Modifier {
     val isEnabled = rememberOutlineMode()
     return if (isEnabled) {
         this.border(
@@ -42,10 +44,10 @@ fun Modifier.outlineIfEnabled(): Modifier {
 }
 
 /**
- * Extension function to add outline border with custom width
+ * Debug modifier with custom width
  */
 @Composable
-fun Modifier.outlineIfEnabled(width: androidx.compose.ui.unit.Dp): Modifier {
+fun Modifier.debugUi(width: androidx.compose.ui.unit.Dp): Modifier {
     val isEnabled = rememberOutlineMode()
     return if (isEnabled) {
         this.border(
@@ -55,22 +57,6 @@ fun Modifier.outlineIfEnabled(width: androidx.compose.ui.unit.Dp): Modifier {
         )
     } else {
         this
-    }
-}
-
-/**
- * Global wrapper that applies outline to all layouts automatically
- * Wrap your entire app content with this to see all layout boundaries
- */
-@Composable
-fun OutlineDebugWrapper(
-    enabled: Boolean,
-    content: @Composable BoxScope.() -> Unit
-) {
-    Box(
-        modifier = Modifier.outlineIfEnabled(if (enabled) 1.dp else 0.dp)
-    ) {
-        content()
     }
 }
 

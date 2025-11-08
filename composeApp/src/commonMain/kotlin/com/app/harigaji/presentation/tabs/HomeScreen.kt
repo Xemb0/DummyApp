@@ -51,14 +51,7 @@ import com.app.harigaji.theme.rememberOuterVerticalPaddingSmall
 import com.app.harigaji.theme.rememberPaddingLarge
 import com.app.harigaji.theme.rememberPaddingMedium
 import com.app.harigaji.theme.rememberVerticalPaddingSmall
-import com.app.harigaji.theme.outlineIfEnabled
-import com.app.harigaji.theme.DebugLazyColumn
-import com.app.harigaji.theme.DebugSurface
-import com.app.harigaji.theme.DebugCard
-import com.app.harigaji.theme.DebugBox
-import com.app.harigaji.theme.DebugColumn
-import com.app.harigaji.theme.DebugRow
-import com.app.harigaji.theme.DebugLazyRow
+import com.app.harigaji.theme.debugUi
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -191,14 +184,15 @@ fun HomeScreen(
             TopBarDate(paddingValues)
         }
     ) { pv ->
-        DebugBox(
+        Box(
             modifier = Modifier
                 .padding(pv)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
+                .debugUi()
         ) {
-            DebugLazyColumn(
-                modifier = Modifier.fillMaxSize(),
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().debugUi(),
                 state = listState,
                  verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
             ) {
@@ -301,23 +295,25 @@ private fun UserHeaderCard(
     collapseFraction: Float
 ) {
       // Use Surface instead of Card for better performance
-      DebugSurface(
-         modifier = Modifier.fillMaxWidth(),
+      Surface(
+         modifier = Modifier.fillMaxWidth().debugUi(),
           color = MaterialTheme.colorScheme.surface
       ) {
-        DebugColumn(modifier = Modifier.fillMaxWidth()) {
-            DebugRow(
+        Column(modifier = Modifier.fillMaxWidth().debugUi()) {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberOuterHorizontalPaddingSmall(), vertical = rememberOuterVerticalPaddingSmall()),
+                    .padding(horizontal = rememberOuterHorizontalPaddingSmall(), vertical = rememberOuterVerticalPaddingSmall())
+                    .debugUi(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                DebugBox(
+                Box(
                     modifier = Modifier
                         .size(54.dp)
                         .clip(CircleShape)
                         .background(Color.Gray)
+                        .debugUi()
                 ) {
                     Icon(
                         imageVector = Icons.Default.Person,
@@ -329,8 +325,8 @@ private fun UserHeaderCard(
                     )
                 }
                 Spacer(modifier = Modifier.width(12.dp))
-                DebugColumn(
-                    modifier = Modifier.weight(1f),
+                Column(
+                    modifier = Modifier.weight(1f).debugUi(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -341,13 +337,14 @@ private fun UserHeaderCard(
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    DebugRow(
+                    Row(
                         modifier = Modifier
                             .background(
                                 shape = CircleShape,
                                 color = MaterialTheme.colorScheme.secondary.copy(alpha = .15f)
                             )
-                            .padding(horizontal = 8.dp, vertical = 2.dp),
+                            .padding(horizontal = 8.dp, vertical = 2.dp)
+                            .debugUi(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
@@ -387,9 +384,10 @@ private fun SearchSection(
     collapseFraction: Float
 ) {
     // Optimize shadow rendering with drawWithCache
-    DebugCard(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
+            .debugUi()
             .graphicsLayer {
                 shadowElevation = if (collapseFraction < 0.5f) 16f else 0f
                 shape = RoundedCornerShape(bottomEnd = cornerRadius, bottomStart = cornerRadius)
@@ -434,9 +432,10 @@ private fun TabHeaderSection(
     listOfTabOptions: List<_root_ide_package_.com.app.harigaji.presentation.OptionTab>
 ) {
     // Remove LaunchedEffect logger for better performance
-    DebugSurface(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .debugUi()
             .graphicsLayer {
                 shadowElevation = stickyHeaderElevation.toPx()
                 shape = RoundedCornerShape(
@@ -534,11 +533,11 @@ private fun WithdrawCarousel(
     lazyRowState: androidx.compose.foundation.lazy.LazyListState,
     currentIndex: Int
 ) {
-    DebugColumn {
+    Column(modifier = Modifier.debugUi()) {
         Spacer(modifier = Modifier.height(8.dp))
 
-        DebugLazyRow(
-            modifier = Modifier.fillMaxWidth(),
+        LazyRow(
+            modifier = Modifier.fillMaxWidth().debugUi(),
             state = lazyRowState,
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -560,10 +559,11 @@ private fun WithdrawCarousel(
         }
 
         if (listWithdraw.size > 1) {
-            DebugRow(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 16.dp),
+                    .padding(vertical = 16.dp, horizontal = 16.dp)
+                    .debugUi(),
                 horizontalArrangement = Arrangement.Center
             ) {
                 repeat(listWithdraw.size) { iteration ->
@@ -572,12 +572,13 @@ private fun WithdrawCarousel(
                     } else {
                         Color.Gray.copy(alpha = 0.5f)
                     }
-                    DebugBox(
+                    Box(
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
                             .size(8.dp)
                             .clip(CircleShape)
                             .background(color)
+                            .debugUi()
                     )
                 }
             }
@@ -595,10 +596,11 @@ fun LazyListScope.attendanceTabContent(
     onClockIn: () -> Unit = {}
 ) {
     item(key = "attendance_content") {
-        DebugColumn(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .debugUi(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -671,10 +673,11 @@ fun TitleWithMoreRow(
     titleMore: String? = null,
     onSeeAllClick: () -> Unit,
 ) {
-    DebugRow(
+    Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .debugUi(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -720,29 +723,32 @@ fun SalaryEarnedCard(
     date: String,
     salary: String,
 ) {
-    DebugCard(
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .debugUi(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = rememberCornerRadiusLarge(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        DebugRow(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .debugUi(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            DebugRow(verticalAlignment = Alignment.CenterVertically) {
-                DebugBox(
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.debugUi()) {
+                Box(
                     modifier = Modifier
                         .size(60.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(
                             MaterialTheme.colorScheme.secondary.copy(alpha = .15f)
-                        ),
+                        )
+                        .debugUi(),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -753,7 +759,8 @@ fun SalaryEarnedCard(
                     )
                 }
                 Spacer(modifier = Modifier.width(12.dp))
-                DebugColumn(
+                Column(
+                    modifier = Modifier.debugUi(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -788,27 +795,29 @@ fun InfoCard(
     date: String,
     label: String,
 ) {
-    DebugCard(
-        modifier = modifier.fillMaxWidth(),
+    Card(
+        modifier = modifier.fillMaxWidth().debugUi(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = rememberCornerRadiusLarge(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        DebugRow(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .debugUi(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            DebugRow(verticalAlignment = Alignment.CenterVertically) {
-                DebugBox(
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.debugUi()) {
+                Box(
                     modifier = Modifier
                         .size(60.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(
                             MaterialTheme.colorScheme.secondary.copy(alpha = .15f)
-                        ),
+                        )
+                        .debugUi(),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -819,7 +828,8 @@ fun InfoCard(
                     )
                 }
                 Spacer(modifier = Modifier.width(12.dp))
-                DebugColumn(
+                Column(
+                    modifier = Modifier.debugUi(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
