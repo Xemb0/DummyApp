@@ -72,13 +72,6 @@ class UiConfigViewModel(
         }
     }
     
-    fun updateIconSizes(config: UiConfigEntity) {
-        viewModelScope.launch {
-            repository.updateIconSizes(config)
-            val updatedConfig = repository.getConfig()
-            _uiConfig.value = updatedConfig
-        }
-    }
     
     fun updateTextSizes(config: UiConfigEntity) {
         viewModelScope.launch {

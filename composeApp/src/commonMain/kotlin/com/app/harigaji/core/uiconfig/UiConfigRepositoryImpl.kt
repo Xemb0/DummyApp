@@ -33,14 +33,6 @@ class UiConfigRepositoryImpl(
         )
     }
     
-    override suspend fun updateIconSizes(config: UiConfigEntity) {
-        database.uiConfigDao().updateIconSizes(
-            small = config.iconSizeSmall,
-            medium = config.iconSizeMedium,
-            large = config.iconSizeLarge,
-            extraLarge = config.iconSizeExtraLarge
-        )
-    }
     
     override suspend fun updateTextSizes(config: UiConfigEntity) {
         database.uiConfigDao().updateTextSizes(
