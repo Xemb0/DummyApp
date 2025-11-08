@@ -494,7 +494,7 @@ fun MultiplierSlider(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "${(value * 100).toInt() / 100f}x",
+                text = "${kotlin.math.round(value * 100) / 100f}x",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -525,13 +525,13 @@ fun ConfigInfoCard(config: UiConfigEntity) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            ConfigInfoRow("Inner Padding H", "${(config.innerPaddingHorizontalMultiplier * 100).toInt() / 100f}x")
-            ConfigInfoRow("Outer Padding H", "${(config.outerPaddingHorizontalMultiplier * 100).toInt() / 100f}x")
-            ConfigInfoRow("Inner Padding V", "${(config.innerPaddingVerticalMultiplier * 100).toInt() / 100f}x")
-            ConfigInfoRow("Outer Padding V", "${(config.outerPaddingVerticalMultiplier * 100).toInt() / 100f}x")
-            ConfigInfoRow("Spacing H", "${(config.spacingHorizontalMultiplier * 100).toInt() / 100f}x")
-            ConfigInfoRow("Spacing V", "${(config.spacingVerticalMultiplier * 100).toInt() / 100f}x")
-            ConfigInfoRow("Corner Radius", "${(config.cornerRadiusMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Inner Padding H", "${kotlin.math.round(config.innerPaddingHorizontalMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Outer Padding H", "${kotlin.math.round(config.outerPaddingHorizontalMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Inner Padding V", "${kotlin.math.round(config.innerPaddingVerticalMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Outer Padding V", "${kotlin.math.round(config.outerPaddingVerticalMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Spacing H", "${kotlin.math.round(config.spacingHorizontalMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Spacing V", "${kotlin.math.round(config.spacingVerticalMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Corner Radius", "${kotlin.math.round(config.cornerRadiusMultiplier * 100) / 100f}x")
         }
     }
 }
