@@ -46,26 +46,33 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.chat.ChatMessage
+import com.app.harigaji.theme.rememberDynamicPaddingLarge
+import com.app.harigaji.theme.rememberDynamicPaddingMedium
+import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MessageItem(sender: String, message: List<ChatMessage>, time: String, onClick: () -> Unit) {
+    val paddingLarge = rememberDynamicPaddingLarge()
+    val paddingMedium = rememberDynamicPaddingMedium()
+    val cornerRadius = rememberDynamicCornerRadiusLarge()
+    
     Column {
 
         
         Card(
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = paddingLarge, vertical = paddingMedium),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(2.dp),
-            shape = RoundedCornerShape(24.dp)
+            shape = cornerRadius
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(paddingLarge),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                Image(

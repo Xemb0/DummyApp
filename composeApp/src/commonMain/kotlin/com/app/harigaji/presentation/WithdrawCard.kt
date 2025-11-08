@@ -56,6 +56,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.harigaji.theme.rememberDynamicPaddingSmall
+import com.app.harigaji.theme.rememberDynamicPaddingLarge
+import com.app.harigaji.theme.rememberDynamicCornerRadiusMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_calender_filled
@@ -65,6 +68,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier = Modifier) {
+    val paddingLarge = rememberDynamicPaddingLarge()
+    val paddingSmall = rememberDynamicPaddingSmall()
+    val cornerRadius = rememberDynamicCornerRadiusMedium()
+    
     Card(
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 2.dp,
@@ -72,12 +79,12 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
         ),
         modifier = modifier.width(200.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 1f)),
-        shape = RoundedCornerShape(16.dp)
+        shape = cornerRadius
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(paddingLarge),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Box(
@@ -106,7 +113,7 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clip(CircleShape)
                         .background(MaterialTheme.colorScheme.secondary.copy(alpha = .15f))
-                        .padding(horizontal = 8.dp),
+                        .padding(horizontal = paddingSmall),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer( modifier = Modifier.height(12.dp))

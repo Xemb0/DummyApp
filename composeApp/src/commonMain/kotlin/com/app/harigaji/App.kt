@@ -15,6 +15,8 @@ import com.app.harigaji.navigation.NavScreen
 import com.app.harigaji.presentation.uiconfig.FloatingControlButton
 import com.app.harigaji.presentation.uiconfig.FloatingUiControlPanel
 import com.app.harigaji.theme.DynamicMaterialTheme
+import com.app.harigaji.theme.LocalUiConfig
+import androidx.compose.runtime.CompositionLocalProvider
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import org.koin.compose.viewmodel.koinViewModel
@@ -36,12 +38,14 @@ fun App() {
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        DynamicMaterialTheme(config = uiConfig) {
-//            triggerDummyCrash()
-//            setSingletonImageLoaderFactory { context ->
-//                getAsyncImageLoader(context)
-//            }
-            NavScreen(authViewModel,userViewModel,chatViewModel,articlesViewModel,sharedViewModel)
+        CompositionLocalProvider(LocalUiConfig provides uiConfig) {
+            DynamicMaterialTheme(config = uiConfig) {
+//                triggerDummyCrash()
+//                setSingletonImageLoaderFactory { context ->
+//                    getAsyncImageLoader(context)
+//                }
+                NavScreen(authViewModel,userViewModel,chatViewModel,articlesViewModel,sharedViewModel)
+            }
         }
         
         // Floating Control Panel

@@ -43,6 +43,12 @@ import com.app.harigaji.core.user.UserDetails
 import com.app.harigaji.presentation.DateRow
 import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
+import com.app.harigaji.theme.rememberDynamicPaddingSmall
+import com.app.harigaji.theme.rememberDynamicPaddingMedium
+import com.app.harigaji.theme.rememberDynamicPaddingLarge
+import com.app.harigaji.theme.rememberDynamicPaddingExtraLarge
+import com.app.harigaji.theme.rememberDynamicCornerRadiusMedium
+import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -200,10 +206,12 @@ fun HomeScreen(
                 }
 
                 item(key = "salary_card") {
+                    val paddingLarge = rememberDynamicPaddingLarge()
+                    val paddingMedium = rememberDynamicPaddingMedium()
                     SalaryWithdrawCard(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                            .padding(horizontal = paddingLarge, vertical = paddingMedium),
                         onBalanceCardClick = onBalanceCardClick
                     )
                 }
@@ -220,7 +228,8 @@ fun HomeScreen(
                     )
                 }
                 item {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    val paddingLarge = rememberDynamicPaddingLarge()
+                    Spacer(modifier = Modifier.height(paddingLarge))
                 }
 
                 when (selectedTabOption.id) {
@@ -261,7 +270,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = rememberDynamicPaddingLarge())
         ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_calender),
@@ -290,8 +299,8 @@ private fun UserHeaderCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = 16.dp,
-                        end = 16.dp,
+                        start = rememberDynamicPaddingLarge(),
+                        end = rememberDynamicPaddingLarge(),
                         top = 4.dp,
                         bottom = 8.dp,
                     ),
@@ -395,7 +404,7 @@ private fun SearchSection(
             SearchBarM3(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = rememberDynamicPaddingLarge())
                     .padding(bottom = 8.dp)
                     .graphicsLayer {
                         alpha = 1f - (collapseFraction * 2).coerceIn(0f, 1f)
@@ -679,7 +688,7 @@ fun TitleWithMoreRow(
                     .padding(end = 8.dp)
                     .clip(CircleShape)
                     .clickable { onSeeAllClick() }
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = rememberDynamicPaddingLarge())
             )
         } ?: run {
             Icon(
@@ -710,7 +719,7 @@ fun SalaryEarnedCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(24.dp),
+        shape = rememberDynamicCornerRadiusLarge(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -776,7 +785,7 @@ fun InfoCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(24.dp),
+        shape = rememberDynamicCornerRadiusLarge(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
