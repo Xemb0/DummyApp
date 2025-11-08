@@ -262,28 +262,28 @@ fun rememberCornerRadiusLarge(): RoundedCornerShape {
 fun SpacerSmallVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingSmall(config)
-    Spacer(modifier = Modifier.height(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun SpacerMediumVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingMedium(config)
-    Spacer(modifier = Modifier.height(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun SpacerLargeVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingLarge(config)
-    Spacer(modifier = Modifier.height(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun SpacerExtraLargeVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingExtraLarge(config)
-    Spacer(modifier = Modifier.height(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
 }
 
 // Custom Spacers - Horizontal (uses spacing multipliers, not padding)
@@ -291,28 +291,28 @@ fun SpacerExtraLargeVertical() {
 fun SpacerSmallHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingSmallHorizontal(config)
-    Spacer(modifier = Modifier.width(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun SpacerMediumHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingMediumHorizontal(config)
-    Spacer(modifier = Modifier.width(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun SpacerLargeHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingLargeHorizontal(config)
-    Spacer(modifier = Modifier.width(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun SpacerExtraLargeHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingExtraLargeHorizontal(config)
-    Spacer(modifier = Modifier.width(spacing))
+    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
 }
 
 // Extension functions for direct access - Inner Padding
