@@ -90,6 +90,34 @@ fun FloatingUiControlPanel(
                     
                     Divider(modifier = Modifier.padding(vertical = 8.dp))
                     
+                    // Outline Mode Toggle
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Layout Outlines",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = "Show red borders around layouts (like CSS outline)",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                            )
+                        }
+                        Switch(
+                            checked = viewModel.isOutlineModeEnabled,
+                            onCheckedChange = { viewModel.toggleOutlineMode() }
+                        )
+                    }
+                    
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    
                     // Reset to Default Button
                     Button(
                         onClick = {

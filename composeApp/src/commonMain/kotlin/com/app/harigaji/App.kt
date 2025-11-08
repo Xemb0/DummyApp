@@ -16,6 +16,7 @@ import com.app.harigaji.presentation.uiconfig.FloatingControlButton
 import com.app.harigaji.presentation.uiconfig.FloatingUiControlPanel
 import com.app.harigaji.theme.AppTheme
 import com.app.harigaji.theme.LocalUiConfig
+import com.app.harigaji.theme.LocalOutlineMode
 import androidx.compose.runtime.CompositionLocalProvider
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -38,7 +39,10 @@ fun App() {
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        CompositionLocalProvider(LocalUiConfig provides uiConfig) {
+        CompositionLocalProvider(
+            LocalUiConfig provides uiConfig,
+            LocalOutlineMode provides uiConfigViewModel.isOutlineModeEnabled
+        ) {
             AppTheme(config = uiConfig) {
                 NavScreen(
                     authViewModel,

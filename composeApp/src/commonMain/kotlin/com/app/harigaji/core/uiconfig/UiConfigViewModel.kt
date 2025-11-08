@@ -20,6 +20,9 @@ class UiConfigViewModel(
     var isControlPanelVisible by mutableStateOf(false)
         private set
     
+    var isOutlineModeEnabled by mutableStateOf(false)
+        private set
+    
     init {
         loadConfig()
     }
@@ -40,6 +43,10 @@ class UiConfigViewModel(
     
     fun toggleControlPanel() {
         isControlPanelVisible = !isControlPanelVisible
+    }
+    
+    fun toggleOutlineMode() {
+        isOutlineModeEnabled = !isOutlineModeEnabled
     }
     
     fun resetToDefault() {
