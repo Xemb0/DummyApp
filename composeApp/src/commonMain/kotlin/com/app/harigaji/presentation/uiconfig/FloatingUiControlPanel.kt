@@ -575,6 +575,7 @@ fun ConfigInfoCard(config: UiConfigEntity) {
             ConfigInfoRow("Spacing H", "${kotlin.math.round(config.spacingHorizontalMultiplier * 100) / 100f}x")
             ConfigInfoRow("Spacing V", "${kotlin.math.round(config.spacingVerticalMultiplier * 100) / 100f}x")
             ConfigInfoRow("Corner Radius", "${kotlin.math.round(config.cornerRadiusMultiplier * 100) / 100f}x")
+            ConfigInfoRow("Icon Size", "${kotlin.math.round(config.iconSizeMultiplier * 100) / 100f}x")
         }
     }
 }
