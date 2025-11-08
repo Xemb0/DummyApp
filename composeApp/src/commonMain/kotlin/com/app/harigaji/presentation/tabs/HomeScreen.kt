@@ -265,17 +265,18 @@ fun HomeScreen(
 
 @Composable
 private fun TopBarDate(paddingValues: PaddingValues) {
-    DebugSurface(
-        modifier = Modifier.fillMaxWidth(),
+    Surface(
+        modifier = Modifier.fillMaxWidth().debugUi(),
         color = MaterialTheme.colorScheme.surface
     ) {
-        DebugRow(
+        Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding())
                 .padding(horizontal = rememberOuterHorizontalPaddingSmall())
+                .debugUi()
         ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_calender),
