@@ -11,17 +11,21 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -38,10 +42,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.core.user.UserDetails
 import com.app.harigaji.presentation.DateRow
+import com.app.harigaji.presentation.OptionTab
 import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
+import com.app.harigaji.presentation.SlideToClockIn
+import com.app.harigaji.presentation.WithdrawCard
 import com.app.harigaji.theme.SpacerHorizontalMedium
 import com.app.harigaji.theme.SpacerHorizontalSmall
+import com.app.harigaji.theme.rememberTextSizeLarge
 import com.app.harigaji.theme.rememberHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
@@ -72,13 +80,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.abs
 
 private val listOfTabOptions = listOf(
-    _root_ide_package_.com.app.harigaji.presentation.OptionTab(
+    OptionTab(
         id = "1",
         name = "Salary",
         icon = "ic_launcher_foreground",
         color = "#FF0000"
     ),
-    _root_ide_package_.com.app.harigaji.presentation.OptionTab(
+    OptionTab(
         id = "2",
         name = "Attendance",
         icon = "ic_launcher_foreground",
@@ -183,7 +191,7 @@ fun HomeScreen(
     // Stable callbacks
     val onTabSelected = remember {
         { option: Any ->
-            selectedTabOption = option as _root_ide_package_.com.app.harigaji.presentation.OptionTab
+            selectedTabOption = option as OptionTab
         }
     }
 
@@ -309,9 +317,6 @@ private fun UserHeaderCard(
          modifier = Modifier.fillMaxWidth().debugUi(),
           color = MaterialTheme.colorScheme.surface
       ) {
-        Column(modifier = Modifier.fillMaxWidth().debugUi(), verticalArrangement = Arrangement.spacedBy(
-            rememberVerticalSpacingSmall()
-        )) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -341,13 +346,16 @@ private fun UserHeaderCard(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    Text(
+                    BasicText(
                         text = "Hi, ${userDetails.name ?: ""} !",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        style = TextStyle(
+                            fontSize = rememberTextSizeLarge(),
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        ),
+                        maxLines = 1,
+                        modifier = Modifier.basicMarquee()
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                     Row(
                         modifier = Modifier
                             .background(
@@ -365,11 +373,13 @@ private fun UserHeaderCard(
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(
+                        BasicText(
                             text = "Pro Member",
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = TextStyle(
+                                fontSize = rememberTextSizeSmall(),
+                                fontWeight = FontWeight.Medium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
                     }
                 }
@@ -385,7 +395,6 @@ private fun UserHeaderCard(
                     )
                 }
             }
-        }
     }
 }
 
@@ -438,9 +447,9 @@ private fun TabHeaderSection(
     stickyHeaderBackgroundColor: Color,
     stickyHeaderCornerRadius: Dp,
     stickyHeaderElevation: Dp,
-    selectedTabOption: _root_ide_package_.com.app.harigaji.presentation.OptionTab,
+    selectedTabOption: OptionTab,
     onOptionSelected: (Any) -> Unit,
-    listOfTabOptions: List<_root_ide_package_.com.app.harigaji.presentation.OptionTab>
+    listOfTabOptions: List<OptionTab>
 ) {
     // Remove LaunchedEffect logger for better performance
     Surface(
@@ -478,7 +487,7 @@ private fun TabHeaderSection(
 fun LazyListScope.salaryTabContent(
     listWithdraw: List<WithdrawData>,
     colors: List<Color>,
-    lazyRowState: androidx.compose.foundation.lazy.LazyListState,
+    lazyRowState: LazyListState,
     currentIndex: Int
 ) {
     val listSalaryEarned = listOf(
@@ -541,7 +550,7 @@ fun LazyListScope.salaryTabContent(
 private fun WithdrawCarousel(
     listWithdraw: List<WithdrawData>,
     colors: List<Color>,
-    lazyRowState: androidx.compose.foundation.lazy.LazyListState,
+    lazyRowState: LazyListState,
     currentIndex: Int
 ) {
     Column(modifier = Modifier.debugUi()) {
@@ -558,7 +567,7 @@ private fun WithdrawCarousel(
                 key = { _, item -> item.month }
             ) { index, item ->
                 val color = colors[index % colors.size]
-                _root_ide_package_.com.app.harigaji.presentation.WithdrawCard(
+                WithdrawCard(
                     amount = item.amount,
                     month = item.month,
                     color = color,
@@ -623,16 +632,20 @@ fun LazyListScope.attendanceTabContent(
                     tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
+                BasicText(
                     text = "Attendance",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    style = TextStyle(
+                        fontSize = rememberTextSizeTitle(),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
+                BasicText(
                     text = "Attendance tracking content goes here",
-                    fontSize = 16.sp,
-                    color = Color.Gray
+                    style = TextStyle(
+                        fontSize = rememberTextSizeLarge(),
+                        color = Color.Gray
+                    )
                 )
             } else {
                 TitleWithMoreRow(
@@ -665,7 +678,7 @@ fun LazyListScope.attendanceTabContent(
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .fillMaxWidth()
                 )
-                _root_ide_package_.com.app.harigaji.presentation.SlideToClockIn(
+                SlideToClockIn(
                     onClockIn = onClockIn
                 )
             }
@@ -775,25 +788,31 @@ fun SalaryEarnedCard(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    Text(
+                    BasicText(
                         text = "Salary earned",
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        fontWeight = FontWeight.Bold
+                        style = TextStyle(
+                            fontSize = rememberTextSizeLarge(),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
-                    Text(
+                    BasicText(
                         text = date,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Gray
+                        style = TextStyle(
+                            fontSize = rememberTextSizeSmall(),
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Gray
+                        )
                     )
                 }
             }
-            Text(
+            BasicText(
                 text = "RM $salary",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f)
+                style = TextStyle(
+                    fontSize = rememberTextSizeExtraLarge(),
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f)
+                )
             )
         }
     }
@@ -844,17 +863,21 @@ fun InfoCard(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    Text(
+                    BasicText(
                         text = label,
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        fontWeight = FontWeight.Bold
+                        style = TextStyle(
+                            fontSize = rememberTextSizeLarge(),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
-                    Text(
+                    BasicText(
                         text = date,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Gray
+                        style = TextStyle(
+                            fontSize = rememberTextSizeSmall(),
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Gray
+                        )
                     )
                 }
             }

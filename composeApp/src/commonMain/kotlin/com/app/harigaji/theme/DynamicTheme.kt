@@ -59,36 +59,38 @@ fun Typography(config: UiConfigEntity?): Typography {
         ),
     )
     
+    val textMultiplier = uiConfig.textSizeMultiplier
+    
     return Typography(
         bodyLarge = TextStyle(
             fontFamily = interFont,
             fontWeight = FontWeight.Normal,
-            fontSize = uiConfig.textSizeLarge.sp,
-            lineHeight = (uiConfig.textSizeLarge * 1.4f).sp
+            fontSize = (uiConfig.baseTextSizeLarge * textMultiplier).sp,
+            lineHeight = (uiConfig.baseTextSizeLarge * textMultiplier * 1.4f).sp
         ),
         bodyMedium = TextStyle(
             fontFamily = interFont,
             fontWeight = FontWeight.Medium,
-            fontSize = uiConfig.textSizeMedium.sp,
-            lineHeight = (uiConfig.textSizeMedium * 1.3f).sp
+            fontSize = (uiConfig.baseTextSizeMedium * textMultiplier).sp,
+            lineHeight = (uiConfig.baseTextSizeMedium * textMultiplier * 1.3f).sp
         ),
         bodySmall = TextStyle(
             fontFamily = interFont,
             fontWeight = FontWeight.Normal,
-            fontSize = uiConfig.textSizeSmall.sp,
-            lineHeight = (uiConfig.textSizeSmall * 1.3f).sp
+            fontSize = (uiConfig.baseTextSizeSmall * textMultiplier).sp,
+            lineHeight = (uiConfig.baseTextSizeSmall * textMultiplier * 1.3f).sp
         ),
         titleLarge = TextStyle(
             fontFamily = myFontFamily,
             fontWeight = FontWeight.Bold,
-            fontSize = uiConfig.textSizeHeadline.sp,
-            lineHeight = (uiConfig.textSizeHeadline * 1.1f).sp
+            fontSize = (uiConfig.baseTextSizeHeadline * textMultiplier).sp,
+            lineHeight = (uiConfig.baseTextSizeHeadline * textMultiplier * 1.1f).sp
         ),
         titleSmall = TextStyle(
             fontFamily = myFontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = uiConfig.textSizeTitle.sp,
-            lineHeight = (uiConfig.textSizeTitle * 1.4f).sp
+            fontSize = (uiConfig.baseTextSizeTitle * textMultiplier).sp,
+            lineHeight = (uiConfig.baseTextSizeTitle * textMultiplier * 1.4f).sp
         ),
     )
 }
@@ -446,6 +448,49 @@ object ThemeValues {
         val base = config?.baseCornerRadiusLarge ?: 16f
         val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
         return RoundedCornerShape(base * multiplier)
+    }
+    
+    // Text sizes - uses base * multiplier
+    @Composable
+    fun textSizeSmall(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeSmall ?: 12f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
+    }
+    
+    @Composable
+    fun textSizeMedium(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeMedium ?: 14f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
+    }
+    
+    @Composable
+    fun textSizeLarge(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeLarge ?: 16f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
+    }
+    
+    @Composable
+    fun textSizeExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeExtraLarge ?: 20f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
+    }
+    
+    @Composable
+    fun textSizeTitle(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeTitle ?: 24f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
+    }
+    
+    @Composable
+    fun textSizeHeadline(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeHeadline ?: 32f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
     }
 }
 
