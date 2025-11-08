@@ -127,83 +127,181 @@ fun DynamicMaterialTheme(
 
 // Extension properties for easy access to config values
 object DynamicThemeValues {
-    // Padding Horizontal - uses base * multiplier
+    // Inner Padding Horizontal - uses baseInner * innerMultiplier
+    @Composable
+    fun innerPaddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingSmall ?: 4f
+        val multiplier = config?.innerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun innerPaddingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingMedium ?: 8f
+        val multiplier = config?.innerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun innerPaddingLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingLarge ?: 16f
+        val multiplier = config?.innerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun innerPaddingExtraLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingExtraLarge ?: 24f
+        val multiplier = config?.innerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    // Outer Padding Horizontal - uses baseOuter * outerMultiplier
+    @Composable
+    fun outerPaddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingSmall ?: 4f
+        val multiplier = config?.outerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun outerPaddingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingMedium ?: 8f
+        val multiplier = config?.outerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun outerPaddingLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingLarge ?: 16f
+        val multiplier = config?.outerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun outerPaddingExtraLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingExtraLarge ?: 24f
+        val multiplier = config?.outerPaddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    // Inner Padding Vertical - uses baseInner * innerMultiplier
+    @Composable
+    fun innerPaddingSmallVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingSmall ?: 4f
+        val multiplier = config?.innerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun innerPaddingMediumVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingMedium ?: 8f
+        val multiplier = config?.innerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun innerPaddingLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingLarge ?: 16f
+        val multiplier = config?.innerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun innerPaddingExtraLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseInnerPaddingExtraLarge ?: 24f
+        val multiplier = config?.innerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    // Outer Padding Vertical - uses baseOuter * outerMultiplier
+    @Composable
+    fun outerPaddingSmallVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingSmall ?: 4f
+        val multiplier = config?.outerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun outerPaddingMediumVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingMedium ?: 8f
+        val multiplier = config?.outerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun outerPaddingLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingLarge ?: 16f
+        val multiplier = config?.outerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun outerPaddingExtraLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseOuterPaddingExtraLarge ?: 24f
+        val multiplier = config?.outerPaddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    // Backward compatibility - uses inner horizontal values
     @Composable
     fun paddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingSmall ?: 4f
-        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingSmallHorizontal(config)
     }
     
     @Composable
     fun paddingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingMedium ?: 8f
-        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingMediumHorizontal(config)
     }
     
     @Composable
     fun paddingLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingLarge ?: 16f
-        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingLargeHorizontal(config)
     }
     
     @Composable
     fun paddingExtraLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingExtraLarge ?: 24f
-        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingExtraLargeHorizontal(config)
     }
     
-    // Padding Vertical - uses base * multiplier
     @Composable
     fun paddingSmallVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingSmall ?: 4f
-        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingSmallVertical(config)
     }
     
     @Composable
     fun paddingMediumVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingMedium ?: 8f
-        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingMediumVertical(config)
     }
     
     @Composable
     fun paddingLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingLarge ?: 16f
-        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingLargeVertical(config)
     }
     
     @Composable
     fun paddingExtraLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.basePaddingExtraLarge ?: 24f
-        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
-        return (base * multiplier).dp
+        return innerPaddingExtraLargeVertical(config)
     }
     
-    // Backward compatibility - uses horizontal values
     @Composable
     fun paddingSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return paddingSmallHorizontal(config)
+        return innerPaddingSmallHorizontal(config)
     }
     
     @Composable
     fun paddingMedium(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return paddingMediumHorizontal(config)
+        return innerPaddingMediumHorizontal(config)
     }
     
     @Composable
     fun paddingLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return paddingLargeHorizontal(config)
+        return innerPaddingLargeHorizontal(config)
     }
     
     @Composable
     fun paddingExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return paddingExtraLargeHorizontal(config)
+        return innerPaddingExtraLargeHorizontal(config)
     }
     
     // Spacing - uses base * multiplier

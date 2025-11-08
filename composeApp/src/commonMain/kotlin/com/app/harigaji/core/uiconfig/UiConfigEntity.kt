@@ -21,17 +21,26 @@ data class UiConfigEntity(
     val secondaryContainerColor: Long = 0xFF208A5C,
     
     // Relative scaling multipliers (1.0 = default, stored as Float)
-    val paddingHorizontalMultiplier: Float = 1.0f,
-    val paddingVerticalMultiplier: Float = 1.0f,
+    val innerPaddingHorizontalMultiplier: Float = 1.0f,
+    val outerPaddingHorizontalMultiplier: Float = 1.0f,
+    val innerPaddingVerticalMultiplier: Float = 1.0f,
+    val outerPaddingVerticalMultiplier: Float = 1.0f,
     val spacingHorizontalMultiplier: Float = 1.0f,
     val spacingVerticalMultiplier: Float = 1.0f,
     val cornerRadiusMultiplier: Float = 1.0f,
     
     // Base values (defaults, stored as Float) - these define the base sizes
-    val basePaddingSmall: Float = 4f,
-    val basePaddingMedium: Float = 8f,
-    val basePaddingLarge: Float = 16f,
-    val basePaddingExtraLarge: Float = 24f,
+    // Inner padding: inside components (between text and icon in a card)
+    val baseInnerPaddingSmall: Float = 4f,
+    val baseInnerPaddingMedium: Float = 8f,
+    val baseInnerPaddingLarge: Float = 16f,
+    val baseInnerPaddingExtraLarge: Float = 24f,
+    
+    // Outer padding: between components and screen edges
+    val baseOuterPaddingSmall: Float = 4f,
+    val baseOuterPaddingMedium: Float = 8f,
+    val baseOuterPaddingLarge: Float = 16f,
+    val baseOuterPaddingExtraLarge: Float = 24f,
     
     val baseSpacingSmall: Float = 4f,
     val baseSpacingMedium: Float = 8f,

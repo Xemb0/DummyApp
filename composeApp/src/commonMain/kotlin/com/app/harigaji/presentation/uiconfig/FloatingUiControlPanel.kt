@@ -138,35 +138,93 @@ fun FloatingUiControlPanel(
                     Divider()
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Padding Horizontal - Single Multiplier
+                    // Inner Padding Horizontal - Single Multiplier
                     ConfigSection(
-                        title = "Padding Horizontal",
+                        title = "Inner Padding Horizontal",
                         icon = Icons.Default.FormatIndentIncrease
                     ) {
                         MultiplierSlider(
-                            label = "Horizontal Padding",
-                            value = currentConfig.paddingHorizontalMultiplier,
+                            label = "Inner Horizontal Padding",
+                            value = currentConfig.innerPaddingHorizontalMultiplier,
                             range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingHorizontalMultiplier = newValue))
+                                viewModel.updateConfig(currentConfig.copy(innerPaddingHorizontalMultiplier = newValue))
                             }
+                        )
+                        Text(
+                            text = "Controls padding inside components (text-icon spacing)",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            modifier = Modifier.padding(top = 4.dp)
                         )
                     }
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Padding Vertical - Single Multiplier
+                    // Outer Padding Horizontal - Single Multiplier
                     ConfigSection(
-                        title = "Padding Vertical",
+                        title = "Outer Padding Horizontal",
                         icon = Icons.Default.FormatIndentIncrease
                     ) {
                         MultiplierSlider(
-                            label = "Vertical Padding",
-                            value = currentConfig.paddingVerticalMultiplier,
+                            label = "Outer Horizontal Padding",
+                            value = currentConfig.outerPaddingHorizontalMultiplier,
                             range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingVerticalMultiplier = newValue))
+                                viewModel.updateConfig(currentConfig.copy(outerPaddingHorizontalMultiplier = newValue))
                             }
+                        )
+                        Text(
+                            text = "Controls padding between components and screen edges",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Inner Padding Vertical - Single Multiplier
+                    ConfigSection(
+                        title = "Inner Padding Vertical",
+                        icon = Icons.Default.FormatIndentIncrease
+                    ) {
+                        MultiplierSlider(
+                            label = "Inner Vertical Padding",
+                            value = currentConfig.innerPaddingVerticalMultiplier,
+                            range = 0.5f..2.0f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(innerPaddingVerticalMultiplier = newValue))
+                            }
+                        )
+                        Text(
+                            text = "Controls padding inside components (vertical spacing)",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Outer Padding Vertical - Single Multiplier
+                    ConfigSection(
+                        title = "Outer Padding Vertical",
+                        icon = Icons.Default.FormatIndentIncrease
+                    ) {
+                        MultiplierSlider(
+                            label = "Outer Vertical Padding",
+                            value = currentConfig.outerPaddingVerticalMultiplier,
+                            range = 0.5f..2.0f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(outerPaddingVerticalMultiplier = newValue))
+                            }
+                        )
+                        Text(
+                            text = "Controls padding between components and screen edges",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                            modifier = Modifier.padding(top = 4.dp)
                         )
                     }
                     
@@ -467,11 +525,13 @@ fun ConfigInfoCard(config: UiConfigEntity) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            ConfigInfoRow("Padding H Multiplier", "${String.format("%.2f", config.paddingHorizontalMultiplier)}x")
-            ConfigInfoRow("Padding V Multiplier", "${String.format("%.2f", config.paddingVerticalMultiplier)}x")
-            ConfigInfoRow("Spacing H Multiplier", "${String.format("%.2f", config.spacingHorizontalMultiplier)}x")
-            ConfigInfoRow("Spacing V Multiplier", "${String.format("%.2f", config.spacingVerticalMultiplier)}x")
-            ConfigInfoRow("Corner Radius Multiplier", "${String.format("%.2f", config.cornerRadiusMultiplier)}x")
+            ConfigInfoRow("Inner Padding H", "${String.format("%.2f", config.innerPaddingHorizontalMultiplier)}x")
+            ConfigInfoRow("Outer Padding H", "${String.format("%.2f", config.outerPaddingHorizontalMultiplier)}x")
+            ConfigInfoRow("Inner Padding V", "${String.format("%.2f", config.innerPaddingVerticalMultiplier)}x")
+            ConfigInfoRow("Outer Padding V", "${String.format("%.2f", config.outerPaddingVerticalMultiplier)}x")
+            ConfigInfoRow("Spacing H", "${String.format("%.2f", config.spacingHorizontalMultiplier)}x")
+            ConfigInfoRow("Spacing V", "${String.format("%.2f", config.spacingVerticalMultiplier)}x")
+            ConfigInfoRow("Corner Radius", "${String.format("%.2f", config.cornerRadiusMultiplier)}x")
         }
     }
 }
