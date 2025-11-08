@@ -9,8 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.app.harigaji.theme.rememberCornerRadiusLarge
-import com.app.harigaji.theme.rememberPaddingLarge
-import com.app.harigaji.theme.rememberPaddingExtraLarge
+import com.app.harigaji.theme.rememberHorizontalPaddingLarge
+import com.app.harigaji.theme.rememberHorizontalPaddingExtraLarge
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -36,8 +36,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun SalaryWithdrawCard(modifier: Modifier = Modifier, onBalanceCardClick: () -> Unit = {}) {
     val cornerRadius = rememberCornerRadiusLarge()
-    val paddingLarge = rememberPaddingLarge()
-    val paddingExtraLarge = rememberPaddingExtraLarge()
+    val paddingLarge = rememberHorizontalPaddingLarge()
+    val paddingExtraLarge = rememberHorizontalPaddingExtraLarge()
     
     Card(
         modifier = modifier

@@ -27,10 +27,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
@@ -38,22 +34,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import co.touchlab.kermit.Logger
 import com.app.harigaji.core.user.UserDetails
 import com.app.harigaji.presentation.DateRow
 import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
-import com.app.harigaji.theme.SpacerSmallVertical
-import com.app.harigaji.theme.rememberPaddingSmall
-import com.app.harigaji.theme.rememberPaddingMedium
-import com.app.harigaji.theme.rememberPaddingLarge
-import com.app.harigaji.theme.rememberPaddingExtraLarge
-import com.app.harigaji.theme.rememberCornerRadiusMedium
+import com.app.harigaji.theme.SpacerSmallHorizontal
+import com.app.harigaji.theme.rememberHorizontalPaddingMedium
+import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberInnerVerticalPaddingSmall
 
-import com.app.harigaji.theme.rememberPaddingOuterSmallHorizontal
-import com.app.harigaji.theme.rememberSpacingExtraLargeHorizontal
-import com.app.harigaji.theme.rememberSpacingSmall
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -183,7 +174,7 @@ fun HomeScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
-            TopBarContent(paddingValues)
+            TopBarDate(paddingValues)
         }
     ) { pv ->
         Box(
@@ -194,7 +185,8 @@ fun HomeScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                state = listState
+                state = listState,
+                 verticalArrangement = Arrangement.spacedBy(rememberInnerVerticalPaddingSmall())
             ) {
                 stickyHeader(key = "user_header") {
                     UserHeaderCard(
@@ -211,7 +203,7 @@ fun HomeScreen(
                 }
 
                 item(key = "salary_card") {
-                    val paddingLarge = rememberPaddingLarge()
+                    val paddingLarge = rememberHorizontalPaddingLarge()
                     val paddingMedium = rememberPaddingMedium()
                     SalaryWithdrawCard(
                         modifier = Modifier
@@ -233,7 +225,7 @@ fun HomeScreen(
                     )
                 }
                 item {
-                    val paddingLarge = rememberPaddingLarge()
+                    val paddingLarge = rememberHorizontalPaddingLarge()
                     Spacer(modifier = Modifier.height(paddingLarge))
                 }
 
@@ -264,7 +256,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun TopBarContent(paddingValues: PaddingValues) {
+private fun TopBarDate(paddingValues: PaddingValues) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface
@@ -275,7 +267,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontal = rememberPaddingOuterSmallHorizontal())
+                .padding(horizontal = rememberOuterHorizontalPaddingSmall())
         ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_calender),
@@ -283,7 +275,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(16.dp)
             )
-            SpacerSmallVertical()
+            SpacerSmallHorizontal()
             DateRow()
         }
     }
@@ -304,8 +296,8 @@ private fun UserHeaderCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = rememberPaddingLarge(),
-                        end = rememberPaddingLarge(),
+                        start = rememberHorizontalPaddingLarge(),
+                        end = rememberHorizontalPaddingLarge(),
                         top = 4.dp,
                         bottom = 8.dp,
                     ),
@@ -409,7 +401,7 @@ private fun SearchSection(
             SearchBarM3(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberPaddingLarge())
+                    .padding(horizontal = rememberHorizontalPaddingLarge())
                     .padding(bottom = 8.dp)
                     .graphicsLayer {
                         alpha = 1f - (collapseFraction * 2).coerceIn(0f, 1f)
@@ -693,7 +685,7 @@ fun TitleWithMoreRow(
                     .padding(end = 8.dp)
                     .clip(CircleShape)
                     .clickable { onSeeAllClick() }
-                    .padding(horizontal = rememberPaddingLarge())
+                    .padding(horizontal = rememberHorizontalPaddingLarge())
             )
         } ?: run {
             Icon(
