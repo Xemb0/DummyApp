@@ -56,9 +56,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.harigaji.theme.rememberDynamicPaddingSmall
-import com.app.harigaji.theme.rememberDynamicPaddingLarge
-import com.app.harigaji.theme.rememberDynamicCornerRadiusMedium
+import com.app.harigaji.theme.rememberPaddingSmall
+import com.app.harigaji.theme.rememberPaddingLarge
+import com.app.harigaji.theme.rememberCornerRadiusMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_calender_filled
@@ -68,9 +68,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier = Modifier) {
-    val paddingLarge = rememberDynamicPaddingLarge()
-    val paddingSmall = rememberDynamicPaddingSmall()
-    val cornerRadius = rememberDynamicCornerRadiusMedium()
+    val paddingLarge = rememberPaddingLarge()
+    val paddingSmall = rememberPaddingSmall()
+    val cornerRadius = rememberCornerRadiusMedium()
     
     Card(
         elevation = CardDefaults.elevatedCardElevation(

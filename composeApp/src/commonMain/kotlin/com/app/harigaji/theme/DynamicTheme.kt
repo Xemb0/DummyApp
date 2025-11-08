@@ -20,7 +20,7 @@ import harigaji.composeapp.generated.resources.Urbanist
 import org.jetbrains.compose.resources.Font
 
 @Composable
-fun DynamicColorScheme(config: UiConfigEntity?): ColorScheme {
+fun ColorScheme(config: UiConfigEntity?): ColorScheme {
     val defaultConfig = UiConfigEntity()
     val uiConfig = config ?: defaultConfig
     
@@ -37,7 +37,7 @@ fun DynamicColorScheme(config: UiConfigEntity?): ColorScheme {
 }
 
 @Composable
-fun DynamicTypography(config: UiConfigEntity?): Typography {
+fun Typography(config: UiConfigEntity?): Typography {
     val defaultConfig = UiConfigEntity()
     val uiConfig = config ?: defaultConfig
     
@@ -94,7 +94,7 @@ fun DynamicTypography(config: UiConfigEntity?): Typography {
 }
 
 @Composable
-fun DynamicShapes(config: UiConfigEntity?): Shapes {
+fun Shapes(config: UiConfigEntity?): Shapes {
     val defaultConfig = UiConfigEntity()
     val uiConfig = config ?: defaultConfig
     
@@ -113,20 +113,20 @@ fun DynamicShapes(config: UiConfigEntity?): Shapes {
 }
 
 @Composable
-fun DynamicMaterialTheme(
+fun AppTheme(
     config: UiConfigEntity?,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = DynamicColorScheme(config),
-        typography = DynamicTypography(config),
-        shapes = DynamicShapes(config),
+        colorScheme = ColorScheme(config),
+        typography = Typography(config),
+        shapes = Shapes(config),
         content = content
     )
 }
 
 // Extension properties for easy access to config values
-object DynamicThemeValues {
+object ThemeValues {
     // Inner Padding Horizontal - uses baseInner * innerMultiplier
     @Composable
     fun innerPaddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {

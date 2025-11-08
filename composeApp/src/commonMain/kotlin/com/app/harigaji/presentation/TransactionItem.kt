@@ -49,10 +49,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.harigaji.theme.rememberDynamicPaddingSmall
-import com.app.harigaji.theme.rememberDynamicPaddingMedium
-import com.app.harigaji.theme.rememberDynamicPaddingLarge
-import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
+import com.app.harigaji.theme.rememberPaddingSmall
+import com.app.harigaji.theme.rememberPaddingMedium
+import com.app.harigaji.theme.rememberPaddingLarge
+import com.app.harigaji.theme.rememberCornerRadiusLarge
 
 @Composable
 fun TransactionItem(
@@ -63,10 +63,10 @@ fun TransactionItem(
     status: String,
     statusColor: Color
 ) {
-    val paddingSmall = rememberDynamicPaddingSmall()
-    val paddingMedium = rememberDynamicPaddingMedium()
-    val paddingLarge = rememberDynamicPaddingLarge()
-    val cornerRadius = rememberDynamicCornerRadiusLarge()
+    val paddingSmall = rememberPaddingSmall()
+    val paddingMedium = rememberPaddingMedium()
+    val paddingLarge = rememberPaddingLarge()
+    val cornerRadius = rememberCornerRadiusLarge()
     
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = paddingSmall, vertical = paddingSmall),
