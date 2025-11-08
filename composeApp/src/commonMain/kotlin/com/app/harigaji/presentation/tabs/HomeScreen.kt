@@ -43,16 +43,17 @@ import com.app.harigaji.core.user.UserDetails
 import com.app.harigaji.presentation.DateRow
 import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
-import com.app.harigaji.theme.rememberDynamicPaddingSmall
-import com.app.harigaji.theme.rememberDynamicPaddingMedium
-import com.app.harigaji.theme.rememberDynamicPaddingLarge
-import com.app.harigaji.theme.rememberDynamicPaddingExtraLarge
-import com.app.harigaji.theme.rememberDynamicCornerRadiusMedium
-import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
+import com.app.harigaji.theme.SpacerSmallVertical
+import com.app.harigaji.theme.rememberPaddingSmall
+import com.app.harigaji.theme.rememberPaddingMedium
+import com.app.harigaji.theme.rememberPaddingLarge
+import com.app.harigaji.theme.rememberPaddingExtraLarge
+import com.app.harigaji.theme.rememberCornerRadiusMedium
+import com.app.harigaji.theme.rememberCornerRadiusLarge
 
-import com.app.harigaji.theme.rememberDynamicPaddingOuterSmallHorizontal
-import com.app.harigaji.theme.rememberDynamicSpacingExtraLargeHorizontal
-import com.app.harigaji.theme.rememberDynamicSpacingSmall
+import com.app.harigaji.theme.rememberPaddingOuterSmallHorizontal
+import com.app.harigaji.theme.rememberSpacingExtraLargeHorizontal
+import com.app.harigaji.theme.rememberSpacingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -210,8 +211,8 @@ fun HomeScreen(
                 }
 
                 item(key = "salary_card") {
-                    val paddingLarge = rememberDynamicPaddingLarge()
-                    val paddingMedium = rememberDynamicPaddingMedium()
+                    val paddingLarge = rememberPaddingLarge()
+                    val paddingMedium = rememberPaddingMedium()
                     SalaryWithdrawCard(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -232,7 +233,7 @@ fun HomeScreen(
                     )
                 }
                 item {
-                    val paddingLarge = rememberDynamicPaddingLarge()
+                    val paddingLarge = rememberPaddingLarge()
                     Spacer(modifier = Modifier.height(paddingLarge))
                 }
 
@@ -274,7 +275,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontal = rememberDynamicPaddingOuterSmallHorizontal())
+                .padding(horizontal = rememberPaddingOuterSmallHorizontal())
         ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_calender),
@@ -282,7 +283,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(16.dp)
             )
-            rememberDynamicSpacingExtraLargeHorizontal()
+            SpacerSmallVertical()
             DateRow()
         }
     }
@@ -303,8 +304,8 @@ private fun UserHeaderCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = rememberDynamicPaddingLarge(),
-                        end = rememberDynamicPaddingLarge(),
+                        start = rememberPaddingLarge(),
+                        end = rememberPaddingLarge(),
                         top = 4.dp,
                         bottom = 8.dp,
                     ),
@@ -408,7 +409,7 @@ private fun SearchSection(
             SearchBarM3(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberDynamicPaddingLarge())
+                    .padding(horizontal = rememberPaddingLarge())
                     .padding(bottom = 8.dp)
                     .graphicsLayer {
                         alpha = 1f - (collapseFraction * 2).coerceIn(0f, 1f)
@@ -692,7 +693,7 @@ fun TitleWithMoreRow(
                     .padding(end = 8.dp)
                     .clip(CircleShape)
                     .clickable { onSeeAllClick() }
-                    .padding(horizontal = rememberDynamicPaddingLarge())
+                    .padding(horizontal = rememberPaddingLarge())
             )
         } ?: run {
             Icon(
@@ -723,7 +724,7 @@ fun SalaryEarnedCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = rememberDynamicCornerRadiusLarge(),
+        shape = rememberCornerRadiusLarge(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -789,7 +790,7 @@ fun InfoCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = rememberDynamicCornerRadiusLarge(),
+        shape = rememberCornerRadiusLarge(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(

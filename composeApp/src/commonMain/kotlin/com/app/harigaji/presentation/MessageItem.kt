@@ -46,18 +46,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.chat.ChatMessage
-import com.app.harigaji.theme.rememberDynamicPaddingLarge
-import com.app.harigaji.theme.rememberDynamicPaddingMedium
-import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
+import com.app.harigaji.theme.rememberPaddingLarge
+import com.app.harigaji.theme.rememberPaddingMedium
+import com.app.harigaji.theme.rememberCornerRadiusLarge
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MessageItem(sender: String, message: List<ChatMessage>, time: String, onClick: () -> Unit) {
-    val paddingLarge = rememberDynamicPaddingLarge()
-    val paddingMedium = rememberDynamicPaddingMedium()
-    val cornerRadius = rememberDynamicCornerRadiusLarge()
+    val paddingLarge = rememberPaddingLarge()
+    val paddingMedium = rememberPaddingMedium()
+    val cornerRadius = rememberCornerRadiusLarge()
     
     Column {
 

@@ -14,7 +14,7 @@ import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.navigation.NavScreen
 import com.app.harigaji.presentation.uiconfig.FloatingControlButton
 import com.app.harigaji.presentation.uiconfig.FloatingUiControlPanel
-import com.app.harigaji.theme.DynamicMaterialTheme
+import com.app.harigaji.theme.AppTheme
 import com.app.harigaji.theme.LocalUiConfig
 import androidx.compose.runtime.CompositionLocalProvider
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,7 +39,7 @@ fun App() {
 
     Box(modifier = Modifier.fillMaxSize()) {
         CompositionLocalProvider(LocalUiConfig provides uiConfig) {
-            DynamicMaterialTheme(config = uiConfig) {
+            AppTheme(config = uiConfig) {
                 NavScreen(
                     authViewModel,
                     userViewModel,
