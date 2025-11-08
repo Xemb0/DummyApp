@@ -30,6 +30,6 @@ fun App() {
 //        setSingletonImageLoaderFactory { context ->
 //            getAsyncImageLoader(context)
 //        }
-        NavScreen(authViewModel, userViewModel,chatViewModel,articlesViewModel,sharedViewModel)
+        NavScreen(authViewModel,userViewModel,chatViewModel,articlesViewModel,sharedViewModel)
     }
 }
