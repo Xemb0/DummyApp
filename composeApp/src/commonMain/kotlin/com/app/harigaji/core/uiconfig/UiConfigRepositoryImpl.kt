@@ -36,12 +36,13 @@ class UiConfigRepositoryImpl(
     
     override suspend fun updateTextSizes(config: UiConfigEntity) {
         database.uiConfigDao().updateTextSizes(
-            small = config.textSizeSmall,
-            medium = config.textSizeMedium,
-            large = config.textSizeLarge,
-            extraLarge = config.textSizeExtraLarge,
-            title = config.textSizeTitle,
-            headline = config.textSizeHeadline
+            small = config.baseTextSizeSmall,
+            medium = config.baseTextSizeMedium,
+            large = config.baseTextSizeLarge,
+            extraLarge = config.baseTextSizeExtraLarge,
+            title = config.baseTextSizeTitle,
+            headline = config.baseTextSizeHeadline,
+            multiplier = config.textSizeMultiplier
         )
     }
 }
