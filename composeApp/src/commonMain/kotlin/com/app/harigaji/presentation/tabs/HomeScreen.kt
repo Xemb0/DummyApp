@@ -52,6 +52,12 @@ import com.app.harigaji.theme.rememberPaddingLarge
 import com.app.harigaji.theme.rememberPaddingMedium
 import com.app.harigaji.theme.rememberVerticalPaddingSmall
 import com.app.harigaji.theme.outlineIfEnabled
+import com.app.harigaji.theme.DebugLazyColumn
+import com.app.harigaji.theme.DebugSurface
+import com.app.harigaji.theme.DebugCard
+import com.app.harigaji.theme.DebugBox
+import com.app.harigaji.theme.DebugColumn
+import com.app.harigaji.theme.DebugRow
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -190,10 +196,10 @@ fun HomeScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            LazyColumn(
+            DebugLazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = listState,
-                verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
+                 verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
             ) {
                 stickyHeader(key = "user_header") {
                     UserHeaderCard(
@@ -294,8 +300,8 @@ private fun UserHeaderCard(
     collapseFraction: Float
 ) {
       // Use Surface instead of Card for better performance
-      Surface(
-         modifier = Modifier.fillMaxWidth().outlineIfEnabled(),
+      DebugSurface(
+         modifier = Modifier.fillMaxWidth(),
           color = MaterialTheme.colorScheme.surface
       ) {
         Column(modifier = Modifier.fillMaxWidth()) {

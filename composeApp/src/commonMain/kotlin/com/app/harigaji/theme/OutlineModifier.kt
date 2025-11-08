@@ -1,6 +1,8 @@
 package com.app.harigaji.theme
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
@@ -53,6 +55,22 @@ fun Modifier.outlineIfEnabled(width: androidx.compose.ui.unit.Dp): Modifier {
         )
     } else {
         this
+    }
+}
+
+/**
+ * Global wrapper that applies outline to all layouts automatically
+ * Wrap your entire app content with this to see all layout boundaries
+ */
+@Composable
+fun OutlineDebugWrapper(
+    enabled: Boolean,
+    content: @Composable BoxScope.() -> Unit
+) {
+    Box(
+        modifier = Modifier.outlineIfEnabled(if (enabled) 1.dp else 0.dp)
+    ) {
+        content()
     }
 }
 
