@@ -49,6 +49,8 @@ import com.app.harigaji.theme.rememberDynamicPaddingLarge
 import com.app.harigaji.theme.rememberDynamicPaddingExtraLarge
 import com.app.harigaji.theme.rememberDynamicCornerRadiusMedium
 import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
+import com.app.harigaji.theme.rememberDynamicOuterPaddingSmallHorizontal
+import com.app.harigaji.theme.rememberDynamicPaddingOuterSmallHorizontal
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -270,7 +272,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontal = rememberDynamicPaddingLarge())
+                .padding(horizontal = rememberDynamicPaddingOuterSmallHorizontal())
         ) {
             Icon(
                 painter = painterResource(Res.drawable.ic_calender),

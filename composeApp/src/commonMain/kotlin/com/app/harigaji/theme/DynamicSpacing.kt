@@ -36,25 +36,25 @@ fun rememberDynamicInnerPaddingExtraLargeHorizontal(): Dp {
 
 // Outer Padding Horizontal
 @Composable
-fun rememberDynamicOuterPaddingSmallHorizontal(): Dp {
-    val config = rememberUiConfig()
-    return DynamicThemeValues.outerPaddingSmallHorizontal(config)
-}
-
-@Composable
-fun rememberDynamicOuterPaddingMediumHorizontal(): Dp {
+fun rememberDynamicPaddingOuterSmallHorizontal(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingMediumHorizontal(config)
 }
 
 @Composable
-fun rememberDynamicOuterPaddingLargeHorizontal(): Dp {
+fun rememberDynamicPaddingOuterMediumHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingMediumHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicPaddingOuterLargeHorizontal(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingLargeHorizontal(config)
 }
 
 @Composable
-fun rememberDynamicOuterPaddingExtraLargeHorizontal(): Dp {
+fun rememberDynamicPaddingOuterExtraLargeHorizontal(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingExtraLargeHorizontal(config)
 }
@@ -86,25 +86,25 @@ fun rememberDynamicInnerPaddingExtraLargeVertical(): Dp {
 
 // Outer Padding Vertical
 @Composable
-fun rememberDynamicOuterPaddingSmallVertical(): Dp {
+fun rememberDynamicPaddingOuterSmallVertical(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingSmallVertical(config)
 }
 
 @Composable
-fun rememberDynamicOuterPaddingMediumVertical(): Dp {
+fun rememberDynamicPaddingOuterMediumVertical(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingMediumVertical(config)
 }
 
 @Composable
-fun rememberDynamicOuterPaddingLargeVertical(): Dp {
+fun rememberDynamicPaddingOuterLargeVertical(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingLargeVertical(config)
 }
 
 @Composable
-fun rememberDynamicOuterPaddingExtraLargeVertical(): Dp {
+fun rememberDynamicPaddingOuterExtraLargeVertical(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.outerPaddingExtraLargeVertical(config)
 }
@@ -249,6 +249,48 @@ fun rememberDynamicCornerRadiusMedium(): RoundedCornerShape {
 fun rememberDynamicCornerRadiusLarge(): RoundedCornerShape {
     val config = rememberUiConfig()
     return DynamicThemeValues.roundedCornerShapeLarge(config)
+}
+
+// Custom Spacers - Vertical
+@Composable
+fun DynamicSpacerSmallVertical() {
+    Spacer(modifier = Modifier.height(rememberDynamicSpacingSmall()))
+}
+
+@Composable
+fun DynamicSpacerMediumVertical() {
+    Spacer(modifier = Modifier.height(rememberDynamicSpacingMedium()))
+}
+
+@Composable
+fun DynamicSpacerLargeVertical() {
+    Spacer(modifier = Modifier.height(rememberDynamicSpacingLarge()))
+}
+
+@Composable
+fun DynamicSpacerExtraLargeVertical() {
+    Spacer(modifier = Modifier.height(rememberDynamicSpacingExtraLarge()))
+}
+
+// Custom Spacers - Horizontal
+@Composable
+fun DynamicSpacerSmallHorizontal() {
+    Spacer(modifier = Modifier.width(rememberDynamicSpacingSmallHorizontal()))
+}
+
+@Composable
+fun DynamicSpacerMediumHorizontal() {
+    Spacer(modifier = Modifier.width(rememberDynamicSpacingMediumHorizontal()))
+}
+
+@Composable
+fun DynamicSpacerLargeHorizontal() {
+    Spacer(modifier = Modifier.width(rememberDynamicSpacingLargeHorizontal()))
+}
+
+@Composable
+fun DynamicSpacerExtraLargeHorizontal() {
+    Spacer(modifier = Modifier.width(rememberDynamicSpacingExtraLargeHorizontal()))
 }
 
 // Extension functions for direct access - Inner Padding

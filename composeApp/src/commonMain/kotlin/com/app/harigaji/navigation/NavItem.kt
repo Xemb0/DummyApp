@@ -115,7 +115,7 @@ fun CurvedBottomNavigation(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(90.dp)
+            .height(70.dp)
     ) {
 
         // Shadow layer - same shape as the bar
@@ -186,7 +186,7 @@ fun CurvedBottomNavigation(
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .offset(y = (-38).dp),
+                .offset(y = (-30).dp),
             contentAlignment = Alignment.Center
         ) {
             // Floating menu items BEHIND the FAB (lower zIndex)
