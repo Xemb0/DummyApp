@@ -17,6 +17,7 @@ import com.app.harigaji.presentation.uiconfig.FloatingUiControlPanel
 import com.app.harigaji.theme.AppTheme
 import com.app.harigaji.theme.LocalUiConfig
 import com.app.harigaji.theme.LocalOutlineMode
+import com.app.harigaji.theme.OutlineDebugWrapper
 import androidx.compose.runtime.CompositionLocalProvider
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -34,6 +35,10 @@ fun App() {
     
     val uiConfig by uiConfigViewModel.uiConfig.collectAsState()
     
+    // Toggle this to enable/disable outline debug mode globally
+    // Set to false to disable all outline debugging
+    val enableOutlineDebug = uiConfigViewModel.isOutlineModeEnabled
+    
     fun triggerDummyCrash() {
             throw RuntimeException("💥 Dummy crash for Firebase Crashlytics testing")
     }
@@ -41,7 +46,7 @@ fun App() {
     Box(modifier = Modifier.fillMaxSize()) {
         CompositionLocalProvider(
             LocalUiConfig provides uiConfig,
-            LocalOutlineMode provides uiConfigViewModel.isOutlineModeEnabled
+            LocalOutlineMode provides enableOutlineDebug
         ) {
             AppTheme(config = uiConfig) {
                 NavScreen(
