@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -42,9 +43,14 @@ import com.app.harigaji.theme.SpacerSmallHorizontal
 import com.app.harigaji.theme.rememberHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberHorizontalPaddingSmall
 import com.app.harigaji.theme.rememberInnerVerticalPaddingSmall
 
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingSmall
+import com.app.harigaji.theme.rememberOuterVerticalPaddingSmall
+import com.app.harigaji.theme.rememberPaddingLarge
+import com.app.harigaji.theme.rememberPaddingMedium
+import com.app.harigaji.theme.rememberVerticalPaddingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -186,7 +192,7 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 state = listState,
-                 verticalArrangement = Arrangement.spacedBy(rememberInnerVerticalPaddingSmall())
+                verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
             ) {
                 stickyHeader(key = "user_header") {
                     UserHeaderCard(
@@ -204,7 +210,7 @@ fun HomeScreen(
 
                 item(key = "salary_card") {
                     val paddingLarge = rememberHorizontalPaddingLarge()
-                    val paddingMedium = rememberHorizontalPaddingMedium()
+                    val paddingMedium = rememberPaddingMedium()
                     SalaryWithdrawCard(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -286,23 +292,18 @@ private fun UserHeaderCard(
     userDetails: UserDetails,
     collapseFraction: Float
 ) {
-    // Use Surface instead of Card for better performance
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface
-    ) {
+      // Use Surface instead of Card for better performance
+      Surface(
+         modifier = Modifier.fillMaxWidth(),
+          color = MaterialTheme.colorScheme.surface
+      ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        start = rememberHorizontalPaddingLarge(),
-                        end = rememberHorizontalPaddingLarge(),
-                        top = 4.dp,
-                        bottom = 8.dp,
-                    ),
+                    .padding(horizontal = rememberOuterHorizontalPaddingSmall(), vertical = rememberOuterVerticalPaddingSmall()),
                 horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.Top
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
                     modifier = Modifier
@@ -401,7 +402,7 @@ private fun SearchSection(
             SearchBarM3(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberHorizontalPaddingLarge())
+                    .padding(horizontal = rememberPaddingLarge())
                     .padding(bottom = 8.dp)
                     .graphicsLayer {
                         alpha = 1f - (collapseFraction * 2).coerceIn(0f, 1f)
@@ -685,7 +686,7 @@ fun TitleWithMoreRow(
                     .padding(end = 8.dp)
                     .clip(CircleShape)
                     .clickable { onSeeAllClick() }
-                    .padding(horizontal = rememberHorizontalPaddingLarge())
+                    .padding(horizontal = rememberPaddingLarge())
             )
         } ?: run {
             Icon(
