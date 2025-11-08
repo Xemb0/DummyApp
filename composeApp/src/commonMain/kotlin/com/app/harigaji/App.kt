@@ -40,15 +40,16 @@ fun App() {
     Box(modifier = Modifier.fillMaxSize()) {
         CompositionLocalProvider(LocalUiConfig provides uiConfig) {
             DynamicMaterialTheme(config = uiConfig) {
-//                triggerDummyCrash()
-//                setSingletonImageLoaderFactory { context ->
-//                    getAsyncImageLoader(context)
-//                }
-                NavScreen(authViewModel,userViewModel,chatViewModel,articlesViewModel,sharedViewModel)
+                NavScreen(
+                    authViewModel,
+                    userViewModel,
+                    chatViewModel,
+                    articlesViewModel,
+                    sharedViewModel
+                )
             }
         }
-        
-        // Floating Control Panel
+
         FloatingUiControlPanel(
             viewModel = uiConfigViewModel,
             modifier = Modifier.fillMaxSize()
