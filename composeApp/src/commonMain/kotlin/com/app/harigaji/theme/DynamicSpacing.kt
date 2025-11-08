@@ -84,7 +84,7 @@ fun rememberDynamicPaddingExtraLarge(): Dp {
     return DynamicThemeValues.paddingExtraLarge(config)
 }
 
-// Spacing
+// Spacing Vertical
 @Composable
 fun rememberDynamicSpacingSmall(): Dp {
     val config = rememberUiConfig()
@@ -107,6 +107,31 @@ fun rememberDynamicSpacingLarge(): Dp {
 fun rememberDynamicSpacingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return DynamicThemeValues.spacingExtraLarge(config)
+}
+
+// Spacing Horizontal
+@Composable
+fun rememberDynamicSpacingSmallHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.spacingSmallHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicSpacingMediumHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.spacingMediumHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicSpacingLargeHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.spacingLargeHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicSpacingExtraLargeHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.spacingExtraLargeHorizontal(config)
 }
 
 @Composable
