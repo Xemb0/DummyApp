@@ -122,24 +122,88 @@ fun DynamicMaterialTheme(
 
 // Extension properties for easy access to config values
 object DynamicThemeValues {
+    // Padding Horizontal
+    @Composable
+    fun paddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingSmallHorizontal ?: 4f).dp
+    }
+    
+    @Composable
+    fun paddingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingMediumHorizontal ?: 8f).dp
+    }
+    
+    @Composable
+    fun paddingLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingLargeHorizontal ?: 16f).dp
+    }
+    
+    @Composable
+    fun paddingExtraLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingExtraLargeHorizontal ?: 24f).dp
+    }
+    
+    // Padding Vertical
+    @Composable
+    fun paddingSmallVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingSmallVertical ?: 4f).dp
+    }
+    
+    @Composable
+    fun paddingMediumVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingMediumVertical ?: 8f).dp
+    }
+    
+    @Composable
+    fun paddingLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingLargeVertical ?: 16f).dp
+    }
+    
+    @Composable
+    fun paddingExtraLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.paddingExtraLargeVertical ?: 24f).dp
+    }
+    
+    // Backward compatibility - uses horizontal values
     @Composable
     fun paddingSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingSmall ?: 4f).dp
+        return paddingSmallHorizontal(config)
     }
     
     @Composable
     fun paddingMedium(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingMedium ?: 8f).dp
+        return paddingMediumHorizontal(config)
     }
     
     @Composable
     fun paddingLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingLarge ?: 16f).dp
+        return paddingLargeHorizontal(config)
     }
     
     @Composable
     fun paddingExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingExtraLarge ?: 24f).dp
+        return paddingExtraLargeHorizontal(config)
+    }
+    
+    // Spacing
+    @Composable
+    fun spacingSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.spacingSmall ?: 4f).dp
+    }
+    
+    @Composable
+    fun spacingMedium(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.spacingMedium ?: 8f).dp
+    }
+    
+    @Composable
+    fun spacingLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.spacingLarge ?: 16f).dp
+    }
+    
+    @Composable
+    fun spacingExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        return (config?.spacingExtraLarge ?: 24f).dp
     }
     
     @Composable
