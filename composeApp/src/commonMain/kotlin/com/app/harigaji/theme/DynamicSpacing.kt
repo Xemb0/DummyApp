@@ -2,8 +2,14 @@ package com.app.harigaji.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import com.app.harigaji.core.uiconfig.UiConfigEntity
+import com.app.harigaji.core.uiconfig.rememberUiConfig
+import com.app.harigaji.theme.DynamicTheme.DynamicThemeValues
 
 /**
  * Helper functions for accessing dynamic spacing values throughout the app
