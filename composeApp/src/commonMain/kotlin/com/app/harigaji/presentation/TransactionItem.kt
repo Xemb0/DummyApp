@@ -49,9 +49,9 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.harigaji.theme.rememberPaddingSmall
-import com.app.harigaji.theme.rememberPaddingMedium
-import com.app.harigaji.theme.rememberPaddingLarge
+import com.app.harigaji.theme.rememberHorizontalPaddingSmall
+import com.app.harigaji.theme.rememberHorizontalPaddingMedium
+import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
 
 @Composable
@@ -63,9 +63,9 @@ fun TransactionItem(
     status: String,
     statusColor: Color
 ) {
-    val paddingSmall = rememberPaddingSmall()
-    val paddingMedium = rememberPaddingMedium()
-    val paddingLarge = rememberPaddingLarge()
+    val paddingSmall = rememberHorizontalPaddingSmall()
+    val paddingMedium = rememberHorizontalPaddingMedium()
+    val paddingLarge = rememberHorizontalPaddingLarge()
     val cornerRadius = rememberCornerRadiusLarge()
     
     Card(

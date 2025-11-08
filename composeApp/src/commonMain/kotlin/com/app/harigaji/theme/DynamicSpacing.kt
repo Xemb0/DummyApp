@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import com.app.harigaji.core.uiconfig.UiConfigEntity
-import com.app.harigaji.core.uiconfig.rememberUiConfig
-import com.app.harigaji.theme.ThemeValues
 
 /**
  * Helper functions for accessing dynamic spacing values throughout the app
@@ -17,149 +15,149 @@ import com.app.harigaji.theme.ThemeValues
 
 // Inner Padding Horizontal
 @Composable
-fun rememberInnerPaddingSmallHorizontal(): Dp {
+fun rememberInnerHorizontalPaddingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingSmallHorizontal(config)
 }
 
 @Composable
-fun rememberInnerPaddingMediumHorizontal(): Dp {
+fun rememberInnerHorizontalPaddingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingMediumHorizontal(config)
 }
 
 @Composable
-fun rememberInnerPaddingLargeHorizontal(): Dp {
+fun rememberInnerHorizontalPaddingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingLargeHorizontal(config)
 }
 
 @Composable
-fun rememberInnerPaddingExtraLargeHorizontal(): Dp {
+fun rememberInnerHorizontalPaddingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingExtraLargeHorizontal(config)
 }
 
 // Outer Padding Horizontal
 @Composable
-fun rememberPaddingOuterSmallHorizontal(): Dp {
+fun rememberOuterHorizontalPaddingSmall(): Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.outerPaddingSmallHorizontal(config)
+}
+
+@Composable
+fun rememberOuterHorizontalPaddingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingMediumHorizontal(config)
 }
 
 @Composable
-fun rememberPaddingOuterMediumHorizontal(): Dp {
-    val config = rememberUiConfig()
-    return ThemeValues.outerPaddingMediumHorizontal(config)
-}
-
-@Composable
-fun rememberPaddingOuterLargeHorizontal(): Dp {
+fun rememberOuterHorizontalPaddingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingLargeHorizontal(config)
 }
 
 @Composable
-fun rememberPaddingOuterExtraLargeHorizontal(): Dp {
+fun rememberOuterHorizontalPaddingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingExtraLargeHorizontal(config)
 }
 
 // Inner Padding Vertical
 @Composable
-fun rememberInnerPaddingSmallVertical(): Dp {
+fun rememberInnerVerticalPaddingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingSmallVertical(config)
 }
 
 @Composable
-fun rememberInnerPaddingMediumVertical(): Dp {
+fun rememberInnerVerticalPaddingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingMediumVertical(config)
 }
 
 @Composable
-fun rememberInnerPaddingLargeVertical(): Dp {
+fun rememberInnerVerticalPaddingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingLargeVertical(config)
 }
 
 @Composable
-fun rememberInnerPaddingExtraLargeVertical(): Dp {
+fun rememberInnerVerticalPaddingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.innerPaddingExtraLargeVertical(config)
 }
 
 // Outer Padding Vertical
 @Composable
-fun rememberPaddingOuterSmallVertical(): Dp {
+fun rememberOuterVerticalPaddingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingSmallVertical(config)
 }
 
 @Composable
-fun rememberPaddingOuterMediumVertical(): Dp {
+fun rememberOuterVerticalPaddingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingMediumVertical(config)
 }
 
 @Composable
-fun rememberPaddingOuterLargeVertical(): Dp {
+fun rememberOuterVerticalPaddingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingLargeVertical(config)
 }
 
 @Composable
-fun rememberPaddingOuterExtraLargeVertical(): Dp {
+fun rememberOuterVerticalPaddingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.outerPaddingExtraLargeVertical(config)
 }
 
 // Backward compatibility - uses inner padding
 @Composable
-fun rememberPaddingSmallHorizontal(): Dp {
+fun rememberHorizontalPaddingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingSmallHorizontal(config)
 }
 
 @Composable
-fun rememberPaddingMediumHorizontal(): Dp {
+fun rememberHorizontalPaddingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingMediumHorizontal(config)
 }
 
 @Composable
-fun rememberPaddingLargeHorizontal(): Dp {
+fun rememberHorizontalPaddingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingLargeHorizontal(config)
 }
 
 @Composable
-fun rememberPaddingExtraLargeHorizontal(): Dp {
+fun rememberHorizontalPaddingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingExtraLargeHorizontal(config)
 }
 
 @Composable
-fun rememberPaddingSmallVertical(): Dp {
+fun rememberVerticalPaddingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingSmallVertical(config)
 }
 
 @Composable
-fun rememberPaddingMediumVertical(): Dp {
+fun rememberVerticalPaddingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingMediumVertical(config)
 }
 
 @Composable
-fun rememberPaddingLargeVertical(): Dp {
+fun rememberVerticalPaddingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingLargeVertical(config)
 }
 
 @Composable
-fun rememberPaddingExtraLargeVertical(): Dp {
+fun rememberVerticalPaddingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.paddingExtraLargeVertical(config)
 }
@@ -191,50 +189,50 @@ fun rememberPaddingExtraLarge(): Dp {
 
 // Spacing Vertical
 @Composable
-fun rememberSpacingSmall(): Dp {
+fun rememberVerticalSpacingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingSmall(config)
 }
 
 @Composable
-fun rememberSpacingMedium(): Dp {
+fun rememberVerticalSpacingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingMedium(config)
 }
 
 @Composable
-fun rememberSpacingLarge(): Dp {
+fun rememberVerticalSpacingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingLarge(config)
 }
 
 @Composable
-fun rememberSpacingExtraLarge(): Dp {
+fun rememberVerticalSpacingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingExtraLarge(config)
 }
 
 // Spacing Horizontal
 @Composable
-fun rememberSpacingSmallHorizontal(): Dp {
+fun rememberHorizontalSpacingSmall(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingSmallHorizontal(config)
 }
 
 @Composable
-fun rememberSpacingMediumHorizontal(): Dp {
+fun rememberHorizontalSpacingMedium(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingMediumHorizontal(config)
 }
 
 @Composable
-fun rememberSpacingLargeHorizontal(): Dp {
+fun rememberHorizontalSpacingLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingLargeHorizontal(config)
 }
 
 @Composable
-fun rememberSpacingExtraLargeHorizontal(): Dp {
+fun rememberHorizontalSpacingExtraLarge(): Dp {
     val config = rememberUiConfig()
     return ThemeValues.spacingExtraLargeHorizontal(config)
 }
@@ -262,28 +260,28 @@ fun rememberCornerRadiusLarge(): RoundedCornerShape {
 fun SpacerSmallVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingSmall(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun SpacerMediumVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingMedium(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun SpacerLargeVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingLarge(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun SpacerExtraLargeVertical() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingExtraLarge(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(spacing))
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 // Custom Spacers - Horizontal (uses spacing multipliers, not padding)
@@ -291,28 +289,28 @@ fun SpacerExtraLargeVertical() {
 fun SpacerSmallHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingSmallHorizontal(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun SpacerMediumHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingMediumHorizontal(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun SpacerLargeHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingLargeHorizontal(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun SpacerExtraLargeHorizontal() {
     val config = rememberUiConfig()
     val spacing = ThemeValues.spacingExtraLargeHorizontal(config)
-    androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(spacing))
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 // Extension functions for direct access - Inner Padding
