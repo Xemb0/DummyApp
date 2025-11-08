@@ -668,12 +668,14 @@ fun LazyListScope.attendanceTabContent(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
-                Text(
+                BasicText(
                     text = "Note: if your login hours are fewer than 8, Your salary will not be updated for withdrawal",
-                    fontSize = 14.sp,
-                    color = Color.Gray,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center,
+                    style = TextStyle(
+                        fontSize = rememberTextSizeMedium(),
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    ),
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .fillMaxWidth()
