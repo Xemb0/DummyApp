@@ -9,7 +9,107 @@ import com.app.harigaji.core.uiconfig.UiConfigEntity
  * Helper functions for accessing dynamic spacing values throughout the app
  */
 
-// Padding Horizontal
+// Inner Padding Horizontal
+@Composable
+fun rememberDynamicInnerPaddingSmallHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingSmallHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicInnerPaddingMediumHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingMediumHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicInnerPaddingLargeHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingLargeHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicInnerPaddingExtraLargeHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingExtraLargeHorizontal(config)
+}
+
+// Outer Padding Horizontal
+@Composable
+fun rememberDynamicOuterPaddingSmallHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingSmallHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicOuterPaddingMediumHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingMediumHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicOuterPaddingLargeHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingLargeHorizontal(config)
+}
+
+@Composable
+fun rememberDynamicOuterPaddingExtraLargeHorizontal(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingExtraLargeHorizontal(config)
+}
+
+// Inner Padding Vertical
+@Composable
+fun rememberDynamicInnerPaddingSmallVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingSmallVertical(config)
+}
+
+@Composable
+fun rememberDynamicInnerPaddingMediumVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingMediumVertical(config)
+}
+
+@Composable
+fun rememberDynamicInnerPaddingLargeVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingLargeVertical(config)
+}
+
+@Composable
+fun rememberDynamicInnerPaddingExtraLargeVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.innerPaddingExtraLargeVertical(config)
+}
+
+// Outer Padding Vertical
+@Composable
+fun rememberDynamicOuterPaddingSmallVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingSmallVertical(config)
+}
+
+@Composable
+fun rememberDynamicOuterPaddingMediumVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingMediumVertical(config)
+}
+
+@Composable
+fun rememberDynamicOuterPaddingLargeVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingLargeVertical(config)
+}
+
+@Composable
+fun rememberDynamicOuterPaddingExtraLargeVertical(): Dp {
+    val config = rememberUiConfig()
+    return DynamicThemeValues.outerPaddingExtraLargeVertical(config)
+}
+
+// Backward compatibility - uses inner padding
 @Composable
 fun rememberDynamicPaddingSmallHorizontal(): Dp {
     val config = rememberUiConfig()
@@ -34,7 +134,6 @@ fun rememberDynamicPaddingExtraLargeHorizontal(): Dp {
     return DynamicThemeValues.paddingExtraLargeHorizontal(config)
 }
 
-// Padding Vertical
 @Composable
 fun rememberDynamicPaddingSmallVertical(): Dp {
     val config = rememberUiConfig()
@@ -152,7 +251,57 @@ fun rememberDynamicCornerRadiusLarge(): RoundedCornerShape {
     return DynamicThemeValues.roundedCornerShapeLarge(config)
 }
 
-// Extension functions for direct access - Horizontal
+// Extension functions for direct access - Inner Padding
+@Composable
+fun UiConfigEntity?.innerPaddingSmallHorizontal(): Dp = DynamicThemeValues.innerPaddingSmallHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingMediumHorizontal(): Dp = DynamicThemeValues.innerPaddingMediumHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingLargeHorizontal(): Dp = DynamicThemeValues.innerPaddingLargeHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingExtraLargeHorizontal(): Dp = DynamicThemeValues.innerPaddingExtraLargeHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingSmallVertical(): Dp = DynamicThemeValues.innerPaddingSmallVertical(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingMediumVertical(): Dp = DynamicThemeValues.innerPaddingMediumVertical(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingLargeVertical(): Dp = DynamicThemeValues.innerPaddingLargeVertical(this)
+
+@Composable
+fun UiConfigEntity?.innerPaddingExtraLargeVertical(): Dp = DynamicThemeValues.innerPaddingExtraLargeVertical(this)
+
+// Extension functions for direct access - Outer Padding
+@Composable
+fun UiConfigEntity?.outerPaddingSmallHorizontal(): Dp = DynamicThemeValues.outerPaddingSmallHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingMediumHorizontal(): Dp = DynamicThemeValues.outerPaddingMediumHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingLargeHorizontal(): Dp = DynamicThemeValues.outerPaddingLargeHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingExtraLargeHorizontal(): Dp = DynamicThemeValues.outerPaddingExtraLargeHorizontal(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingSmallVertical(): Dp = DynamicThemeValues.outerPaddingSmallVertical(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingMediumVertical(): Dp = DynamicThemeValues.outerPaddingMediumVertical(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingLargeVertical(): Dp = DynamicThemeValues.outerPaddingLargeVertical(this)
+
+@Composable
+fun UiConfigEntity?.outerPaddingExtraLargeVertical(): Dp = DynamicThemeValues.outerPaddingExtraLargeVertical(this)
+
+// Backward compatibility
 @Composable
 fun UiConfigEntity?.paddingSmallHorizontal(): Dp = DynamicThemeValues.paddingSmallHorizontal(this)
 
@@ -165,7 +314,6 @@ fun UiConfigEntity?.paddingLargeHorizontal(): Dp = DynamicThemeValues.paddingLar
 @Composable
 fun UiConfigEntity?.paddingExtraLargeHorizontal(): Dp = DynamicThemeValues.paddingExtraLargeHorizontal(this)
 
-// Extension functions for direct access - Vertical
 @Composable
 fun UiConfigEntity?.paddingSmallVertical(): Dp = DynamicThemeValues.paddingSmallVertical(this)
 
