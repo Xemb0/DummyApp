@@ -204,7 +204,7 @@ fun HomeScreen(
 
                 item(key = "salary_card") {
                     val paddingLarge = rememberHorizontalPaddingLarge()
-                    val paddingMedium = rememberPaddingMedium()
+                    val paddingMedium = rememberHorizontalPaddingMedium()
                     SalaryWithdrawCard(
                         modifier = Modifier
                             .fillMaxWidth()
