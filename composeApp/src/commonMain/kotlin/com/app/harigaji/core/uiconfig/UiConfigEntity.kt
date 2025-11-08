@@ -20,11 +20,23 @@ data class UiConfigEntity(
     val onSurfaceVariantColor: Long = 0xFF186745,
     val secondaryContainerColor: Long = 0xFF208A5C,
     
-    // Padding values (in dp, stored as Float)
-    val paddingSmall: Float = 4f,
-    val paddingMedium: Float = 8f,
-    val paddingLarge: Float = 16f,
-    val paddingExtraLarge: Float = 24f,
+    // Padding values (in dp, stored as Float) - Horizontal
+    val paddingSmallHorizontal: Float = 4f,
+    val paddingMediumHorizontal: Float = 8f,
+    val paddingLargeHorizontal: Float = 16f,
+    val paddingExtraLargeHorizontal: Float = 24f,
+    
+    // Padding values (in dp, stored as Float) - Vertical
+    val paddingSmallVertical: Float = 4f,
+    val paddingMediumVertical: Float = 8f,
+    val paddingLargeVertical: Float = 16f,
+    val paddingExtraLargeVertical: Float = 24f,
+    
+    // Spacing values (in dp, stored as Float)
+    val spacingSmall: Float = 4f,
+    val spacingMedium: Float = 8f,
+    val spacingLarge: Float = 16f,
+    val spacingExtraLarge: Float = 24f,
     
     // Icon sizes (in dp, stored as Float)
     val iconSizeSmall: Float = 16f,

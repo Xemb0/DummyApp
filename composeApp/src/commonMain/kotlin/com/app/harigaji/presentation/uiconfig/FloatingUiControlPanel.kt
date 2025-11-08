@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,20 +45,22 @@ fun FloatingUiControlPanel(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.3f))
+                .background(Color.Black.copy(alpha = 0.4f))
+                .clickable { viewModel.toggleControlPanel() }
         ) {
             // Glassmorphic Panel
             Card(
                 modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.85f)
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight(0.5f)
                     .align(Alignment.Center)
-                    .platformBlur(radius = 20.dp),
+                    .clickable(enabled = false) {} // Prevent click through
+                    .platformBlur(radius = 25.dp),
                 shape = RoundedCornerShape(24.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
                 ),
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -149,44 +153,128 @@ fun FloatingUiControlPanel(
                         )
                     }
                     
-                    // Padding Section
+                    // Padding Horizontal Section
                     ConfigSection(
-                        title = "Padding",
+                        title = "Padding Horizontal",
                         icon = Icons.Default.FormatIndentIncrease
                     ) {
                         SizeSlider(
-                            label = "Small",
-                            value = currentConfig.paddingSmall,
+                            label = "Small H",
+                            value = currentConfig.paddingSmallHorizontal,
                             range = 0f..32f,
                             onValueChange = { newValue ->
-                                viewModel.updatePadding(currentConfig.copy(paddingSmall = newValue))
+                                viewModel.updateConfig(currentConfig.copy(paddingSmallHorizontal = newValue))
+                            }
+                        )
+                        SizeSlider(
+                            label = "Medium H",
+                            value = currentConfig.paddingMediumHorizontal,
+                            range = 0f..32f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingMediumHorizontal = newValue))
+                            }
+                        )
+                        SizeSlider(
+                            label = "Large H",
+                            value = currentConfig.paddingLargeHorizontal,
+                            range = 0f..48f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingLargeHorizontal = newValue))
+                            }
+                        )
+                        SizeSlider(
+                            label = "Extra Large H",
+                            value = currentConfig.paddingExtraLargeHorizontal,
+                            range = 0f..64f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingExtraLargeHorizontal = newValue))
+                            }
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Padding Vertical Section
+                    ConfigSection(
+                        title = "Padding Vertical",
+                        icon = Icons.Default.FormatIndentIncrease
+                    ) {
+                        SizeSlider(
+                            label = "Small V",
+                            value = currentConfig.paddingSmallVertical,
+                            range = 0f..32f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingSmallVertical = newValue))
+                            }
+                        )
+                        SizeSlider(
+                            label = "Medium V",
+                            value = currentConfig.paddingMediumVertical,
+                            range = 0f..32f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingMediumVertical = newValue))
+                            }
+                        )
+                        SizeSlider(
+                            label = "Large V",
+                            value = currentConfig.paddingLargeVertical,
+                            range = 0f..48f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingLargeVertical = newValue))
+                            }
+                        )
+                        SizeSlider(
+                            label = "Extra Large V",
+                            value = currentConfig.paddingExtraLargeVertical,
+                            range = 0f..64f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(paddingExtraLargeVertical = newValue))
+                            }
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Spacing Section
+                    ConfigSection(
+                        title = "Spacing",
+                        icon = Icons.Default.SpaceBar
+                    ) {
+                        SizeSlider(
+                            label = "Small",
+                            value = currentConfig.spacingSmall,
+                            range = 0f..32f,
+                            onValueChange = { newValue ->
+                                viewModel.updateConfig(currentConfig.copy(spacingSmall = newValue))
                             }
                         )
                         SizeSlider(
                             label = "Medium",
-                            value = currentConfig.paddingMedium,
+                            value = currentConfig.spacingMedium,
                             range = 0f..32f,
                             onValueChange = { newValue ->
-                                viewModel.updatePadding(currentConfig.copy(paddingMedium = newValue))
+                                viewModel.updateConfig(currentConfig.copy(spacingMedium = newValue))
                             }
                         )
                         SizeSlider(
                             label = "Large",
-                            value = currentConfig.paddingLarge,
+                            value = currentConfig.spacingLarge,
                             range = 0f..48f,
                             onValueChange = { newValue ->
-                                viewModel.updatePadding(currentConfig.copy(paddingLarge = newValue))
+                                viewModel.updateConfig(currentConfig.copy(spacingLarge = newValue))
                             }
                         )
                         SizeSlider(
                             label = "Extra Large",
-                            value = currentConfig.paddingExtraLarge,
+                            value = currentConfig.spacingExtraLarge,
                             range = 0f..64f,
                             onValueChange = { newValue ->
-                                viewModel.updatePadding(currentConfig.copy(paddingExtraLarge = newValue))
+                                viewModel.updateConfig(currentConfig.copy(spacingExtraLarge = newValue))
                             }
                         )
                     }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
                     
                     // Icon Sizes Section
                     ConfigSection(
@@ -226,6 +314,8 @@ fun FloatingUiControlPanel(
                             }
                         )
                     }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
                     
                     // Text Sizes Section
                     ConfigSection(
@@ -303,7 +393,7 @@ fun ConfigSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = 12.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -332,6 +422,13 @@ fun ColorSlider(
     value: Long,
     onValueChange: (Long) -> Unit
 ) {
+    // Use state to prevent glitches
+    var currentColor by remember(value) { mutableStateOf(Color(value)) }
+    
+    LaunchedEffect(value) {
+        currentColor = Color(value)
+    }
+    
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -351,15 +448,14 @@ fun ColorSlider(
                 modifier = Modifier
                     .size(32.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(Color(value))
+                    .background(currentColor)
             )
         }
         
-        // RGB Sliders
-        val color = Color(value)
-        val red = (color.red * 255).toInt()
-        val green = (color.green * 255).toInt()
-        val blue = (color.blue * 255).toInt()
+        // RGB Sliders - use currentColor state
+        val red = (currentColor.red * 255).toInt()
+        val green = (currentColor.green * 255).toInt()
+        val blue = (currentColor.blue * 255).toInt()
         
         Text(
             text = "R: $red",
@@ -369,13 +465,13 @@ fun ColorSlider(
         Slider(
             value = red.toFloat(),
             onValueChange = { newRed ->
-                val newColor = Color(
+                currentColor = Color(
                     red = newRed / 255f,
-                    green = color.green,
-                    blue = color.blue,
+                    green = currentColor.green,
+                    blue = currentColor.blue,
                     alpha = 1f
                 )
-                onValueChange(newColor.value.toLong())
+                onValueChange(currentColor.value.toLong())
             },
             valueRange = 0f..255f,
             modifier = Modifier.fillMaxWidth()
@@ -389,13 +485,13 @@ fun ColorSlider(
         Slider(
             value = green.toFloat(),
             onValueChange = { newGreen ->
-                val newColor = Color(
-                    red = color.red,
+                currentColor = Color(
+                    red = currentColor.red,
                     green = newGreen / 255f,
-                    blue = color.blue,
+                    blue = currentColor.blue,
                     alpha = 1f
                 )
-                onValueChange(newColor.value.toLong())
+                onValueChange(currentColor.value.toLong())
             },
             valueRange = 0f..255f,
             modifier = Modifier.fillMaxWidth()
@@ -409,13 +505,13 @@ fun ColorSlider(
         Slider(
             value = blue.toFloat(),
             onValueChange = { newBlue ->
-                val newColor = Color(
-                    red = color.red,
-                    green = color.green,
+                currentColor = Color(
+                    red = currentColor.red,
+                    green = currentColor.green,
                     blue = newBlue / 255f,
                     alpha = 1f
                 )
-                onValueChange(newColor.value.toLong())
+                onValueChange(currentColor.value.toLong())
             },
             valueRange = 0f..255f,
             modifier = Modifier.fillMaxWidth()
@@ -472,7 +568,9 @@ fun ConfigInfoCard(config: UiConfigEntity) {
             modifier = Modifier.padding(12.dp)
         ) {
             ConfigInfoRow("Primary Color", "#${config.primaryColor.toString(16).uppercase()}")
-            ConfigInfoRow("Padding Large", "${config.paddingLarge.toInt()}dp")
+            ConfigInfoRow("Padding Large H", "${config.paddingLargeHorizontal.toInt()}dp")
+            ConfigInfoRow("Padding Large V", "${config.paddingLargeVertical.toInt()}dp")
+            ConfigInfoRow("Spacing Large", "${config.spacingLarge.toInt()}dp")
             ConfigInfoRow("Icon Size Medium", "${config.iconSizeMedium.toInt()}dp")
             ConfigInfoRow("Text Size Large", "${config.textSizeLarge.toInt()}sp")
         }
