@@ -1,0 +1,526 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 6,
+    "identityHash": "38817c09d3a563ec253fee2d4281a36c",
+    "entities": [
+      {
+        "tableName": "app_config",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `userId` TEXT, `surveyId` INTEGER, `appVersion` TEXT, `releaseDate` TEXT, `surveyUploadUrl` TEXT, `imageUploadUrl` TEXT, `getProductDetails` TEXT, `offlineDropdownApi` TEXT, `loginValidateOtpUrl` TEXT, `loginOtpUrl` TEXT, `getOrderDetails` TEXT, `getNotificationUrl` TEXT, `updateFcmToken` TEXT, `mostFrequentBuys` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "surveyId",
+            "columnName": "surveyId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "appVersion",
+            "columnName": "appVersion",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "releaseDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "surveyUploadUrl",
+            "columnName": "surveyUploadUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imageUploadUrl",
+            "columnName": "imageUploadUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "getProductDetails",
+            "columnName": "getProductDetails",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "offlineDropdownApi",
+            "columnName": "offlineDropdownApi",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "loginValidateOtpUrl",
+            "columnName": "loginValidateOtpUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "loginOtpUrl",
+            "columnName": "loginOtpUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "getOrderDetails",
+            "columnName": "getOrderDetails",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "getNotificationUrl",
+            "columnName": "getNotificationUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "updateFcmToken",
+            "columnName": "updateFcmToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mostFrequentBuys",
+            "columnName": "mostFrequentBuys",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "NotificationDetail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notificationId` TEXT NOT NULL, `notificationType` INTEGER NOT NULL, `teamId` TEXT NOT NULL, `notificationTitle` TEXT NOT NULL, `notificationText` TEXT NOT NULL, `notificationDateTime` TEXT NOT NULL, `dateTimeMili` INTEGER NOT NULL, `color` TEXT, `icon` TEXT, `imageIfAny` TEXT, `isRead` INTEGER NOT NULL, PRIMARY KEY(`notificationId`))",
+        "fields": [
+          {
+            "fieldPath": "notificationId",
+            "columnName": "notificationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationType",
+            "columnName": "notificationType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teamId",
+            "columnName": "teamId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationTitle",
+            "columnName": "notificationTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationText",
+            "columnName": "notificationText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationDateTime",
+            "columnName": "notificationDateTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateTimeMili",
+            "columnName": "dateTimeMili",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imageIfAny",
+            "columnName": "imageIfAny",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isRead",
+            "columnName": "isRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "notificationId"
+          ]
+        }
+      },
+      {
+        "tableName": "UserProgressDetail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `firstName` TEXT, `lastName` TEXT, `totalBalance` REAL, `email` TEXT, `phone` TEXT, `token` TEXT, `baseUrl` TEXT, `language` TEXT, `profilePic` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "firstName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "lastName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "totalBalance",
+            "columnName": "totalBalance",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "baseUrl",
+            "columnName": "baseUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "language",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "profilePic",
+            "columnName": "profilePic",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "ui_config",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `primaryColor` INTEGER NOT NULL, `secondaryColor` INTEGER NOT NULL, `surfaceColor` INTEGER NOT NULL, `surfaceLowestColor` INTEGER NOT NULL, `backgroundColor` INTEGER NOT NULL, `onSurfaceColor` INTEGER NOT NULL, `onSurfaceVariantColor` INTEGER NOT NULL, `secondaryContainerColor` INTEGER NOT NULL, `innerPaddingHorizontalMultiplier` REAL NOT NULL, `outerPaddingHorizontalMultiplier` REAL NOT NULL, `innerPaddingVerticalMultiplier` REAL NOT NULL, `outerPaddingVerticalMultiplier` REAL NOT NULL, `spacingHorizontalMultiplier` REAL NOT NULL, `spacingVerticalMultiplier` REAL NOT NULL, `cornerRadiusMultiplier` REAL NOT NULL, `sizeMultiplier` REAL NOT NULL, `baseInnerPaddingSmall` REAL NOT NULL, `baseInnerPaddingMedium` REAL NOT NULL, `baseInnerPaddingLarge` REAL NOT NULL, `baseInnerPaddingExtraLarge` REAL NOT NULL, `baseOuterPaddingSmall` REAL NOT NULL, `baseOuterPaddingMedium` REAL NOT NULL, `baseOuterPaddingLarge` REAL NOT NULL, `baseOuterPaddingExtraLarge` REAL NOT NULL, `baseSpacingSmall` REAL NOT NULL, `baseSpacingMedium` REAL NOT NULL, `baseSpacingLarge` REAL NOT NULL, `baseSpacingExtraLarge` REAL NOT NULL, `baseCornerRadiusSmall` REAL NOT NULL, `baseCornerRadiusMedium` REAL NOT NULL, `baseCornerRadiusLarge` REAL NOT NULL, `baseSizeSmall` REAL NOT NULL, `baseSizeMedium` REAL NOT NULL, `baseSizeLarge` REAL NOT NULL, `baseSizeExtraLarge` REAL NOT NULL, `textSizeSmall` REAL NOT NULL, `textSizeMedium` REAL NOT NULL, `textSizeLarge` REAL NOT NULL, `textSizeExtraLarge` REAL NOT NULL, `textSizeTitle` REAL NOT NULL, `textSizeHeadline` REAL NOT NULL, `elevationSmall` REAL NOT NULL, `elevationMedium` REAL NOT NULL, `elevationLarge` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryColor",
+            "columnName": "primaryColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondaryColor",
+            "columnName": "secondaryColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surfaceColor",
+            "columnName": "surfaceColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surfaceLowestColor",
+            "columnName": "surfaceLowestColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "backgroundColor",
+            "columnName": "backgroundColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSurfaceColor",
+            "columnName": "onSurfaceColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSurfaceVariantColor",
+            "columnName": "onSurfaceVariantColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondaryContainerColor",
+            "columnName": "secondaryContainerColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "innerPaddingHorizontalMultiplier",
+            "columnName": "innerPaddingHorizontalMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outerPaddingHorizontalMultiplier",
+            "columnName": "outerPaddingHorizontalMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "innerPaddingVerticalMultiplier",
+            "columnName": "innerPaddingVerticalMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outerPaddingVerticalMultiplier",
+            "columnName": "outerPaddingVerticalMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spacingHorizontalMultiplier",
+            "columnName": "spacingHorizontalMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spacingVerticalMultiplier",
+            "columnName": "spacingVerticalMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cornerRadiusMultiplier",
+            "columnName": "cornerRadiusMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sizeMultiplier",
+            "columnName": "sizeMultiplier",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseInnerPaddingSmall",
+            "columnName": "baseInnerPaddingSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseInnerPaddingMedium",
+            "columnName": "baseInnerPaddingMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseInnerPaddingLarge",
+            "columnName": "baseInnerPaddingLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseInnerPaddingExtraLarge",
+            "columnName": "baseInnerPaddingExtraLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseOuterPaddingSmall",
+            "columnName": "baseOuterPaddingSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseOuterPaddingMedium",
+            "columnName": "baseOuterPaddingMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseOuterPaddingLarge",
+            "columnName": "baseOuterPaddingLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseOuterPaddingExtraLarge",
+            "columnName": "baseOuterPaddingExtraLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSpacingSmall",
+            "columnName": "baseSpacingSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSpacingMedium",
+            "columnName": "baseSpacingMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSpacingLarge",
+            "columnName": "baseSpacingLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSpacingExtraLarge",
+            "columnName": "baseSpacingExtraLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseCornerRadiusSmall",
+            "columnName": "baseCornerRadiusSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseCornerRadiusMedium",
+            "columnName": "baseCornerRadiusMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseCornerRadiusLarge",
+            "columnName": "baseCornerRadiusLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSizeSmall",
+            "columnName": "baseSizeSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSizeMedium",
+            "columnName": "baseSizeMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSizeLarge",
+            "columnName": "baseSizeLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSizeExtraLarge",
+            "columnName": "baseSizeExtraLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textSizeSmall",
+            "columnName": "textSizeSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textSizeMedium",
+            "columnName": "textSizeMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textSizeLarge",
+            "columnName": "textSizeLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textSizeExtraLarge",
+            "columnName": "textSizeExtraLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textSizeTitle",
+            "columnName": "textSizeTitle",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textSizeHeadline",
+            "columnName": "textSizeHeadline",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elevationSmall",
+            "columnName": "elevationSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elevationMedium",
+            "columnName": "elevationMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elevationLarge",
+            "columnName": "elevationLarge",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '38817c09d3a563ec253fee2d4281a36c')"
+    ]
+  }
+}

@@ -34,18 +34,6 @@ interface UiConfigDao {
         secondaryContainerColor: Long
     )
     
-    @Query("UPDATE ui_config SET " +
-            "iconSizeSmall = :small, " +
-            "iconSizeMedium = :medium, " +
-            "iconSizeLarge = :large, " +
-            "iconSizeExtraLarge = :extraLarge " +
-            "WHERE id = 1")
-    suspend fun updateIconSizes(
-        small: Float,
-        medium: Float,
-        large: Float,
-        extraLarge: Float
-    )
     
     @Query("UPDATE ui_config SET " +
             "textSizeSmall = :small, " +

@@ -55,6 +55,8 @@ import com.app.harigaji.theme.rememberVerticalPaddingSmall
 import com.app.harigaji.theme.debugUi
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
+import com.app.harigaji.theme.rememberSizeExtraLarge
+import com.app.harigaji.theme.rememberSizeMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -315,7 +317,7 @@ private fun UserHeaderCard(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(54.dp)
+                        .size(rememberSizeExtraLarge())
                         .clip(CircleShape)
                         .background(Color.White)
                         .debugUi()
@@ -324,7 +326,7 @@ private fun UserHeaderCard(
                         painter = painterResource(Res.drawable.ic_profile),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(size = rememberSizeMedium())
                             .align(Alignment.Center)
                     )
                 }
