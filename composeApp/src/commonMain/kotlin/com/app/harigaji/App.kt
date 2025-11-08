@@ -17,7 +17,6 @@ import com.app.harigaji.presentation.uiconfig.FloatingUiControlPanel
 import com.app.harigaji.theme.AppTheme
 import com.app.harigaji.theme.LocalUiConfig
 import com.app.harigaji.theme.LocalOutlineMode
-import com.app.harigaji.theme.OutlineDebugWrapper
 import androidx.compose.runtime.CompositionLocalProvider
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
