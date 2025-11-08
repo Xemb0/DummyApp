@@ -7,6 +7,7 @@ import com.app.harigaji.core.auth.di.authModule
 import com.app.harigaji.core.database.di.databaseModule
 import com.app.harigaji.core.datastore.di.dataStoreModule
 import com.app.harigaji.core.notification.di.notificationModule
+import com.app.harigaji.core.uiconfig.di.uiConfigModule
 import com.app.harigaji.core.user.di.userModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -21,7 +22,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
                 articleModule,
                 authModule,notificationModule,
                 dataStoreModule, databaseModule,
-                notificationModule, appConfigModule, userModule
+                notificationModule, appConfigModule, userModule,
+                uiConfigModule
             )
         )
     }
