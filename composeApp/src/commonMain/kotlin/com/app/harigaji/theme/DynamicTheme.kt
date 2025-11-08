@@ -98,12 +98,17 @@ fun DynamicShapes(config: UiConfigEntity?): Shapes {
     val defaultConfig = UiConfigEntity()
     val uiConfig = config ?: defaultConfig
     
+    val baseSmall = uiConfig.baseCornerRadiusSmall
+    val baseMedium = uiConfig.baseCornerRadiusMedium
+    val baseLarge = uiConfig.baseCornerRadiusLarge
+    val multiplier = uiConfig.cornerRadiusMultiplier
+    
     return Shapes(
-        extraSmall = RoundedCornerShape(uiConfig.cornerRadiusSmall.dp),
-        small = RoundedCornerShape(uiConfig.cornerRadiusSmall.dp),
-        medium = RoundedCornerShape(uiConfig.cornerRadiusMedium.dp),
-        large = RoundedCornerShape(uiConfig.cornerRadiusLarge.dp),
-        extraLarge = RoundedCornerShape(uiConfig.cornerRadiusLarge.dp)
+        extraSmall = RoundedCornerShape((baseSmall * multiplier).dp),
+        small = RoundedCornerShape((baseSmall * multiplier).dp),
+        medium = RoundedCornerShape((baseMedium * multiplier).dp),
+        large = RoundedCornerShape((baseLarge * multiplier).dp),
+        extraLarge = RoundedCornerShape((baseLarge * multiplier).dp)
     )
 }
 
@@ -122,46 +127,62 @@ fun DynamicMaterialTheme(
 
 // Extension properties for easy access to config values
 object DynamicThemeValues {
-    // Padding Horizontal
+    // Padding Horizontal - uses base * multiplier
     @Composable
     fun paddingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingSmallHorizontal ?: 4f).dp
+        val base = config?.basePaddingSmall ?: 4f
+        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun paddingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingMediumHorizontal ?: 8f).dp
+        val base = config?.basePaddingMedium ?: 8f
+        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun paddingLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingLargeHorizontal ?: 16f).dp
+        val base = config?.basePaddingLarge ?: 16f
+        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun paddingExtraLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingExtraLargeHorizontal ?: 24f).dp
+        val base = config?.basePaddingExtraLarge ?: 24f
+        val multiplier = config?.paddingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
-    // Padding Vertical
+    // Padding Vertical - uses base * multiplier
     @Composable
     fun paddingSmallVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingSmallVertical ?: 4f).dp
+        val base = config?.basePaddingSmall ?: 4f
+        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun paddingMediumVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingMediumVertical ?: 8f).dp
+        val base = config?.basePaddingMedium ?: 8f
+        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun paddingLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingLargeVertical ?: 16f).dp
+        val base = config?.basePaddingLarge ?: 16f
+        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun paddingExtraLargeVertical(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.paddingExtraLargeVertical ?: 24f).dp
+        val base = config?.basePaddingExtraLarge ?: 24f
+        val multiplier = config?.paddingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     // Backward compatibility - uses horizontal values
@@ -185,25 +206,62 @@ object DynamicThemeValues {
         return paddingExtraLargeHorizontal(config)
     }
     
-    // Spacing
+    // Spacing - uses base * multiplier
     @Composable
     fun spacingSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.spacingSmall ?: 4f).dp
+        val base = config?.baseSpacingSmall ?: 4f
+        val multiplier = config?.spacingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun spacingMedium(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.spacingMedium ?: 8f).dp
+        val base = config?.baseSpacingMedium ?: 8f
+        val multiplier = config?.spacingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun spacingLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.spacingLarge ?: 16f).dp
+        val base = config?.baseSpacingLarge ?: 16f
+        val multiplier = config?.spacingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
     fun spacingExtraLarge(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        return (config?.spacingExtraLarge ?: 24f).dp
+        val base = config?.baseSpacingExtraLarge ?: 24f
+        val multiplier = config?.spacingVerticalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    // Spacing Horizontal
+    @Composable
+    fun spacingSmallHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSpacingSmall ?: 4f
+        val multiplier = config?.spacingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun spacingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSpacingMedium ?: 8f
+        val multiplier = config?.spacingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun spacingLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSpacingLarge ?: 16f
+        val multiplier = config?.spacingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun spacingExtraLargeHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSpacingExtraLarge ?: 24f
+        val multiplier = config?.spacingHorizontalMultiplier ?: 1.0f
+        return (base * multiplier).dp
     }
     
     @Composable
@@ -243,32 +301,44 @@ object DynamicThemeValues {
     
     @Composable
     fun cornerRadiusSmall(config: UiConfigEntity?): androidx.compose.foundation.shape.CornerSize {
-        return androidx.compose.foundation.shape.CornerSize((config?.cornerRadiusSmall ?: 4f).dp)
+        val base = config?.baseCornerRadiusSmall ?: 4f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return androidx.compose.foundation.shape.CornerSize((base * multiplier).dp)
     }
     
     @Composable
     fun cornerRadiusMedium(config: UiConfigEntity?): androidx.compose.foundation.shape.CornerSize {
-        return androidx.compose.foundation.shape.CornerSize((config?.cornerRadiusMedium ?: 8f).dp)
+        val base = config?.baseCornerRadiusMedium ?: 8f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return androidx.compose.foundation.shape.CornerSize((base * multiplier).dp)
     }
     
     @Composable
     fun cornerRadiusLarge(config: UiConfigEntity?): androidx.compose.foundation.shape.CornerSize {
-        return androidx.compose.foundation.shape.CornerSize((config?.cornerRadiusLarge ?: 16f).dp)
+        val base = config?.baseCornerRadiusLarge ?: 16f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return androidx.compose.foundation.shape.CornerSize((base * multiplier).dp)
     }
     
     @Composable
     fun roundedCornerShapeSmall(config: UiConfigEntity?): RoundedCornerShape {
-        return RoundedCornerShape(config?.cornerRadiusSmall ?: 4f)
+        val base = config?.baseCornerRadiusSmall ?: 4f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return RoundedCornerShape(base * multiplier)
     }
     
     @Composable
     fun roundedCornerShapeMedium(config: UiConfigEntity?): RoundedCornerShape {
-        return RoundedCornerShape(config?.cornerRadiusMedium ?: 8f)
+        val base = config?.baseCornerRadiusMedium ?: 8f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return RoundedCornerShape(base * multiplier)
     }
     
     @Composable
     fun roundedCornerShapeLarge(config: UiConfigEntity?): RoundedCornerShape {
-        return RoundedCornerShape(config?.cornerRadiusLarge ?: 16f)
+        val base = config?.baseCornerRadiusLarge ?: 16f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return RoundedCornerShape(base * multiplier)
     }
 }
 

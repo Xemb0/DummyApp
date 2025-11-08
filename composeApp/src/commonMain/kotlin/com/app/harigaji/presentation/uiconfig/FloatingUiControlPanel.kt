@@ -90,12 +90,37 @@ fun FloatingUiControlPanel(
                     
                     Divider(modifier = Modifier.padding(vertical = 8.dp))
                     
-                    // Color Presets Section
+                    // Reset to Default Button
+                    Button(
+                        onClick = {
+                            viewModel.resetToDefault()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Icon(
+                            Icons.Default.Refresh,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Reset to Default")
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Divider()
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Color Presets Section - Only 3 presets
                     ConfigSection(
-                        title = "Color Presets",
+                        title = "Color Theme",
                         icon = Icons.Default.ColorLens
                     ) {
-                        val presets = ColorPresets.getAllPresets()
+                        val presets = ColorPresets.getAllPresets().take(3) // Only first 3
                         presets.forEach { (name, preset) ->
                             PresetButton(
                                 name = name,
@@ -109,257 +134,89 @@ fun FloatingUiControlPanel(
                         }
                     }
                     
-                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Divider()
+                    Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Colors Section
-                    ConfigSection(
-                        title = "Custom Colors",
-                        icon = Icons.Default.Palette
-                    ) {
-                        ColorSlider(
-                            label = "Primary",
-                            value = currentConfig.primaryColor,
-                            onValueChange = { newValue ->
-                                viewModel.updateColors(currentConfig.copy(primaryColor = newValue))
-                            }
-                        )
-                        ColorSlider(
-                            label = "Secondary",
-                            value = currentConfig.secondaryColor,
-                            onValueChange = { newValue ->
-                                viewModel.updateColors(currentConfig.copy(secondaryColor = newValue))
-                            }
-                        )
-                        ColorSlider(
-                            label = "Surface",
-                            value = currentConfig.surfaceColor,
-                            onValueChange = { newValue ->
-                                viewModel.updateColors(currentConfig.copy(surfaceColor = newValue))
-                            }
-                        )
-                        ColorSlider(
-                            label = "Background",
-                            value = currentConfig.backgroundColor,
-                            onValueChange = { newValue ->
-                                viewModel.updateColors(currentConfig.copy(backgroundColor = newValue))
-                            }
-                        )
-                        ColorSlider(
-                            label = "On Surface",
-                            value = currentConfig.onSurfaceColor,
-                            onValueChange = { newValue ->
-                                viewModel.updateColors(currentConfig.copy(onSurfaceColor = newValue))
-                            }
-                        )
-                    }
-                    
-                    // Padding Horizontal Section
+                    // Padding Horizontal - Single Multiplier
                     ConfigSection(
                         title = "Padding Horizontal",
                         icon = Icons.Default.FormatIndentIncrease
                     ) {
-                        SizeSlider(
-                            label = "Small H",
-                            value = currentConfig.paddingSmallHorizontal,
-                            range = 0f..32f,
+                        MultiplierSlider(
+                            label = "Horizontal Padding",
+                            value = currentConfig.paddingHorizontalMultiplier,
+                            range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingSmallHorizontal = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Medium H",
-                            value = currentConfig.paddingMediumHorizontal,
-                            range = 0f..32f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingMediumHorizontal = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Large H",
-                            value = currentConfig.paddingLargeHorizontal,
-                            range = 0f..48f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingLargeHorizontal = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Extra Large H",
-                            value = currentConfig.paddingExtraLargeHorizontal,
-                            range = 0f..64f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingExtraLargeHorizontal = newValue))
+                                viewModel.updateConfig(currentConfig.copy(paddingHorizontalMultiplier = newValue))
                             }
                         )
                     }
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Padding Vertical Section
+                    // Padding Vertical - Single Multiplier
                     ConfigSection(
                         title = "Padding Vertical",
                         icon = Icons.Default.FormatIndentIncrease
                     ) {
-                        SizeSlider(
-                            label = "Small V",
-                            value = currentConfig.paddingSmallVertical,
-                            range = 0f..32f,
+                        MultiplierSlider(
+                            label = "Vertical Padding",
+                            value = currentConfig.paddingVerticalMultiplier,
+                            range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingSmallVertical = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Medium V",
-                            value = currentConfig.paddingMediumVertical,
-                            range = 0f..32f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingMediumVertical = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Large V",
-                            value = currentConfig.paddingLargeVertical,
-                            range = 0f..48f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingLargeVertical = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Extra Large V",
-                            value = currentConfig.paddingExtraLargeVertical,
-                            range = 0f..64f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(paddingExtraLargeVertical = newValue))
+                                viewModel.updateConfig(currentConfig.copy(paddingVerticalMultiplier = newValue))
                             }
                         )
                     }
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Spacing Section
+                    // Spacing Horizontal - Single Multiplier
                     ConfigSection(
-                        title = "Spacing",
+                        title = "Spacing Horizontal",
                         icon = Icons.Default.SpaceBar
                     ) {
-                        SizeSlider(
-                            label = "Small",
-                            value = currentConfig.spacingSmall,
-                            range = 0f..32f,
+                        MultiplierSlider(
+                            label = "Horizontal Spacing",
+                            value = currentConfig.spacingHorizontalMultiplier,
+                            range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(spacingSmall = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Medium",
-                            value = currentConfig.spacingMedium,
-                            range = 0f..32f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(spacingMedium = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Large",
-                            value = currentConfig.spacingLarge,
-                            range = 0f..48f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(spacingLarge = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Extra Large",
-                            value = currentConfig.spacingExtraLarge,
-                            range = 0f..64f,
-                            onValueChange = { newValue ->
-                                viewModel.updateConfig(currentConfig.copy(spacingExtraLarge = newValue))
+                                viewModel.updateConfig(currentConfig.copy(spacingHorizontalMultiplier = newValue))
                             }
                         )
                     }
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Icon Sizes Section
+                    // Spacing Vertical - Single Multiplier
                     ConfigSection(
-                        title = "Icon Sizes",
-                        icon = Icons.Default.Image
+                        title = "Spacing Vertical",
+                        icon = Icons.Default.SpaceBar
                     ) {
-                        SizeSlider(
-                            label = "Small",
-                            value = currentConfig.iconSizeSmall,
-                            range = 8f..64f,
+                        MultiplierSlider(
+                            label = "Vertical Spacing",
+                            value = currentConfig.spacingVerticalMultiplier,
+                            range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateIconSizes(currentConfig.copy(iconSizeSmall = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Medium",
-                            value = currentConfig.iconSizeMedium,
-                            range = 8f..64f,
-                            onValueChange = { newValue ->
-                                viewModel.updateIconSizes(currentConfig.copy(iconSizeMedium = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Large",
-                            value = currentConfig.iconSizeLarge,
-                            range = 8f..128f,
-                            onValueChange = { newValue ->
-                                viewModel.updateIconSizes(currentConfig.copy(iconSizeLarge = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Extra Large",
-                            value = currentConfig.iconSizeExtraLarge,
-                            range = 8f..128f,
-                            onValueChange = { newValue ->
-                                viewModel.updateIconSizes(currentConfig.copy(iconSizeExtraLarge = newValue))
+                                viewModel.updateConfig(currentConfig.copy(spacingVerticalMultiplier = newValue))
                             }
                         )
                     }
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    // Text Sizes Section
+                    // Corner Radius - Single Multiplier
                     ConfigSection(
-                        title = "Text Sizes",
-                        icon = Icons.Default.TextFields
+                        title = "Corner Radius",
+                        icon = Icons.Default.CropFree
                     ) {
-                        SizeSlider(
-                            label = "Small",
-                            value = currentConfig.textSizeSmall,
-                            range = 8f..24f,
+                        MultiplierSlider(
+                            label = "Corner Radius",
+                            value = currentConfig.cornerRadiusMultiplier,
+                            range = 0.5f..2.0f,
                             onValueChange = { newValue ->
-                                viewModel.updateTextSizes(currentConfig.copy(textSizeSmall = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Medium",
-                            value = currentConfig.textSizeMedium,
-                            range = 8f..24f,
-                            onValueChange = { newValue ->
-                                viewModel.updateTextSizes(currentConfig.copy(textSizeMedium = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Large",
-                            value = currentConfig.textSizeLarge,
-                            range = 8f..32f,
-                            onValueChange = { newValue ->
-                                viewModel.updateTextSizes(currentConfig.copy(textSizeLarge = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Title",
-                            value = currentConfig.textSizeTitle,
-                            range = 12f..48f,
-                            onValueChange = { newValue ->
-                                viewModel.updateTextSizes(currentConfig.copy(textSizeTitle = newValue))
-                            }
-                        )
-                        SizeSlider(
-                            label = "Headline",
-                            value = currentConfig.textSizeHeadline,
-                            range = 16f..64f,
-                            onValueChange = { newValue ->
-                                viewModel.updateTextSizes(currentConfig.copy(textSizeHeadline = newValue))
+                                viewModel.updateConfig(currentConfig.copy(cornerRadiusMultiplier = newValue))
                             }
                         )
                     }
@@ -557,6 +414,49 @@ fun SizeSlider(
 }
 
 @Composable
+fun MultiplierSlider(
+    label: String,
+    value: Float,
+    range: ClosedFloatingPointRange<Float>,
+    onValueChange: (Float) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = "${String.format("%.2f", value)}x",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+        Slider(
+            value = value,
+            onValueChange = onValueChange,
+            valueRange = range,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Text(
+            text = "1.0x = Default | Scales all ${label.lowercase()} proportionally",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+            modifier = Modifier.padding(top = 4.dp)
+        )
+    }
+}
+
+@Composable
 fun ConfigInfoCard(config: UiConfigEntity) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -567,12 +467,11 @@ fun ConfigInfoCard(config: UiConfigEntity) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            ConfigInfoRow("Primary Color", "#${config.primaryColor.toString(16).uppercase()}")
-            ConfigInfoRow("Padding Large H", "${config.paddingLargeHorizontal.toInt()}dp")
-            ConfigInfoRow("Padding Large V", "${config.paddingLargeVertical.toInt()}dp")
-            ConfigInfoRow("Spacing Large", "${config.spacingLarge.toInt()}dp")
-            ConfigInfoRow("Icon Size Medium", "${config.iconSizeMedium.toInt()}dp")
-            ConfigInfoRow("Text Size Large", "${config.textSizeLarge.toInt()}sp")
+            ConfigInfoRow("Padding H Multiplier", "${String.format("%.2f", config.paddingHorizontalMultiplier)}x")
+            ConfigInfoRow("Padding V Multiplier", "${String.format("%.2f", config.paddingVerticalMultiplier)}x")
+            ConfigInfoRow("Spacing H Multiplier", "${String.format("%.2f", config.spacingHorizontalMultiplier)}x")
+            ConfigInfoRow("Spacing V Multiplier", "${String.format("%.2f", config.spacingVerticalMultiplier)}x")
+            ConfigInfoRow("Corner Radius Multiplier", "${String.format("%.2f", config.cornerRadiusMultiplier)}x")
         }
     }
 }

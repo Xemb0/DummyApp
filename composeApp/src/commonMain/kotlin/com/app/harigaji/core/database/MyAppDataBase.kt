@@ -13,7 +13,7 @@ import com.app.harigaji.core.uiconfig.UiConfigEntity
 import com.app.harigaji.data.UserProgressDetail
 import com.app.harigaji.user.domain.UserProgressDao
 
-@Database(entities = [AppConfigEntity::class,NotificationDetail::class, UserProgressDetail::class, UiConfigEntity::class] ,version = 3)
+@Database(entities = [AppConfigEntity::class,NotificationDetail::class, UserProgressDetail::class, UiConfigEntity::class] ,version = 4)
 @TypeConverters(Converters::class)
 @ConstructedBy(DatabaseConstructor::class)
 

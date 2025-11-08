@@ -20,23 +20,27 @@ data class UiConfigEntity(
     val onSurfaceVariantColor: Long = 0xFF186745,
     val secondaryContainerColor: Long = 0xFF208A5C,
     
-    // Padding values (in dp, stored as Float) - Horizontal
-    val paddingSmallHorizontal: Float = 4f,
-    val paddingMediumHorizontal: Float = 8f,
-    val paddingLargeHorizontal: Float = 16f,
-    val paddingExtraLargeHorizontal: Float = 24f,
+    // Relative scaling multipliers (1.0 = default, stored as Float)
+    val paddingHorizontalMultiplier: Float = 1.0f,
+    val paddingVerticalMultiplier: Float = 1.0f,
+    val spacingHorizontalMultiplier: Float = 1.0f,
+    val spacingVerticalMultiplier: Float = 1.0f,
+    val cornerRadiusMultiplier: Float = 1.0f,
     
-    // Padding values (in dp, stored as Float) - Vertical
-    val paddingSmallVertical: Float = 4f,
-    val paddingMediumVertical: Float = 8f,
-    val paddingLargeVertical: Float = 16f,
-    val paddingExtraLargeVertical: Float = 24f,
+    // Base values (defaults, stored as Float) - these define the base sizes
+    val basePaddingSmall: Float = 4f,
+    val basePaddingMedium: Float = 8f,
+    val basePaddingLarge: Float = 16f,
+    val basePaddingExtraLarge: Float = 24f,
     
-    // Spacing values (in dp, stored as Float)
-    val spacingSmall: Float = 4f,
-    val spacingMedium: Float = 8f,
-    val spacingLarge: Float = 16f,
-    val spacingExtraLarge: Float = 24f,
+    val baseSpacingSmall: Float = 4f,
+    val baseSpacingMedium: Float = 8f,
+    val baseSpacingLarge: Float = 16f,
+    val baseSpacingExtraLarge: Float = 24f,
+    
+    val baseCornerRadiusSmall: Float = 4f,
+    val baseCornerRadiusMedium: Float = 8f,
+    val baseCornerRadiusLarge: Float = 16f,
     
     // Icon sizes (in dp, stored as Float)
     val iconSizeSmall: Float = 16f,
@@ -51,11 +55,6 @@ data class UiConfigEntity(
     val textSizeExtraLarge: Float = 20f,
     val textSizeTitle: Float = 24f,
     val textSizeHeadline: Float = 32f,
-    
-    // Corner radius (in dp, stored as Float)
-    val cornerRadiusSmall: Float = 4f,
-    val cornerRadiusMedium: Float = 8f,
-    val cornerRadiusLarge: Float = 16f,
     
     // Elevation (in dp, stored as Float)
     val elevationSmall: Float = 2f,

@@ -44,25 +44,11 @@ object ColorPresets {
         secondaryContainerColor = 0xFFFF8F00 // Dark Amber
     )
     
-    // Preset 4: Indigo & Pink (Modern Theme)
-    val modernPreset = UiConfigEntity(
-        id = 1,
-        primaryColor = 0xFF3F51B5, // Indigo
-        secondaryColor = 0xFFE91E63, // Pink
-        surfaceColor = 0xFFFFFFFF, // White
-        surfaceLowestColor = 0xFFF3E5F5, // Light Purple
-        backgroundColor = 0xFFFAF5FF, // Very Light Purple
-        onSurfaceColor = 0xFF1A237E, // Dark Indigo
-        onSurfaceVariantColor = 0xFF303F9F, // Medium Indigo
-        secondaryContainerColor = 0xFFC2185B // Dark Pink
-    )
-    
     fun getAllPresets(): List<Pair<String, UiConfigEntity>> {
         return listOf(
             "Default (Purple & Green)" to defaultPreset,
             "Ocean (Blue & Teal)" to oceanPreset,
-            "Sunset (Orange & Amber)" to sunsetPreset,
-            "Modern (Indigo & Pink)" to modernPreset
+            "Sunset (Orange & Amber)" to sunsetPreset
         )
     }
 }
