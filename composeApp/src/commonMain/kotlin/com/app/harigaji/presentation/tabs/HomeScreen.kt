@@ -49,8 +49,10 @@ import com.app.harigaji.theme.rememberDynamicPaddingLarge
 import com.app.harigaji.theme.rememberDynamicPaddingExtraLarge
 import com.app.harigaji.theme.rememberDynamicCornerRadiusMedium
 import com.app.harigaji.theme.rememberDynamicCornerRadiusLarge
-import com.app.harigaji.theme.rememberDynamicOuterPaddingSmallHorizontal
+
 import com.app.harigaji.theme.rememberDynamicPaddingOuterSmallHorizontal
+import com.app.harigaji.theme.rememberDynamicSpacingExtraLargeHorizontal
+import com.app.harigaji.theme.rememberDynamicSpacingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -280,7 +282,7 @@ private fun TopBarContent(paddingValues: PaddingValues) {
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(16.dp)
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            rememberDynamicSpacingExtraLargeHorizontal()
             DateRow()
         }
     }

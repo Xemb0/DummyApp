@@ -257,46 +257,62 @@ fun rememberDynamicCornerRadiusLarge(): RoundedCornerShape {
     return DynamicThemeValues.roundedCornerShapeLarge(config)
 }
 
-// Custom Spacers - Vertical
+// Custom Spacers - Vertical (uses spacing multipliers, not padding)
 @Composable
 fun DynamicSpacerSmallVertical() {
-    Spacer(modifier = Modifier.height(rememberDynamicSpacingSmall()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingSmall(config)
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun DynamicSpacerMediumVertical() {
-    Spacer(modifier = Modifier.height(rememberDynamicSpacingMedium()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingMedium(config)
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun DynamicSpacerLargeVertical() {
-    Spacer(modifier = Modifier.height(rememberDynamicSpacingLarge()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingLarge(config)
+    Spacer(modifier = Modifier.height(spacing))
 }
 
 @Composable
 fun DynamicSpacerExtraLargeVertical() {
-    Spacer(modifier = Modifier.height(rememberDynamicSpacingExtraLarge()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingExtraLarge(config)
+    Spacer(modifier = Modifier.height(spacing))
 }
 
-// Custom Spacers - Horizontal
+// Custom Spacers - Horizontal (uses spacing multipliers, not padding)
 @Composable
 fun DynamicSpacerSmallHorizontal() {
-    Spacer(modifier = Modifier.width(rememberDynamicSpacingSmallHorizontal()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingSmallHorizontal(config)
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun DynamicSpacerMediumHorizontal() {
-    Spacer(modifier = Modifier.width(rememberDynamicSpacingMediumHorizontal()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingMediumHorizontal(config)
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun DynamicSpacerLargeHorizontal() {
-    Spacer(modifier = Modifier.width(rememberDynamicSpacingLargeHorizontal()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingLargeHorizontal(config)
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 @Composable
 fun DynamicSpacerExtraLargeHorizontal() {
-    Spacer(modifier = Modifier.width(rememberDynamicSpacingExtraLargeHorizontal()))
+    val config = rememberUiConfig()
+    val spacing = DynamicThemeValues.spacingExtraLargeHorizontal(config)
+    Spacer(modifier = Modifier.width(spacing))
 }
 
 // Extension functions for direct access - Inner Padding
