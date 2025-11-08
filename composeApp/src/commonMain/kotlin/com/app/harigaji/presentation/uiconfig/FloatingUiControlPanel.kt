@@ -494,7 +494,7 @@ fun MultiplierSlider(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "%.2f".format(value) + "x",
+                text = "${(value * 100).toInt() / 100f}x",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -525,13 +525,13 @@ fun ConfigInfoCard(config: UiConfigEntity) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            ConfigInfoRow("Inner Padding H", "%.2f".format(config.innerPaddingHorizontalMultiplier) + "x")
-            ConfigInfoRow("Outer Padding H", "%.2f".format(config.outerPaddingHorizontalMultiplier) + "x")
-            ConfigInfoRow("Inner Padding V", "%.2f".format(config.innerPaddingVerticalMultiplier) + "x")
-            ConfigInfoRow("Outer Padding V", "%.2f".format(config.outerPaddingVerticalMultiplier) + "x")
-            ConfigInfoRow("Spacing H", "%.2f".format(config.spacingHorizontalMultiplier) + "x")
-            ConfigInfoRow("Spacing V", "%.2f".format(config.spacingVerticalMultiplier) + "x")
-            ConfigInfoRow("Corner Radius", "%.2f".format(config.cornerRadiusMultiplier) + "x")
+            ConfigInfoRow("Inner Padding H", "${(config.innerPaddingHorizontalMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Outer Padding H", "${(config.outerPaddingHorizontalMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Inner Padding V", "${(config.innerPaddingVerticalMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Outer Padding V", "${(config.outerPaddingVerticalMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Spacing H", "${(config.spacingHorizontalMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Spacing V", "${(config.spacingVerticalMultiplier * 100).toInt() / 100f}x")
+            ConfigInfoRow("Corner Radius", "${(config.cornerRadiusMultiplier * 100).toInt() / 100f}x")
         }
     }
 }
