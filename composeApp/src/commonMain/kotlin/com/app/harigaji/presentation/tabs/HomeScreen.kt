@@ -335,7 +335,7 @@ private fun UserHeaderCard(
                             .align(Alignment.Center)
                     )
                 }
-                SpacerMediumHorizontal()
+                SpacerHorizontalMedium()
                 Column(
                     modifier = Modifier.weight(1f).debugUi(),
                     verticalArrangement = Arrangement.Center,
