@@ -1,9 +1,16 @@
 package com.app.harigaji
 
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.app.harigaji.artical.ArticlesViewModel
 import com.app.harigaji.chat.ChatViewModel
@@ -19,8 +26,19 @@ import com.app.harigaji.theme.LocalUiConfig
 import com.app.harigaji.theme.LocalOutlineMode
 import androidx.compose.runtime.CompositionLocalProvider
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.roundToInt
+
+@Composable
+fun Modifier.draggable(
+    containerSize: IntSize,
+    onDrag: (Offset) -> Unit
+): Modifier = this.pointerInput(Unit) {
+    detectDragGestures { change, dragAmount ->
+        change.consume()
+        onDrag(dragAmount)
+    }
+}
 
 @Composable
 @Preview
@@ -31,18 +49,38 @@ fun App() {
     val chatViewModel = koinViewModel<ChatViewModel>()
     val articlesViewModel = koinViewModel<ArticlesViewModel>()
     val uiConfigViewModel = koinViewModel<UiConfigViewModel>()
-    
+
     val uiConfig by uiConfigViewModel.uiConfig.collectAsState()
-    
-    // Toggle this to enable/disable outline debug mode globally
-    // Set to false to disable all outline debugging
     val enableOutlineDebug = uiConfigViewModel.isOutlineModeEnabled
-    
+
     fun triggerDummyCrash() {
-            throw RuntimeException("💥 Dummy crash for Firebase Crashlytics testing")
+        throw RuntimeException("💥 Dummy crash for Firebase Crashlytics testing")
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    var containerSize by remember { mutableStateOf(IntSize.Zero) }
+    var buttonSize by remember { mutableStateOf(IntSize.Zero) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
+
+    val density = LocalDensity.current
+    val paddingPx = with(density) { 16.dp.toPx() }
+
+    // Initialize position at bottom-end
+    LaunchedEffect(containerSize, buttonSize) {
+        if (containerSize != IntSize.Zero && buttonSize != IntSize.Zero && offset == Offset.Zero) {
+            offset = Offset(
+                x = (containerSize.width - buttonSize.width - paddingPx).coerceAtLeast(0f),
+                y = (containerSize.height - buttonSize.height - paddingPx).coerceAtLeast(0f)
+            )
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .onGloballyPositioned { coordinates ->
+                containerSize = coordinates.size
+            }
+    ) {
         CompositionLocalProvider(
             LocalUiConfig provides uiConfig,
             LocalOutlineMode provides enableOutlineDebug
@@ -62,13 +100,28 @@ fun App() {
             viewModel = uiConfigViewModel,
             modifier = Modifier.fillMaxSize()
         )
-        
-        // Floating Control Button
-        FloatingControlButton(
-            viewModel = uiConfigViewModel,
+
+        // Draggable Floating Control Button
+        Box(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        )
+                .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
+                .onGloballyPositioned { coordinates ->
+                    buttonSize = coordinates.size
+                }
+                .draggable(containerSize) { dragAmount ->
+                    val newOffset = offset + dragAmount
+
+                    // Constrain within bounds
+                    offset = Offset(
+                        x = newOffset.x.coerceIn(0f, (containerSize.width - buttonSize.width).toFloat()),
+                        y = newOffset.y.coerceIn(0f, (containerSize.height - buttonSize.height).toFloat())
+                    )
+                }
+        ) {
+            FloatingControlButton(
+                viewModel = uiConfigViewModel,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }

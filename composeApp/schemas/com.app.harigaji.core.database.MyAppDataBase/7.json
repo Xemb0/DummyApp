@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "3b75f9efceab155d285806107645bbdc",
+    "identityHash": "7ff2962f85b8d26ae089455aa9cee328",
     "entities": [
       {
         "tableName": "app_config",
@@ -237,7 +237,7 @@
       },
       {
         "tableName": "ui_config",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `primaryColor` INTEGER NOT NULL, `secondaryColor` INTEGER NOT NULL, `surfaceColor` INTEGER NOT NULL, `surfaceLowestColor` INTEGER NOT NULL, `backgroundColor` INTEGER NOT NULL, `onSurfaceColor` INTEGER NOT NULL, `onSurfaceVariantColor` INTEGER NOT NULL, `secondaryContainerColor` INTEGER NOT NULL, `innerPaddingHorizontalMultiplier` REAL NOT NULL, `outerPaddingHorizontalMultiplier` REAL NOT NULL, `innerPaddingVerticalMultiplier` REAL NOT NULL, `outerPaddingVerticalMultiplier` REAL NOT NULL, `spacingHorizontalMultiplier` REAL NOT NULL, `spacingVerticalMultiplier` REAL NOT NULL, `cornerRadiusMultiplier` REAL NOT NULL, `sizeMultiplier` REAL NOT NULL, `textSizeMultiplier` REAL NOT NULL, `baseInnerPaddingSmall` REAL NOT NULL, `baseInnerPaddingMedium` REAL NOT NULL, `baseInnerPaddingLarge` REAL NOT NULL, `baseInnerPaddingExtraLarge` REAL NOT NULL, `baseOuterPaddingSmall` REAL NOT NULL, `baseOuterPaddingMedium` REAL NOT NULL, `baseOuterPaddingLarge` REAL NOT NULL, `baseOuterPaddingExtraLarge` REAL NOT NULL, `baseSpacingSmall` REAL NOT NULL, `baseSpacingMedium` REAL NOT NULL, `baseSpacingLarge` REAL NOT NULL, `baseSpacingExtraLarge` REAL NOT NULL, `baseCornerRadiusSmall` REAL NOT NULL, `baseCornerRadiusMedium` REAL NOT NULL, `baseCornerRadiusLarge` REAL NOT NULL, `baseSizeSmall` REAL NOT NULL, `baseSizeMedium` REAL NOT NULL, `baseSizeLarge` REAL NOT NULL, `baseSizeExtraLarge` REAL NOT NULL, `baseTextSizeSmall` REAL NOT NULL, `baseTextSizeMedium` REAL NOT NULL, `baseTextSizeLarge` REAL NOT NULL, `baseTextSizeExtraLarge` REAL NOT NULL, `baseTextSizeTitle` REAL NOT NULL, `baseTextSizeHeadline` REAL NOT NULL, `elevationSmall` REAL NOT NULL, `elevationMedium` REAL NOT NULL, `elevationLarge` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `primaryColor` INTEGER NOT NULL, `secondaryColor` INTEGER NOT NULL, `surfaceColor` INTEGER NOT NULL, `surfaceLowestColor` INTEGER NOT NULL, `backgroundColor` INTEGER NOT NULL, `onSurfaceColor` INTEGER NOT NULL, `onSurfaceVariantColor` INTEGER NOT NULL, `secondaryContainerColor` INTEGER NOT NULL, `innerPaddingHorizontalMultiplier` REAL NOT NULL, `outerPaddingHorizontalMultiplier` REAL NOT NULL, `innerPaddingVerticalMultiplier` REAL NOT NULL, `outerPaddingVerticalMultiplier` REAL NOT NULL, `spacingHorizontalMultiplier` REAL NOT NULL, `spacingVerticalMultiplier` REAL NOT NULL, `cornerRadiusMultiplier` REAL NOT NULL, `sizeMultiplier` REAL NOT NULL, `textSizeMultiplier` REAL NOT NULL, `baseInnerPaddingSmall` REAL NOT NULL, `baseInnerPaddingMedium` REAL NOT NULL, `baseInnerPaddingLarge` REAL NOT NULL, `baseInnerPaddingExtraLarge` REAL NOT NULL, `baseOuterPaddingSmall` REAL NOT NULL, `baseOuterPaddingMedium` REAL NOT NULL, `baseOuterPaddingLarge` REAL NOT NULL, `baseOuterPaddingExtraLarge` REAL NOT NULL, `baseSpacingSmall` REAL NOT NULL, `baseSpacingMedium` REAL NOT NULL, `baseSpacingLarge` REAL NOT NULL, `baseSpacingExtraLarge` REAL NOT NULL, `baseCornerRadiusExSmall` REAL NOT NULL, `baseCornerRadiusSmall` REAL NOT NULL, `baseCornerRadiusMedium` REAL NOT NULL, `baseCornerRadiusMedLarge` REAL NOT NULL, `baseCornerRadiusLarge` REAL NOT NULL, `baseSizeSmall` REAL NOT NULL, `baseSizeMedium` REAL NOT NULL, `baseSizeLarge` REAL NOT NULL, `baseSizeExtraLarge` REAL NOT NULL, `baseSizeBig` REAL NOT NULL, `baseSizeExtraBig` REAL NOT NULL, `baseTextSizeSmall` REAL NOT NULL, `baseTextSizeMedium` REAL NOT NULL, `baseTextSizeLarge` REAL NOT NULL, `baseTextSizeExtraLarge` REAL NOT NULL, `baseTextSizeTitle` REAL NOT NULL, `baseTextSizeHeadline` REAL NOT NULL, `elevationSmall` REAL NOT NULL, `elevationMedium` REAL NOT NULL, `elevationLarge` REAL NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -420,6 +420,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "baseCornerRadiusExSmall",
+            "columnName": "baseCornerRadiusExSmall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
             "fieldPath": "baseCornerRadiusSmall",
             "columnName": "baseCornerRadiusSmall",
             "affinity": "REAL",
@@ -428,6 +434,12 @@
           {
             "fieldPath": "baseCornerRadiusMedium",
             "columnName": "baseCornerRadiusMedium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseCornerRadiusMedLarge",
+            "columnName": "baseCornerRadiusMedLarge",
             "affinity": "REAL",
             "notNull": true
           },
@@ -458,6 +470,18 @@
           {
             "fieldPath": "baseSizeExtraLarge",
             "columnName": "baseSizeExtraLarge",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSizeBig",
+            "columnName": "baseSizeBig",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSizeExtraBig",
+            "columnName": "baseSizeExtraBig",
             "affinity": "REAL",
             "notNull": true
           },
@@ -526,7 +550,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3b75f9efceab155d285806107645bbdc')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ff2962f85b8d26ae089455aa9cee328')"
     ]
   }
 }

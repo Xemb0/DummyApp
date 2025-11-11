@@ -115,7 +115,7 @@ fun CurvedBottomNavigation(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(70.dp)
+            .height(80.dp)
     ) {
 
         // Shadow layer - same shape as the bar
@@ -582,6 +582,7 @@ fun NavItemContent(
     Box(
         modifier = Modifier
             .size(64.dp)
+
             .clickable(
                 onClick = onClick,
                 indication = null,
@@ -606,6 +607,7 @@ fun NavItemContent(
         Box(contentAlignment = Alignment.TopEnd) {
             Box(
                 modifier = Modifier
+
                     .scale(scale)
                     .graphicsLayer {
                         rotationZ = if (isSelected) rotation else 0f
@@ -641,6 +643,16 @@ fun NavItemContent(
                                         )
                                     )
                                 }
+                                    .innerShadow(
+                                        shape = CircleShape,
+                                        shadow = Shadow(
+                                            offset = DpOffset(0.dp, 0.dp),
+                                            radius = 4.dp,
+                                            spread = 2.dp,
+                                            color = Color(0x33000000)
+                                        )
+
+                                    )
                             } else Modifier
                         )
                         // Background with radial gradient (variant approaching center)

@@ -49,22 +49,26 @@ data class UiConfigEntity(
     val baseSpacingLarge: Float = 16f,
     val baseSpacingExtraLarge: Float = 24f,
     
-    val baseCornerRadiusSmall: Float = 4f,
-    val baseCornerRadiusMedium: Float = 8f,
-    val baseCornerRadiusLarge: Float = 16f,
+    val baseCornerRadiusExSmall: Float = 8f,
+    val baseCornerRadiusSmall: Float = 16f,
+    val baseCornerRadiusMedium: Float = 24f,
+    val baseCornerRadiusMedLarge: Float = 32f,
+    val baseCornerRadiusLarge: Float = 48f,
     
     // Sizes - base values (in dp, stored as Float)
     val baseSizeSmall: Float = 16f,
     val baseSizeMedium: Float = 24f,
     val baseSizeLarge: Float = 32f,
     val baseSizeExtraLarge: Float = 48f,
-    
+    val baseSizeBig: Float = 108f,
+    val baseSizeExtraBig: Float = 132f,
+
     // Text sizes - base values (in sp, stored as Float)
     val baseTextSizeSmall: Float = 12f,
-    val baseTextSizeMedium: Float = 14f,
-    val baseTextSizeLarge: Float = 16f,
-    val baseTextSizeExtraLarge: Float = 20f,
-    val baseTextSizeTitle: Float = 24f,
+    val baseTextSizeMedium: Float = 16f,
+    val baseTextSizeLarge: Float = 18f,
+    val baseTextSizeExtraLarge: Float = 24f,
+    val baseTextSizeTitle: Float = 28f,
     val baseTextSizeHeadline: Float = 32f,
     
     // Elevation (in dp, stored as Float)

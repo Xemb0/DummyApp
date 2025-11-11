@@ -83,7 +83,6 @@ fun PrivacyPolicyScreen(
             ScreenHeader(
                 title = "Privacy Policy",
                 onBackClick = onPrevious,
-                paddingValues = paddingValues
             )
         },
     ) { pv ->

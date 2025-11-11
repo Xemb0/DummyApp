@@ -32,7 +32,7 @@ fun TermsAndConditionsScreen(
             ScreenHeader(
                 title = "Terms & Conditions",
                 onBackClick = onPrevious,
-                paddingValues = paddingValues
+//                paddingValues = paddingValues
             )
         },
     ) { pv ->

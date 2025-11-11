@@ -55,15 +55,15 @@ fun OptionTabs(
             .height(height)
             .clip(CircleShape)
             .background(bgColor.copy(alpha = .3f)) // Fixed missing color reference
-//            .dropShadow(
-//                shape = CircleShape,
-//                shadow = Shadow(
-//                    offset = DpOffset(0.dp, 0.dp),
-//                    radius = 3.dp,
-//                    spread = 3.dp,
-//                    color = bgColor
-//                )
-//            )
+            .innerShadow(
+                shape = CircleShape,
+                shadow = Shadow(
+                    offset = DpOffset(0.dp, 0.dp),
+                    radius = 4.dp,
+                    spread = 2.dp,
+                    color = Color(0x33000000)
+                )
+            )
     ) {
         // Calculate the width for each option
         val indicatorWidth = maxWidth / options.size

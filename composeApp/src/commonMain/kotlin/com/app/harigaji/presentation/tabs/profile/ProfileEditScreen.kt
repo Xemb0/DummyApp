@@ -1,6 +1,5 @@
 package com.app.harigaji.presentation.tabs.profile
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,9 +27,18 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.app.harigaji.data.UserProgressDetail
 import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.theme.SpacerVerticalMedium
+import com.app.harigaji.theme.SpacerVerticalSmall
+import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
+import com.app.harigaji.theme.rememberOuterVerticalPaddingMedium
+import com.app.harigaji.theme.rememberSizeBig
+import com.app.harigaji.theme.rememberSizeExtraBig
+import com.app.harigaji.theme.rememberSizeLarge
+import com.app.harigaji.theme.rememberSizeMedium
+import com.app.harigaji.theme.debugUi
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import harigaji.composeapp.generated.resources.Res
-import harigaji.composeapp.generated.resources.ic_curve_back
 import harigaji.composeapp.generated.resources.ic_profile
 import io.github.ismoy.imagepickerkmp.domain.config.CameraCaptureConfig
 import io.github.ismoy.imagepickerkmp.domain.config.ImagePickerConfig
@@ -41,9 +49,9 @@ import io.github.ismoy.imagepickerkmp.domain.models.MimeType
 import io.github.ismoy.imagepickerkmp.domain.models.PhotoResult
 import io.github.ismoy.imagepickerkmp.presentation.ui.components.GalleryPickerLauncher
 import io.github.ismoy.imagepickerkmp.presentation.ui.components.ImagePickerLauncher
+import kotlinx.datetime.*
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import kotlinx.datetime.*
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -94,7 +102,8 @@ fun ProfileEditScreen(
                     .fillMaxWidth()
                     .padding(bottom = paddingValues.calculateBottomPadding())
                     .padding(horizontal = 16.dp)
-                    .height(56.dp),
+                    .height(56.dp)
+                    .debugUi(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary
                 ),
@@ -103,13 +112,14 @@ fun ProfileEditScreen(
                 Text(
                     text = "Reset Password",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.debugUi()
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp).debugUi())
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp).debugUi()
                 )
             }
         },
@@ -117,36 +127,42 @@ fun ProfileEditScreen(
             ScreenHeader(
                 title = "Profile",
                 onBackClick = onPrevious,
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge(), vertical = rememberOuterVerticalPaddingMedium()).debugUi(),
             )
         },
     ) { pv ->
         Box(
             modifier = Modifier
                 .padding(pv)
+                .debugUi()
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(horizontal = rememberOuterHorizontalPaddingExtraLarge())
                     .background(MaterialTheme.colorScheme.background)
                     .verticalScroll(rememberScrollState())
+                    .debugUi()
             ) {
 
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                        .debugUi(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
                     // Profile Picture with Edit Button
                     Box(
+                        modifier = Modifier.debugUi(),
                         contentAlignment = Alignment.BottomEnd
                     ) {
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .background(Color(0xFFFFCDD2)),
+                                .background(Color(0xFFFFCDD2))
+                                .debugUi(),
                             contentAlignment = Alignment.Center
                         ) {
                             userProgressDetail?.profilePic?.let {
@@ -154,7 +170,7 @@ fun ProfileEditScreen(
                                     Image(
                                         painter = painterResource(Res.drawable.ic_profile),
                                         contentDescription = "Profile Picture",
-                                        modifier = Modifier.size(150.dp),
+                                        modifier = Modifier.size(rememberSizeExtraBig()).debugUi(),
                                     )
                                     return@let
                                 }
@@ -162,13 +178,14 @@ fun ProfileEditScreen(
                                     model = it,
                                     contentDescription = "Avatar",
                                     modifier = Modifier
-                                        .size(150.dp)
-                                        .clip(CircleShape)
+                                        .size(rememberSizeBig())
+                                        .clip(rememberCornerRadiusLarge())
+                                        .debugUi()
                                 )
                             } ?:  Image(
                                 painter = painterResource(Res.drawable.ic_profile),
                                 contentDescription = "Profile Picture",
-                                modifier = Modifier.size(150.dp),
+                                modifier = Modifier.size(rememberSizeBig()).debugUi(),
                             )
                         }
 
@@ -178,8 +195,9 @@ fun ProfileEditScreen(
                                 showGallery = true
                             },
                             modifier = Modifier
-                                .size(40.dp)
-                                .offset(x = (-4).dp, y = (-4).dp),
+                                .size(rememberSizeLarge())
+                                .offset(x = (-4).dp, y = (-4).dp)
+                                .debugUi(),
                             containerColor = MaterialTheme.colorScheme.secondary,
                             elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 4.dp)
                         ) {
@@ -187,12 +205,12 @@ fun ProfileEditScreen(
                                 imageVector = Icons.Default.Edit,
                                 contentDescription = "Edit Photo",
                                 tint = Color.White,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(rememberSizeMedium()).debugUi()
                             )
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    SpacerVerticalMedium()
 
                     // First Name Field
                     CustomTextField(
@@ -224,7 +242,7 @@ fun ProfileEditScreen(
                         onClick = { showDatePicker = true }
                     )
 
-                    Spacer(modifier = Modifier.height(124.dp))
+                    Spacer(modifier = Modifier.height(124.dp).debugUi())
                 }
             }
 
@@ -243,24 +261,30 @@ fun ProfileEditScreen(
                                 selectedDateMillis = datePickerState.selectedDateMillis
                                 showDatePicker = false
                             },
+                            modifier = Modifier.debugUi(),
                             colors = ButtonDefaults.textButtonColors(
                                 contentColor = MaterialTheme.colorScheme.secondary
                             )
                         ) {
                             Text(
                                 "OK",
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.debugUi()
                             )
                         }
                     },
                     dismissButton = {
                         TextButton(
                             onClick = { showDatePicker = false },
+                            modifier = Modifier.debugUi(),
                             colors = ButtonDefaults.textButtonColors(
                                 contentColor = Color.Gray
                             )
                         ) {
-                            Text("Cancel")
+                            Text(
+                                "Cancel",
+                                modifier = Modifier.debugUi()
+                            )
                         }
                     },
                     colors = DatePickerDefaults.colors(
@@ -296,9 +320,9 @@ fun ProfileEditScreen(
 
                         )
                     ),
-                ){                    DatePicker(
+                    ){                    DatePicker(
                         state = datePickerState,
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(16.dp).debugUi()
                     )
                 }
             }
@@ -360,17 +384,17 @@ fun DatePickerField(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth().debugUi()) {
         // Label
         Text(
             text = label,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().debugUi()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp).debugUi())
 
         // Date Picker Field
         OutlinedTextField(
@@ -389,19 +413,25 @@ fun DatePickerField(
                         blendMode = BlendMode.Multiply,
                         color = Color(0x40000000)
                     )
-                ),
+                )
+                .debugUi(),
             placeholder = {
                 Text(
                     "Select date of birth...",
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                    modifier = Modifier.debugUi()
                 )
             },
             trailingIcon = {
-                IconButton(onClick = onClick) {
+                IconButton(
+                    onClick = onClick,
+                    modifier = Modifier.debugUi()
+                ) {
                     Icon(
                         imageVector = Icons.Default.CalendarToday,
                         contentDescription = "Select Date",
-                        tint = Color.Gray
+                        tint = Color.Gray,
+                        modifier = Modifier.debugUi()
                     )
                 }
             },
@@ -440,17 +470,18 @@ fun CustomTextField(
     enabled: Boolean = true,
     singleLine: Boolean = true
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth().debugUi()) {
         // Label
         Text(
             text = label,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().debugUi()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        SpacerVerticalSmall()
+
 
         // Text Field
         OutlinedTextField(
@@ -474,11 +505,13 @@ fun CustomTextField(
                             Color(0x40000000)
                         }
                     )
-                ),
+                )
+                .debugUi(),
             placeholder = {
                 Text(
                     placeholder,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
+                    modifier = Modifier.debugUi()
                 )
             },
             leadingIcon = leadingIconRes?.let {
@@ -487,7 +520,7 @@ fun CustomTextField(
                         painter = painterResource(it),
                         contentDescription = "$label Icon",
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp).debugUi()
                     )
                 }
             },
@@ -514,11 +547,11 @@ fun CustomTextField(
             enabled = enabled
         )
 
-        // Character Counter
+        SpacerVerticalSmall()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp),
+                .debugUi(),
             horizontalArrangement = Arrangement.End
         ) {
             Text(
@@ -528,19 +561,20 @@ fun CustomTextField(
                     MaterialTheme.colorScheme.error
                 } else {
                     MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-                }
+                },
+                modifier = Modifier.debugUi()
             )
         }
 
         // Error Message
         if (isError && errorMessage.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.errorContainer)
-                    .padding(12.dp),
+                    .padding(12.dp)
+                    .debugUi(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -548,13 +582,15 @@ fun CustomTextField(
                     imageVector = Icons.Default.Warning,
                     contentDescription = "Error Icon",
                     tint = MaterialTheme.colorScheme.onErrorContainer,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(rememberSizeMedium()).debugUi()
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                SpacerVerticalSmall()
+
                 Text(
                     text = errorMessage,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onErrorContainer
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.debugUi()
                 )
             }
         }

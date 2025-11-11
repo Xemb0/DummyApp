@@ -141,7 +141,7 @@ fun ChangePasswordScreen(
             ScreenHeader(
                 title = "Change Password",
                 onBackClick = onPrevious,
-                paddingValues = paddingValues
+//                paddingValues = paddingValues
             )
         },
     ) { pv ->

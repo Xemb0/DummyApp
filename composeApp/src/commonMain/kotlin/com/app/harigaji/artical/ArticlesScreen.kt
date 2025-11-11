@@ -127,20 +127,6 @@ fun ArticlesScreen(
                     ScreenHeader(
                         title = "Articles",
                         onBackClick = onPrevious,
-                        trailingIcon = {
-                            OutlinedIconButton(
-                                onClick = {},
-                                modifier = Modifier.padding(0.dp)
-                                    .size(56.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.size(28.dp)
-                                )
-                            }
-                        }
                     )
                 },
                 scrollBehavior = scrollBehavior

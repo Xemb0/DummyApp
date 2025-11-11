@@ -52,13 +52,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.harigaji.theme.SpacerHorizontalSmall
+import com.app.harigaji.theme.SpacerVerticalMedium
+import com.app.harigaji.theme.SpacerVerticalSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusMedium
+import com.app.harigaji.theme.rememberInnerHorizontalPaddingLarge
+import com.app.harigaji.theme.rememberInnerHorizontalPaddingMedium
+import com.app.harigaji.theme.rememberInnerVerticalPaddingLarge
+import com.app.harigaji.theme.rememberInnerVerticalPaddingMedium
+import com.app.harigaji.theme.rememberSizeLarge
+import com.app.harigaji.theme.rememberSizeMedium
+import com.app.harigaji.theme.rememberSizeSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_calender_filled
@@ -68,7 +82,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier = Modifier) {
-    val paddingLarge = rememberHorizontalPaddingLarge()
+    val innerPaddingLarge = rememberInnerHorizontalPaddingLarge()
     val paddingSmall = rememberHorizontalPaddingSmall()
     val cornerRadius = rememberCornerRadiusMedium()
     
@@ -77,56 +91,80 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
             defaultElevation = 2.dp,
             pressedElevation = 1.dp
         ),
-        modifier = modifier.width(200.dp),
+        modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 1f)),
         shape = cornerRadius
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingLarge),
+                .padding(
+                    vertical = rememberInnerVerticalPaddingLarge(),
+                    horizontal = rememberInnerHorizontalPaddingLarge()
+                ),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Box(
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(rememberSizeLarge())
                     .clip(CircleShape)
-                    .background(color),
+                    .background(color)
+                    .innerShadow(
+                shape = CircleShape,
+                shadow = Shadow(
+                    offset = DpOffset(0.dp, 0.dp),
+                    radius = 4.dp,
+                    spread = 2.dp,
+                    color = Color(0x33000000)
+                )
+            )
+                ,
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_power),
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(rememberSizeSmall())
                 )
             }
 
 
             Column {
 
-                Spacer( modifier = Modifier.height(12.dp))
-                Text(
-                    text = "WITHDRAWAL",
-                    fontSize = 10.sp,
-                    letterSpacing = 2.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondary.copy(alpha = .15f))
-                        .padding(horizontal = paddingSmall),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer( modifier = Modifier.height(12.dp))
+                SpacerVerticalMedium()
                 Text(
                     text = amount,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
+                SpacerVerticalSmall()
+                Text(
+                    text = "WITHDRAWAL",
+                    fontSize = 10.sp,
+                    letterSpacing = 2.sp,
+                    lineHeight = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clip(CircleShape)
+                        .innerShadow(
+                            shape = CircleShape,
+                            shadow = Shadow(
+                                offset = DpOffset(0.dp, 0.dp),
+                                radius = .5.dp,
+                                spread = .1.dp,
+                                color = Color(0x33000000)
+                            )
+                        )
+                        .background(MaterialTheme.colorScheme.secondary.copy(alpha = .15f))
+                        .padding(horizontal = rememberInnerHorizontalPaddingMedium()),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                SpacerVerticalMedium()
 
                 Row (
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier
                 ){
                     Icon(
                         painter = painterResource(Res.drawable.ic_calender_filled),
@@ -134,9 +172,9 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
                         tint = Color.Gray,
                         modifier = Modifier.size(16.dp)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    SpacerHorizontalSmall()
                     Text(
-                        text = "9 MONTH",
+                        text = month,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )

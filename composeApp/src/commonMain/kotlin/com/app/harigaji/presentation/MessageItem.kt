@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -42,13 +43,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.chat.ChatMessage
+import com.app.harigaji.theme.SpacerHorizontalMedium
+import com.app.harigaji.theme.SpacerVerticalMedium
+import com.app.harigaji.theme.SpacerVerticalSmall
+import com.app.harigaji.theme.debugUi
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberTextStyleHeadline
+import com.app.harigaji.theme.rememberTextStyleSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
@@ -64,7 +74,7 @@ fun MessageItem(sender: String, message: List<ChatMessage>, time: String, onClic
         
         Card(
             onClick = onClick,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = paddingLarge, vertical = paddingMedium),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = paddingLarge, vertical = paddingMedium).debugUi(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(2.dp),
             shape = cornerRadius
@@ -80,22 +90,33 @@ fun MessageItem(sender: String, message: List<ChatMessage>, time: String, onClic
                     contentDescription = "Avatar",
                     modifier = Modifier
                         .size(40.dp)
+                        .innerShadow(
+                            shape = CircleShape,
+                            shadow = Shadow(
+                                offset = DpOffset(0.dp, 0.dp),
+                                radius = 1.dp,
+                                spread = .5.dp,
+                                color = Color(0x33000000)
+                            )
+                        )
                         .clip(CircleShape)
                )
 
-                Spacer(modifier = Modifier.width(12.dp))
-                
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
+                SpacerHorizontalMedium()
+                Column(modifier = Modifier.weight(1f).debugUi()) {
+                    BasicText(
                         text = sender,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
+                        style = rememberTextStyleHeadline().copy(
+                            fontSize = 18.sp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f)
+                        ),
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = message.firstOrNull()?.message?:"",
-                        fontSize = 14.sp,
-                        color = Color.Gray
+                    BasicText(
+                        text = message.lastOrNull()?.message?:"",
+                        style = rememberTextStyleSmall().copy(
+                            fontWeight = FontWeight.Normal,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = .7f)
+                        ),
                     )
                 }
 

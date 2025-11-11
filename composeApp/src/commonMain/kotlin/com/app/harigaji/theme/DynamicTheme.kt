@@ -414,7 +414,20 @@ object ThemeValues {
         val multiplier = config?.sizeMultiplier ?: 1.0f
         return (base * multiplier).dp
     }
-    
+
+    @Composable
+    fun sizeBig(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSizeBig ?: 100f
+        val multiplier = config?.sizeMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+   @Composable
+    fun sizeExtraBig(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseSizeExtraBig ?: 100f
+        val multiplier = config?.sizeMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+
     @Composable
     fun elevationSmall(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
         return (config?.elevationSmall ?: 2f).dp
@@ -451,27 +464,75 @@ object ThemeValues {
         return androidx.compose.foundation.shape.CornerSize((base * multiplier).dp)
     }
     
+    // Corner radius as Dp values (similar to padding/spacing)
+    @Composable
+    fun cornerRadiusExSmallDp(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseCornerRadiusExSmall ?: 8f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun cornerRadiusSmallDp(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseCornerRadiusSmall ?: 16f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+    
+    @Composable
+    fun cornerRadiusMediumDp(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseCornerRadiusMedium ?: 24f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+
+    @Composable
+    fun cornerRadiusMedLargeDp(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseCornerRadiusMedLarge ?: 32f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+
+    @Composable
+    fun cornerRadiusLargeDp(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
+        val base = config?.baseCornerRadiusLarge ?: 48f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return (base * multiplier).dp
+    }
+
+    @Composable
+    fun roundedCornerShapeExSmall(config: UiConfigEntity?): RoundedCornerShape {
+        val base = config?.baseCornerRadiusExSmall ?: 8f
+        val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
+        return RoundedCornerShape((base * multiplier).dp)
+    }
     @Composable
     fun roundedCornerShapeSmall(config: UiConfigEntity?): RoundedCornerShape {
-        val base = config?.baseCornerRadiusSmall ?: 4f
+        val base = config?.baseCornerRadiusSmall ?: 16f
         val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
-        return RoundedCornerShape(base * multiplier)
+        return RoundedCornerShape((base * multiplier).dp)
     }
     
     @Composable
     fun roundedCornerShapeMedium(config: UiConfigEntity?): RoundedCornerShape {
-        val base = config?.baseCornerRadiusMedium ?: 8f
+        val base = config?.baseCornerRadiusMedium ?: 24f
         val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
-        return RoundedCornerShape(base * multiplier)
+        return RoundedCornerShape((base * multiplier).dp)
     }
     
     @Composable
     fun roundedCornerShapeLarge(config: UiConfigEntity?): RoundedCornerShape {
-        val base = config?.baseCornerRadiusLarge ?: 16f
+        val base = config?.baseCornerRadiusLarge ?: 48f
         val multiplier = config?.cornerRadiusMultiplier ?: 1.0f
-        return RoundedCornerShape(base * multiplier)
+        return RoundedCornerShape((base * multiplier).dp)
     }
-    
+
+    @Composable
+    fun textSizeExSmall(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
+        val base = config?.baseTextSizeSmall ?: 10f
+        val multiplier = config?.textSizeMultiplier ?: 1.0f
+        return (base * multiplier).sp
+    }
     // Text sizes - uses base * multiplier
     @Composable
     fun textSizeSmall(config: UiConfigEntity?): androidx.compose.ui.unit.TextUnit {
