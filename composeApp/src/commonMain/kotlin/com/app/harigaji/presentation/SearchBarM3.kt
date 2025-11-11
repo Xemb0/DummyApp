@@ -1,5 +1,6 @@
 package com.app.harigaji.presentation
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -38,10 +39,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.app.harigaji.theme.ThemeValues.roundedCornerShapeMedium
+import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberCornerRadiusMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_message_dot
+import kotlinx.coroutines.NonCancellable.isActive
+import kotlinx.serialization.json.JsonNull.content
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,15 +69,24 @@ fun SearchBarM3(
         listOf("Recent 1", "Recent 2", "Recent 3")
     }
 
-    SearchBarDefaults.inputFieldColors(
-        cursorColor = MaterialTheme.colorScheme.surfaceVariant
-    )
     DockedSearchBar(
-
         modifier = modifier
+            .fillMaxWidth()
+            .innerShadow(
+                shape = if(active) rememberCornerRadiusMedium() else rememberCornerRadiusLarge(),
+                shadow = Shadow(
+                    offset = DpOffset(0.dp, 0.dp),
+                    radius = 2.dp,
+                    spread = 1.dp,
+                    color = Color(0x33000000)
+                )
+            )
             .wrapContentHeight(),
         inputField = {
             SearchBarDefaults.InputField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
                 query = query,
                 onQueryChange = { newQuery ->
                     query = newQuery
@@ -78,7 +96,7 @@ fun SearchBarM3(
                 },
                 onSearch = { searchQuery ->
                     onSearch(searchQuery)
-                    active = false // Close after search
+                    active = false
                 },
                 expanded = active,
                 onExpandedChange = { isActive ->
@@ -87,11 +105,10 @@ fun SearchBarM3(
                 placeholder = {
                     Text(
                         text = searchHeading,
-                        modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
-                leadingIcon = {
+                trailingIcon = {
                     if (active) {
                         IconButton(
                             onClick = {
@@ -108,10 +125,7 @@ fun SearchBarM3(
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
-                    }
-                },
-                trailingIcon = {
-                    if (!active) {
+                    } else {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = "Search",
@@ -125,7 +139,7 @@ fun SearchBarM3(
         onExpandedChange = { isActive ->
             active = isActive
         },
-        shape = SearchBarDefaults.dockedShape,
+        shape = if(active) rememberCornerRadiusMedium() else rememberCornerRadiusLarge(),
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f),
             dividerColor = MaterialTheme.colorScheme.onSurfaceVariant
@@ -133,112 +147,124 @@ fun SearchBarM3(
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
         content = {
-            // Search results content - CRITICAL: Limited height
-            Box(
+            // Wrap content with minimal padding
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 300.dp) // CRITICAL: Limit max height
+                    .heightIn(max = 300.dp), // Limit max height but allow wrap
+                contentPadding = PaddingValues(vertical = 4.dp) // Reduced padding
             ) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(vertical = 8.dp)
-                ) {
-                    // Show search history header
-                    item(key = "search_header") {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start,
+                // Show search history header
+                item(key = "search_header") {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp) // Reduced padding
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_message_dot),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary,
+                            modifier = Modifier
+                                .size(20.dp)
+                                .background(MaterialTheme.colorScheme.surface, CircleShape)
+                                .padding(4.dp)
+                        )
+                        Text(
+                            text = searchHeading,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
+
+                // Show search results or history
+                if (query.isEmpty()) {
+                    // Show search history
+                    items(
+                        items = searchHistory,
+                        key = { it }
+                    ) { item ->
+                        ListItem(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_message_dot),
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.secondary,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .background(MaterialTheme.colorScheme.surface, CircleShape)
-                                    .padding(4.dp)
-                            )
-                            Text(
-                                text = searchHeading,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                        }
+                                .padding(horizontal = 8.dp, vertical = 4.dp) // Minimal padding
+                                .clip(rememberCornerRadiusMedium())
+                                .clickable {
+                                    query = item
+                                    onItemClick(item)
+                                    active = false
+                                },
+                            headlineContent = {
+                                Text(
+                                    text = item,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            },
+                            leadingContent = {
+                                Icon(
+                                    imageVector = Icons.Filled.Search,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            },
+                        )
+                    }
+                } else {
+                    // Show filtered results based on query
+                    val filteredResults = searchHistory.filter {
+                        it.contains(query, ignoreCase = true)
                     }
 
-                    // Show search results or history
-                    if (query.isEmpty()) {
-                        // Show search history
+                    if (filteredResults.isEmpty()) {
+                        item(key = "no_results") {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 16.dp), // Reduced padding
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "No results found",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    } else {
                         items(
-                            items = searchHistory,
+                            items = filteredResults,
                             key = { it }
                         ) { item ->
                             ListItem(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp, vertical = 2.dp)
-                                    .clip(CircleShape)
+                                    .padding(horizontal = 4.dp, vertical = 0.dp)
+                                    .clip(rememberCornerRadiusMedium())
                                     .clickable {
                                         query = item
                                         onItemClick(item)
                                         active = false
                                     },
-                                headlineContent = { Text(text = item) },
+                                headlineContent = {
+                                    Text(
+                                        text = item,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                },
                                 leadingContent = {
                                     Icon(
                                         imageVector = Icons.Filled.Search,
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.size(20.dp)
                                     )
-                                }
+                                },
                             )
-                        }
-                    } else {
-                        // Show filtered results based on query
-                        val filteredResults = searchHistory.filter {
-                            it.contains(query, ignoreCase = true)
-                        }
-
-                        if (filteredResults.isEmpty()) {
-                            item(key = "no_results") {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(32.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "No results found",
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                            }
-                        } else {
-                            items(
-                                items = filteredResults,
-                                key = { it }
-                            ) { item ->
-                                ListItem(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            query = item
-                                            onItemClick(item)
-                                            active = false
-                                        },
-                                    headlineContent = { Text(text = item) },
-                                    leadingContent = {
-                                        Icon(
-                                            imageVector = Icons.Filled.Search,
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                )
-                            }
                         }
                     }
                 }

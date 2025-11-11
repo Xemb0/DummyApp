@@ -60,8 +60,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
 import com.app.harigaji.presentation.ProfileMenuItem
@@ -162,6 +165,15 @@ fun ProfileScreen(
                                 contentDescription = "Avatar",
                                 modifier = Modifier
                                     .size(84.dp)
+                                    .innerShadow(
+                                        shape = CircleShape,
+                                        shadow = Shadow(
+                                            offset = DpOffset(0.dp, 0.dp),
+                                            radius = 4.dp,
+                                            spread = 2.dp,
+                                            color = Color(0x33000000)
+                                        )
+                                    )
                                     .clip(CircleShape)
                             )
 

@@ -12,7 +12,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,7 +24,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -33,11 +31,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.core.user.UserDetails
@@ -49,34 +50,31 @@ import com.app.harigaji.presentation.SlideToClockIn
 import com.app.harigaji.presentation.WithdrawCard
 import com.app.harigaji.theme.SpacerHorizontalMedium
 import com.app.harigaji.theme.SpacerHorizontalSmall
-import com.app.harigaji.theme.rememberTextSizeLarge
-import com.app.harigaji.theme.rememberHorizontalPaddingMedium
-import com.app.harigaji.theme.rememberHorizontalPaddingLarge
+import com.app.harigaji.theme.SpacerVerticalLarge
+import com.app.harigaji.theme.SpacerVerticalMedium
+import com.app.harigaji.theme.SpacerVerticalSmall
 import com.app.harigaji.theme.rememberCornerRadiusLarge
-import com.app.harigaji.theme.rememberHorizontalPaddingSmall
 import com.app.harigaji.theme.rememberInnerVerticalPaddingSmall
 
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingSmall
-import com.app.harigaji.theme.rememberOuterVerticalPaddingSmall
-import com.app.harigaji.theme.rememberPaddingLarge
 import com.app.harigaji.theme.rememberPaddingMedium
-import com.app.harigaji.theme.rememberVerticalPaddingSmall
 import com.app.harigaji.theme.debugUi
+import com.app.harigaji.theme.rememberCornerRadiusMedLargeDp
+import com.app.harigaji.theme.rememberCornerRadiusMedium
+import com.app.harigaji.theme.rememberCornerRadiusMediumDp
+import com.app.harigaji.theme.rememberInnerHorizontalPaddingMedium
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
+import com.app.harigaji.theme.rememberOuterVerticalPaddingMedium
 import com.app.harigaji.theme.rememberSizeExtraLarge
 import com.app.harigaji.theme.rememberSizeLarge
-import com.app.harigaji.theme.rememberSizeMedium
-import com.app.harigaji.theme.rememberTextSizeExtraLarge
-import com.app.harigaji.theme.rememberTextSizeMedium
-import com.app.harigaji.theme.rememberTextSizeSmall
-import com.app.harigaji.theme.rememberTextSizeTitle
+import com.app.harigaji.theme.rememberSizeSmall
+import com.app.harigaji.theme.rememberTextStyleExSmall
 import com.app.harigaji.theme.rememberTextStyleLarge
 import com.app.harigaji.theme.rememberTextStyleSmall
 import com.app.harigaji.theme.rememberTextStyleMedium
-import com.app.harigaji.theme.rememberTextStyleExtraLarge
 import com.app.harigaji.theme.rememberTextStyleTitle
-import com.app.harigaji.theme.rememberVerticalSpacingSmall
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_clock
@@ -115,6 +113,7 @@ fun HomeScreen(
     userDetails: UserDetails,
     onClockIn: () -> Unit,
     onBalanceCardClick: () -> Unit = {},
+    onMessageAdminClick: () -> Unit = {},
 ) {
     var selectedTabOption by remember { mutableStateOf(listOfTabOptions[0]) }
     val listState = rememberLazyListState()
@@ -220,25 +219,27 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize().debugUi(),
                 state = listState,
+                horizontalAlignment = Alignment.CenterHorizontally
 //                 verticalArrangement = Arrangement.spacedBy(rememberVerticalPaddingSmall())
             ) {
                 stickyHeader(key = "user_header") {
                     UserHeaderCard(
                         userDetails = userDetails,
-                        collapseFraction = collapseFraction
+                        collapseFraction = collapseFraction,
+                        onActionClick = onMessageAdminClick
                     )
                 }
 
                 item(key = "search_section") {
                     SearchSection(
-                        cornerRadius = cornerRadius,
+                        cornerRadius = rememberCornerRadiusMedLargeDp(),
                         collapseFraction = collapseFraction
                     )
                 }
 
                 item(key = "salary_card") {
-                    val paddingLarge = rememberHorizontalPaddingLarge()
-                    val paddingMedium = rememberPaddingMedium()
+                    val paddingLarge = rememberOuterHorizontalPaddingLarge()
+                    val paddingMedium = rememberOuterVerticalPaddingMedium()
                     SalaryWithdrawCard(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -259,8 +260,7 @@ fun HomeScreen(
                     )
                 }
                 item {
-                    val paddingLarge = rememberHorizontalPaddingLarge()
-                    Spacer(modifier = Modifier.height(paddingLarge))
+                    SpacerVerticalLarge()
                 }
 
                 when (selectedTabOption.id) {
@@ -301,7 +301,7 @@ private fun TopBarDate(paddingValues: PaddingValues) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding())
-                .padding(horizontal = rememberOuterHorizontalPaddingSmall())
+                .padding(horizontal = rememberOuterHorizontalPaddingLarge())
                 .debugUi()
         ) {
             Icon(
@@ -319,7 +319,8 @@ private fun TopBarDate(paddingValues: PaddingValues) {
 @Composable
 private fun UserHeaderCard(
     userDetails: UserDetails,
-    collapseFraction: Float
+    collapseFraction: Float,
+    onActionClick: (() -> Unit)? = null
 ) {
       // Use Surface instead of Card for better performance
       Surface(
@@ -329,7 +330,7 @@ private fun UserHeaderCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberOuterHorizontalPaddingLarge())
+                    .padding(horizontal = rememberOuterHorizontalPaddingLarge(), vertical = rememberInnerVerticalPaddingSmall())
                     .debugUi(),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
@@ -357,7 +358,7 @@ private fun UserHeaderCard(
                 ) {
                     BasicText(
                         text = "Hi, ${userDetails.name ?: ""} !",
-                        style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = Color.Black),
+                        style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onBackground),
                         maxLines = 1,
                         modifier = Modifier.basicMarquee()
                     )
@@ -367,7 +368,7 @@ private fun UserHeaderCard(
                                 shape = CircleShape,
                                 color = MaterialTheme.colorScheme.secondary.copy(alpha = .15f)
                             )
-                            .padding(horizontal = 8.dp, vertical = 2.dp)
+                            .padding(horizontal = rememberInnerHorizontalPaddingMedium(), vertical = rememberInnerVerticalPaddingSmall())
                             .debugUi(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -375,27 +376,30 @@ private fun UserHeaderCard(
                             imageVector = Icons.Default.Star,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(rememberSizeSmall())
                         )
-                        Spacer(modifier = Modifier.width(4.dp))
+                        SpacerHorizontalSmall()
                         BasicText(
                             text = "Pro Member",
-                            style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            style = rememberTextStyleExSmall(fontWeight = FontWeight.Medium).copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
                         )
                     }
                 }
-                OutlinedIconButton(
-                    onClick = {},
-                    modifier = Modifier.padding(0.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_message_dot),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.size(26.dp).padding(4.dp)
-                    )
+                onActionClick?.let { action ->
+                    OutlinedIconButton(
+                        onClick = { action() },
+                        modifier = Modifier
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_message_dot),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(rememberSizeSmall())
+                        )
+                    }
                 }
             }
+
     }
 }
 
@@ -429,8 +433,7 @@ private fun SearchSection(
             SearchBarM3(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = rememberPaddingLarge())
-                    .padding(bottom = 8.dp)
+                    .padding(horizontal = rememberOuterHorizontalPaddingMedium())
                     .graphicsLayer {
                         alpha = 1f - (collapseFraction * 2).coerceIn(0f, 1f)
                     },
@@ -474,7 +477,7 @@ private fun TabHeaderSection(
         OptionTabs(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(4.dp),
+                .padding(horizontal = rememberOuterHorizontalPaddingMedium(), vertical = rememberOuterHorizontalPaddingMedium()),
             bgColor = Color.Gray,
             ascentColor = Color.White,
             selectedOption = selectedTabOption,
@@ -498,14 +501,35 @@ fun LazyListScope.salaryTabContent(
         SalaryEarnedData("13 Oct 2025", "2,500"),
         SalaryEarnedData("12 Oct 2025", "3,200"),
         SalaryEarnedData("11 Oct 2025", "1,800"),
+        SalaryEarnedData("10 Oct 2025", "2,700"),
+        SalaryEarnedData("09 Oct 2025", "3,000"),
+        SalaryEarnedData("08 Oct 2025", "2,400"),
+        SalaryEarnedData("07 Oct 2025", "1,900"),
+        SalaryEarnedData("06 Oct 2025", "2,800"),
+        SalaryEarnedData("05 Oct 2025", "3,100"),
+        SalaryEarnedData("04 Oct 2025", "2,200"),
+        SalaryEarnedData("03 Oct 2025", "2,600"),
+        SalaryEarnedData("02 Oct 2025", "1,700"),
+        SalaryEarnedData("01 Oct 2025", "3,000"),
+        SalaryEarnedData("30 Sep 2025", "2,900"),
+        SalaryEarnedData("29 Sep 2025", "2,400"),
+        SalaryEarnedData("28 Sep 2025", "1,800"),
+        SalaryEarnedData("27 Sep 2025", "3,200"),
+        SalaryEarnedData("26 Sep 2025", "2,600"),
+
     )
 
     item(key = "withdraw_title") {
         TitleWithMoreRow(
             title = "My Withdraw",
             onSeeAllClick = {},
-            titleMore = "See All"
+            titleMore = "See All",
+            modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingLarge())
         )
+    }
+
+    item {
+        SpacerVerticalSmall()
     }
 
     item(key = "withdraw_carousel") {
@@ -513,37 +537,48 @@ fun LazyListScope.salaryTabContent(
             listWithdraw = listWithdraw,
             colors = colors,
             lazyRowState = lazyRowState,
-            currentIndex = currentIndex
+            currentIndex = currentIndex,
+            modifier = Modifier
         )
     }
 
+    item {
+        SpacerVerticalLarge()
+    }
+
     item(key = "salary_earned_header") {
-        Spacer(modifier = Modifier.height(8.dp))
         TitleWithMoreRow(
             title = "Salary Earned",
-            onSeeAllClick = {}
+            onSeeAllClick = {},
+            modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingLarge())
         )
+    }
 
-        Icon(
-            painter = painterResource(Res.drawable.ic_message_dot),
-            contentDescription = "message salary",
-            tint = Color.Gray,
-            modifier = Modifier
-                .padding(start = 16.dp, bottom = 8.dp)
-                .size(20.dp)
-        )
+    item {
+        SpacerVerticalMedium()
     }
 
     items(
         items = listSalaryEarned,
-        key = { it.date }
+        key = { it.date },
     ) { item ->
-        SalaryEarnedCard(date = item.date, salary = item.salary)
-        Spacer(modifier = Modifier.height(8.dp))
+        InfoCard(
+            label = "Salary earned",
+            value = item.date,
+            tag = item.salary,
+            icon = Res.drawable.ic_clock,
+            modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingLarge()),
+            color = MaterialTheme.colorScheme.secondary,
+            elevation = 0.dp,
+//            borderStroke = 1.dp
+
+
+        )
+        SpacerVerticalMedium()
     }
 
-    item(key = "bottom_spacer") {
-        Spacer(modifier = Modifier.height(100.dp))
+    item {
+        Spacer(Modifier.height(200.dp))
     }
 }
 
@@ -552,16 +587,15 @@ private fun WithdrawCarousel(
     listWithdraw: List<WithdrawData>,
     colors: List<Color>,
     lazyRowState: LazyListState,
-    currentIndex: Int
+    currentIndex: Int,
+    modifier: Modifier,
 ) {
-    Column(modifier = Modifier.debugUi()) {
-        Spacer(modifier = Modifier.height(8.dp))
-
+    Column(modifier = modifier.debugUi()) {
         LazyRow(
             modifier = Modifier.fillMaxWidth().debugUi(),
             state = lazyRowState,
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            contentPadding = PaddingValues(horizontal = rememberOuterHorizontalPaddingLarge(), vertical = rememberOuterVerticalPaddingMedium()),
+            horizontalArrangement = Arrangement.spacedBy(rememberOuterHorizontalPaddingLarge())
         ) {
             itemsIndexed(
                 items = listWithdraw,
@@ -573,17 +607,18 @@ private fun WithdrawCarousel(
                     month = item.month,
                     color = color,
                     modifier = Modifier
-                        .width(200.dp)
+                        .wrapContentWidth()
                         .height(IntrinsicSize.Max)
                 )
             }
         }
 
+        SpacerVerticalMedium()
+
         if (listWithdraw.size > 1) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 16.dp)
                     .debugUi(),
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -595,7 +630,7 @@ private fun WithdrawCarousel(
                     }
                     Box(
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
+                            .padding(horizontal = rememberOuterHorizontalPaddingSmall())
                             .size(8.dp)
                             .clip(CircleShape)
                             .background(color)
@@ -616,73 +651,55 @@ fun LazyListScope.attendanceTabContent(
     listAttendanceContent: List<KpiData> = emptyList(),
     onClockIn: () -> Unit = {}
 ) {
-    item(key = "attendance_content") {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .debugUi(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            if (listAttendanceContent.isEmpty()) {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = null,
-                    modifier = Modifier.size(64.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                BasicText(
-                    text = "Attendance",
-                    style = rememberTextStyleTitle(fontWeight = FontWeight.Bold)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                BasicText(
-                    text = "Attendance tracking content goes here",
-                    style = rememberTextStyleLarge().copy(color = Color.Gray)
-                )
-            } else {
-                TitleWithMoreRow(
-                    title = "Logout History",
-                    onSeeAllClick = {}
-                )
-
-                listAttendanceContent.forEachIndexed { index, kpiData ->
-                    InfoCard(
-                        icon = when (index) {
-                            0 -> Res.drawable.ic_exit
-                            else -> Res.drawable.ic_calender
-                        },
-                        date = kpiData.value,
-                        label = kpiData.label,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-
-                BasicText(
-                    text = "Note: if your login hours are fewer than 8, Your salary will not be updated for withdrawal",
-                    style = rememberTextStyleMedium(fontWeight = FontWeight.Medium).copy(
-                        color = Color.Gray,
-                        textAlign = TextAlign.Center
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .fillMaxWidth()
-                )
-                SlideToClockIn(
-                    onClockIn = onClockIn
-                )
-            }
+        item {
+            TitleWithMoreRow(
+                title = "Logout History",
+                onSeeAllClick = {},
+                modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingLarge())
+            )
         }
+
+    item {
+        SpacerVerticalLarge()
     }
 
-    item(key = "attendance_spacer") {
-        Spacer(modifier = Modifier.height(400.dp))
+    item{
+        InfoCard(
+            label = "Last Logged out at",
+            value = "21 Sept 2025",
+            icon = Res.drawable.ic_exit,
+            modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingLarge()),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        SpacerVerticalMedium()
     }
+    item {
+        BasicText(
+            text = "Note: if your login hours are fewer than 8, Your salary will not be updated for withdrawal",
+            style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            ),
+            modifier = Modifier
+                .padding(horizontal = rememberOuterHorizontalPaddingExtraLarge(), vertical = rememberOuterVerticalPaddingMedium())
+                .fillMaxWidth()
+        )
+
+    }
+    item {
+
+            SlideToClockIn(
+                onClockIn = onClockIn
+            )
+    }
+        item {
+            SpacerVerticalMedium()
+        }
+
+
+        item(key = "attendance_spacer") {
+            Spacer(modifier = Modifier.height(400.dp))
+        }
 }
 
 @Composable
@@ -695,31 +712,30 @@ fun TitleWithMoreRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
             .debugUi(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         BasicText(
             text = title,
-            style = rememberTextStyleExtraLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface)
+            modifier = Modifier
+                .padding(horizontal = rememberPaddingMedium()),
+            style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface)
         )
         titleMore?.let {
             BasicText(
                 text = it,
-                style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                style = rememberTextStyleMedium(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 modifier = Modifier
-                    .padding(end = 8.dp)
                     .clip(CircleShape)
                     .clickable { onSeeAllClick() }
-                    .padding(horizontal = rememberPaddingLarge())
+                    .padding(horizontal = rememberPaddingMedium())
             )
         } ?: run {
             Icon(
                 Icons.Default.MoreVert,
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(4.dp)
                     .clip(CircleShape)
                     .clickable { onSeeAllClick() }
             )
@@ -733,70 +749,141 @@ data class KpiData(
 )
 
 @Composable
-fun SalaryEarnedCard(
+fun InfoCard(
     modifier: Modifier = Modifier,
-    date: String,
-    salary: String,
-) {
+    label: String,
+    value: String,
+    icon: DrawableResource? = null,
+    tag: String? = null,
+    color: Color,
+    elevation: Dp = 0.dp,
+    borderStroke: Dp = 0.dp,
+    borderColor: Color = Color.Transparent,
+    backgroundColor: Color = Color.Transparent,
+    ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .debugUi(),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = rememberCornerRadiusLarge(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        shape = rememberCornerRadiusMedium(),
+        border = CardDefaults.outlinedCardBorder(
+            enabled = borderStroke> 0.dp,
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = elevation)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .fillMaxHeight()
                 .debugUi(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.debugUi()) {
-                Box(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(
-                            MaterialTheme.colorScheme.secondary.copy(alpha = .15f)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f).debugUi()
+            ) {
+
+                icon?.let { drawableResource ->
+                    Box(
+                        modifier = Modifier
+                            .padding(rememberPaddingMedium())
+                            .size(rememberSizeLarge())
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(
+                                color.copy(alpha = .15f)
+                            )
+                            .innerShadow(
+                                shape = CircleShape,
+                                shadow = Shadow(
+                                    offset = DpOffset(0.dp, 0.dp),
+                                    radius = 4.dp,
+                                    spread = 2.dp,
+                                    color = Color(0x33000000)
+                                )
+                            )
+                            .debugUi(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(drawableResource),
+                            contentDescription = null,
+                            tint = color,
+                            modifier = Modifier.size(rememberSizeSmall())
                         )
-                        .debugUi(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_clock),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.size(24.dp)
-                    )
+                    }
+
+                    SpacerHorizontalMedium()
                 }
-                Spacer(modifier = Modifier.width(12.dp))
+
                 Column(
                     modifier = Modifier.debugUi(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start
                 ) {
                     BasicText(
-                        text = "Salary earned",
-                        style = rememberTextStyleLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface)
+                        text = label,
+                        style = rememberTextStyleMedium(fontWeight = FontWeight.Bold)
+                            .copy(color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f))
                     )
                     BasicText(
-                        text = date,
-                        style = rememberTextStyleSmall(fontWeight = FontWeight.Medium).copy(color = Color.Gray)
+                        text = value,
+                        style = rememberTextStyleSmall(fontWeight = FontWeight.Medium)
+                            .copy(color = Color.Gray)
                     )
                 }
             }
-            BasicText(
-                text = "RM $salary",
-                style = rememberTextStyleExtraLarge(fontWeight = FontWeight.Bold).copy(color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f))
-            )
+            tag?.let { text ->
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .fillMaxHeight()
+                    .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(
+                        topStart = rememberCornerRadiusMediumDp(),
+                        bottomStart = rememberCornerRadiusMediumDp()
+                    ))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = rememberCornerRadiusMediumDp(),
+                            bottomStart = rememberCornerRadiusMediumDp()
+                        )
+                    )
+                    .innerShadow(
+                        shape = RoundedCornerShape(
+                            topStart = rememberCornerRadiusMediumDp(),
+                            bottomStart = rememberCornerRadiusMediumDp()
+                        ),
+                        shadow = Shadow(
+                            offset = DpOffset(0.dp, 0.dp),
+                            radius = 4.dp,
+                            spread = 2.dp,
+                            color = Color(0x33000000)
+                        )
+                    )
+                    .debugUi()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(horizontal = 16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "RM $text",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.surface,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
+            }
         }
     }
 }
-
 @Composable
 fun InfoCard(
     modifier: Modifier = Modifier,

@@ -3,77 +3,103 @@ package com.app.harigaji.presentation.chat
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.innerShadow
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.app.harigaji.chat.ChatMessage
 import com.app.harigaji.chat.UserMessageDetails
 import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.theme.SpacerVerticalSmall
+import com.app.harigaji.theme.debugUi
+import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberCornerRadiusMediumDp
+import com.app.harigaji.theme.rememberInnerHorizontalPaddingLarge
+import com.app.harigaji.theme.rememberInnerVerticalPaddingMedium
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
+import com.app.harigaji.theme.rememberPaddingMedium
+import com.app.harigaji.theme.rememberPaddingSmall
+import com.app.harigaji.theme.rememberSizeExtraLarge
+import com.app.harigaji.theme.rememberSizeLarge
+import com.app.harigaji.theme.rememberSizeMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_curve_back
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     paddingValues: PaddingValues,
-    userMessageDetails: UserMessageDetails?=null,
+    userMessageDetails: UserMessageDetails? = null,
     onBackClick: () -> Unit = {},
     onSendMessage: (String) -> Unit = {}
 ) {
 
-    if(userMessageDetails==null){
+    if (userMessageDetails == null) {
         return
     }
     var messageText by remember { mutableStateOf("") }
-
-
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             ScreenHeader(
-                paddingValues  =paddingValues,
+                paddingValues = paddingValues,
                 title = userMessageDetails.sender,
                 onBackClick = onBackClick,
+                modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge())
+                    .debugUi()
             )
         },
         bottomBar = {
             Surface(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(bottom = paddingValues.calculateBottomPadding()),
+                modifier = Modifier.fillMaxWidth().debugUi(),
                 color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 0.dp,
-                shape = CircleShape
+                shadowElevation = 8.dp,
+                shape = RoundedCornerShape(
+                    topStart = rememberCornerRadiusMediumDp(),
+                    topEnd = rememberCornerRadiusMediumDp()
+                )
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(bottom = paddingValues.calculateBottomPadding())
+                        .padding(
+                            horizontal = rememberInnerHorizontalPaddingLarge(),
+                            vertical = rememberInnerVerticalPaddingMedium()
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     IconButton(
                         onClick = { /* Handle camera */ },
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(rememberSizeMedium()).debugUi()
                     ) {
                         Icon(
                             imageVector = Icons.Default.CameraAlt,
@@ -84,12 +110,15 @@ fun ChatScreen(
 
                     IconButton(
                         onClick = { /* Handle attachment */ },
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier
+                            .size(rememberSizeMedium())
+                            .clip(rememberCornerRadiusLarge())
                     ) {
                         Icon(
                             imageVector = Icons.Default.AttachFile,
                             contentDescription = "Attach",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(24.dp)
                         )
                     }
 
@@ -98,7 +127,7 @@ fun ChatScreen(
                         onValueChange = { messageText = it },
                         modifier = Modifier
                             .weight(1f)
-                            .height(50.dp),
+                            .heightIn(min = 48.dp, max = 120.dp),
                         placeholder = {
                             Text(
                                 text = "Message",
@@ -110,26 +139,52 @@ fun ChatScreen(
                             unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                             focusedContainerColor = MaterialTheme.colorScheme.surface,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                            disabledBorderColor = Color.Transparent
-                        ),
+                            focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .5f),
+                            disabledBorderColor = Color.Transparent,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            disabledTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            selectionColors = TextSelectionColors(
+                                handleColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .1f)
+                            )
+                            ),
                         shape = RoundedCornerShape(25.dp),
-                        singleLine = true
+                        singleLine = false,
+                        maxLines = 5
                     )
 
-                    IconButton(
-                        onClick = {
-                            if (messageText.isNotBlank()) {
-                                onSendMessage(messageText)
-                                messageText = ""
+                    Box(
+                        modifier = Modifier
+                            .size(rememberSizeExtraLarge())
+                            .clip(rememberCornerRadiusLarge())
+                            .clickable {
+                                if (messageText.isNotBlank()) {
+                                    onSendMessage(messageText)
+                                    messageText = ""
+                                }
                             }
-                        },
-                        modifier = Modifier.size(40.dp)
+                            .background(MaterialTheme.colorScheme.secondary)
+                            .innerShadow(
+                                shape =rememberCornerRadiusLarge(),
+                                shadow = Shadow(
+                                    offset = DpOffset(0.dp, 0.dp),
+                                    radius = 4.dp,
+                                    spread = 2.dp,
+                                    color = Color(0x33000000)
+                                )
+                            ).debugUi()
+                                ,
+                        contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Send,
+                            imageVector = Icons.AutoMirrored.Filled.Send,
                             contentDescription = "Send",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier
+                                .size(rememberSizeLarge())
+                                .padding(rememberPaddingSmall())
                         )
                     }
                 }
@@ -140,7 +195,7 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(pv)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = rememberOuterHorizontalPaddingExtraLarge()).debugUi(),
             reverseLayout = false,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -148,7 +203,7 @@ fun ChatScreen(
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            items(userMessageDetails?.message?:emptyList()) { message ->
+            items(userMessageDetails.message ?: emptyList()) { message ->
                 ChatMessageItem(message = message)
             }
 
@@ -162,47 +217,37 @@ fun ChatScreen(
 @Composable
 fun ChatMessageItem(message: ChatMessage) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().debugUi(),
         horizontalArrangement = if (message.isSent) Arrangement.End else Arrangement.Start
     ) {
         if (!message.isSent) {
             // Avatar for received messages
-            if (message.avatarUrl != null) {
-                AsyncImage(
-                    model = message.avatarUrl,
-                    contentDescription = "Avatar",
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Surface(
-                    modifier = Modifier.size(40.dp),
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primaryContainer
+            Surface(
+                modifier = Modifier.size(40.dp),
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.primaryContainer,
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        message.avatarUrl?.let{
-                            AsyncImage(
-                                model = it,
-                                contentDescription = "Avatar",
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                            )
-                        } ?: run {
-                            Image(
-                                painter = painterResource(Res.drawable.ic_profile),
-                                contentDescription = "Avatar",
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                            )
-                        }
+                    message.avatarUrl?.let {
+                        AsyncImage(
+                            model = it,
+                            contentDescription = "Avatar",
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } ?: run {
+                        Image(
+                            painter = painterResource(Res.drawable.ic_profile),
+                            contentDescription = "Avatar",
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                        )
                     }
                 }
             }
@@ -212,24 +257,39 @@ fun ChatMessageItem(message: ChatMessage) {
 
         Column(
             horizontalAlignment = if (message.isSent) Alignment.End else Alignment.Start,
-            modifier = Modifier.widthIn(max = 280.dp)
+            modifier = Modifier.widthIn(max = 280.dp).debugUi()
         ) {
             Surface(
                 color = if (message.isSent) {
                     MaterialTheme.colorScheme.surface
                 } else {
-                    MaterialTheme.colorScheme.onSecondary.copy(alpha = 01f)
+                    MaterialTheme.colorScheme.secondary.copy(alpha = .1f)
                 },
-                shape = RoundedCornerShape(
-                    topStart = if (message.isSent) 16.dp else 4.dp,
-                    topEnd = if (message.isSent) 4.dp else 16.dp,
-                    bottomStart = 16.dp,
-                    bottomEnd = 16.dp
-                )
+                modifier = Modifier
+                    .clip(RoundedCornerShape(
+                        topStart = if (message.isSent) 16.dp else 4.dp,
+                        topEnd = if (message.isSent) 4.dp else 16.dp,
+                        bottomStart = 16.dp,
+                        bottomEnd = 16.dp
+                    ))
+                    .innerShadow(
+                        shape = RoundedCornerShape(
+                            topStart = if (message.isSent) 16.dp else 4.dp,
+                            topEnd = if (message.isSent) 4.dp else 16.dp,
+                            bottomStart = 16.dp,
+                            bottomEnd = 16.dp
+                        ),
+                        shadow = Shadow(
+                            offset = DpOffset(0.dp, 0.dp),
+                            radius = 6.dp,
+                            spread = 3.dp,
+                            color = Color(0x33000000)
+                        )
+                    )
             ) {
                 Column(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).width(IntrinsicSize.Max)
-                ) {
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).debugUi()
+                ){
                     Text(
                         text = message.message,
                         fontSize = 14.sp,
@@ -239,22 +299,63 @@ fun ChatMessageItem(message: ChatMessage) {
                     Text(
                         text = message.time,
                         fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .6f),
-                        modifier = Modifier.padding(horizontal = 4.dp).fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = .6f),
+                        modifier = Modifier.fillMaxWidth(),
                         fontWeight = FontWeight.Medium,
-                        textAlign = if(message.isSent) TextAlign.End else TextAlign.Start,
+                        textAlign = if (message.isSent) TextAlign.End else TextAlign.Start,
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
-
-
-
+            SpacerVerticalSmall()
         }
 
         if (message.isSent) {
             Spacer(modifier = Modifier.width(8.dp))
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun ChatScreenPreview() {
+    val sampleMessages = listOf(
+        ChatMessage(
+            message = "Hello!",
+            time = "10:00 AM",
+            isSent = false,
+            avatarUrl = null,
+            id = 1
+        ),
+        ChatMessage(
+            message = "Hi there",
+            time = "10:01 AM",
+            isSent = true,
+            avatarUrl = null,
+            id = 2
+        ),
+        ChatMessage(
+            message = "How are you?",
+            time = "10:02 AM",
+            isSent = false,
+            avatarUrl = null,
+            id = 3
+        )
+    )
+    val userDetails = UserMessageDetails(
+        sender = "Alice",
+        message = sampleMessages,
+        date = "234-345-2",
+        time = "9:3"
+    )
+
+    MaterialTheme {
+        ChatScreen(
+            paddingValues = PaddingValues(0.dp),
+            userMessageDetails = userDetails,
+            onBackClick = {},
+            onSendMessage = {}
+        )
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,6 +38,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.app.harigaji.chat.UserMessageDetails
 import com.app.harigaji.presentation.MessageItem
+import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.theme.debugUi
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
+import com.app.harigaji.theme.rememberTextStyleHeadline
+import com.app.harigaji.theme.rememberTextStyleMedium
+import com.app.harigaji.theme.rememberTextStyleSmall
 
 // Message Screen
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -51,79 +60,69 @@ fun MessageScreen(
 
     Scaffold(topBar = {
         Column (
-//            modifier = Modifier.fillMaxWidth().padding(paddingValues)
+
         ) {
-            TopAppBar(
-                windowInsets = WindowInsets
-                    .systemBars
-                    .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                ),
-                title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                    ) {
-
-                        Text("Messages",
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.weight(1f),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 32.sp
-                        )
-
-                        OutlinedIconButton(
-                            onClick = {},
-                            modifier = Modifier.padding(6.dp)
-                                .size(56.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
-                    }
-                }
+            ScreenHeader(
+                title = "Messages",
+                onTrailingClick = {},
+                paddingValues = paddingValues,
+                modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge())
             )
         }
     }){pv ->
-        Box(modifier = Modifier.padding(pv)) {
+        Box(modifier = Modifier.padding(pv).debugUi()) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+
+                    .background(MaterialTheme.colorScheme.background)
+                    .debugUi(),
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {
                 val sortedByDate = listUserMessages.groupBy { it.date }
 
-                sortedByDate.forEach { (date, messages) ->
-                    item {
-                        Text(
-                            text = date?: "",
-                            fontSize = 12.sp,
-                            color = Color.Gray,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                        )
+                sortedByDate.entries.forEach { entry ->
+                    val date = entry.key
+                    val messages = entry.value
+
+                    // Date header
+                    item(key = "header_$date") {
+                        DateHeader(date = date, modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge()).debugUi())
                     }
 
-                    items(messages) { messageDetail ->
+                    // Messages for this date
+                    items(
+                        items = messages,
+                        key = { it.id }
+                    ) { userMessage ->
                         MessageItem(
-                            sender = messageDetail.sender,
-                            message = messageDetail.message,
-                            time = messageDetail.time,
-                            onClick = { onChatMessageClick(messageDetail.id) }
+                            sender = userMessage.sender,
+                            message = userMessage.message,
+                            time = userMessage.time,
+                            onClick = { onChatMessageClick(userMessage.id) }
                         )
                     }
                 }
+
+                item {
+                    Spacer(modifier = Modifier.size(200.dp))
+                }
             }
+
+
         }
     }
 }
 
+@Composable
+fun DateHeader(date: String?,modifier: Modifier) {
+    if (date == null) return
+    BasicText(
+        modifier = modifier,
+        text = date,
+        style = rememberTextStyleSmall().copy(
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .8f)
+        ),
+    )
+}

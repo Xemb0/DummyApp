@@ -61,7 +61,6 @@ fun LanguageSelectionScreen(
             ScreenHeader(
                 title = "Language",
                 onBackClick = onPrevious,
-                paddingValues = paddingValues
             )
         },
         bottomBar = {

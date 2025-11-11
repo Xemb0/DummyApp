@@ -3,13 +3,10 @@ package com.app.harigaji.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -22,55 +19,49 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.PunchClock
 import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.SyncLock
-import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.draw.innerShadow
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
+import com.app.harigaji.theme.SpacerHorizontalLarge
+import com.app.harigaji.theme.SpacerHorizontalMedium
+import com.app.harigaji.theme.SpacerHorizontalSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingSmall
-import com.app.harigaji.theme.rememberHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
+import com.app.harigaji.theme.rememberSizeExtraLarge
+import com.app.harigaji.theme.rememberSizeMedium
+import com.app.harigaji.theme.rememberSizeSmall
+import com.app.harigaji.theme.rememberTextStyleHeadline
+import com.app.harigaji.theme.rememberTextStyleSmall
 
 @Composable
 fun TransactionItem(
-    name: String,
-    bank: String,
-    date: String,
+    label: String,
+    value: String,
+    subValue: String,
     amount: String,
     status: String,
-    statusColor: Color
+    statusColor: Color,
+    modifier: Modifier,
 ) {
     val paddingSmall = rememberHorizontalPaddingSmall()
-    val paddingMedium = rememberHorizontalPaddingMedium()
+    val paddingMedium = rememberHorizontalPaddingSmall()
     val paddingLarge = rememberHorizontalPaddingLarge()
     val cornerRadius = rememberCornerRadiusLarge()
     
     Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = paddingSmall, vertical = paddingSmall),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(2.dp),
         shape = cornerRadius
     ) {
@@ -82,53 +73,66 @@ fun TransactionItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(rememberSizeExtraLarge())
                     .clip(CircleShape)
-                    .background(statusColor.copy(alpha = 0.2f)),
+                    .background(statusColor.copy(alpha = 0.2f))
+                    .innerShadow(
+                        shape = CircleShape,
+                        shadow = Shadow(
+                            offset = DpOffset(0.dp, 0.dp),
+                            radius = 4.dp,
+                            spread = 2.dp,
+                            color = Color(0x33000000)
+                        )
+
+                    )
+                ,
                 contentAlignment = Alignment.Center
             ) {
+
                 Box(
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(rememberSizeMedium())
                         .clip(CircleShape)
+                        .align(Alignment.Center)
                         .background(statusColor)
+                ){
+                Icon(
+                    imageVector = when(status) {
+                        "Successful" -> Icons.Default.Check
+                        "Failed" -> Icons.Default.Close
+                        else -> Icons.Default.Sync
+                    },
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.size(rememberSizeSmall()).align(Alignment.Center)
                 )
+                }
             }
-            
-            Spacer(modifier = Modifier.width(12.dp))
-            
+
+            SpacerHorizontalMedium()
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.titleSmall.copy(
+                BasicText(
+                    text = label,
+                    style = rememberTextStyleHeadline().copy(
+                        fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f)
                     ),
                 )
-                Text(
-                    text = bank,
-                    style = MaterialTheme.typography.labelSmall.copy(
+                BasicText(
+                    text = value,
+                    style = rememberTextStyleSmall().copy(
+                        fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = .8f)
                     ),
                 )
-                val dateTime = "2024-10-04 11:45 AM"
-                val (date, time) = dateTime.split(" ")
+//                val (date, time) = date.split(" ")
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = date,
-                        fontSize = 12.sp,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = " | ",
-                        fontSize = 12.sp,
-                        color = Color.Gray,
-                        modifier = Modifier.padding(horizontal = 4.dp)
-                    )
-                    Text(
-                        text = "$time ${dateTime.split(" ")[2]}",
+                        text = subValue,
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
@@ -153,7 +157,7 @@ fun TransactionItem(
                         tint = statusColor,
                         modifier = Modifier.size(14.dp)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    SpacerHorizontalSmall()
                     Text(
                         text = status,
                         fontSize = 12.sp,
@@ -162,6 +166,7 @@ fun TransactionItem(
                     )
                 }
             }
+                SpacerHorizontalLarge()
         }
     }
 }

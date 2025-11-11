@@ -255,6 +255,38 @@ fun rememberCornerRadiusLarge(): RoundedCornerShape {
     return ThemeValues.roundedCornerShapeLarge(config)
 }
 
+// Corner radius as Dp values
+@Composable
+fun rememberCornerRadiusExSmallDp(): Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.cornerRadiusExSmallDp(config)
+}
+
+@Composable
+fun rememberCornerRadiusSmallDp(): Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.cornerRadiusSmallDp(config)
+}
+
+@Composable
+fun rememberCornerRadiusMediumDp(): Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.cornerRadiusMediumDp(config)
+}
+
+
+@Composable
+fun rememberCornerRadiusMedLargeDp(): Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.cornerRadiusMedLargeDp(config)
+}
+
+@Composable
+fun rememberCornerRadiusLargeDp(): Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.cornerRadiusLargeDp(config)
+}
+
 // Sizes
 @Composable
 fun rememberSizeSmall(): androidx.compose.ui.unit.Dp {
@@ -269,18 +301,39 @@ fun rememberSizeMedium(): androidx.compose.ui.unit.Dp {
 }
 
 @Composable
+fun rememberSizeExtraLarge(): androidx.compose.ui.unit.Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.sizeExtraLarge(config)
+}
+@Composable
 fun rememberSizeLarge(): androidx.compose.ui.unit.Dp {
     val config = rememberUiConfig()
     return ThemeValues.sizeLarge(config)
 }
 
 @Composable
-fun rememberSizeExtraLarge(): androidx.compose.ui.unit.Dp {
+fun rememberSizeBig(): androidx.compose.ui.unit.Dp {
     val config = rememberUiConfig()
-    return ThemeValues.sizeExtraLarge(config)
+    return ThemeValues.sizeBig(config)
+}
+@Composable
+fun rememberSizeExtraBig(): androidx.compose.ui.unit.Dp {
+    val config = rememberUiConfig()
+    return ThemeValues.sizeExtraBig(config)
 }
 
 // Text Sizes - returns TextStyle with Urbanist font family
+@Composable
+fun rememberTextStyleExSmall(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Normal): androidx.compose.ui.text.TextStyle {
+    val config = rememberUiConfig()
+    val fontSize = ThemeValues.textSizeExSmall(config)
+    val fontFamily = ThemeValues.getFontFamily(fontWeight)
+    return androidx.compose.ui.text.TextStyle(
+        fontSize = fontSize,
+        fontFamily = fontFamily,
+        fontWeight = fontWeight
+    )
+}
 @Composable
 fun rememberTextStyleSmall(fontWeight: androidx.compose.ui.text.font.FontWeight = androidx.compose.ui.text.font.FontWeight.Normal): androidx.compose.ui.text.TextStyle {
     val config = rememberUiConfig()
@@ -544,4 +597,17 @@ fun UiConfigEntity?.cornerRadiusMedium(): RoundedCornerShape = ThemeValues.round
 
 @Composable
 fun UiConfigEntity?.cornerRadiusLarge(): RoundedCornerShape = ThemeValues.roundedCornerShapeLarge(this)
+
+// Corner radius as Dp values - extension functions
+@Composable
+fun UiConfigEntity?.cornerRadiusExSmallDp(): Dp = ThemeValues.cornerRadiusExSmallDp(this)
+
+@Composable
+fun UiConfigEntity?.cornerRadiusSmallDp(): Dp = ThemeValues.cornerRadiusSmallDp(this)
+
+@Composable
+fun UiConfigEntity?.cornerRadiusMediumDp(): Dp = ThemeValues.cornerRadiusMediumDp(this)
+
+@Composable
+fun UiConfigEntity?.cornerRadiusLargeDp(): Dp = ThemeValues.cornerRadiusLargeDp(this)
 
