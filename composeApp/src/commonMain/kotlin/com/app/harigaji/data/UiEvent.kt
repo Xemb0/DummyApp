@@ -15,12 +15,16 @@ sealed class UiEvent {
         data object VerifyOtp : UiEvent()
         data object Logout : UiEvent()
         data class LoginSuccess(val loginData: LoginData?) : UiEvent()
+        data object PasswordChanged : UiEvent()
     }
 
     sealed class Navigate : UiEvent() {
         data object HolderScreen : UiEvent()
         data object EnterOTP : UiEvent()
         data object SendOTP : UiEvent()
+        data object ResetPassword : UiEvent()
+        data object Login : UiEvent()
+        data class Varification(val email:String) : UiEvent()
     }
 
     sealed class OtpAction : UiEvent() {

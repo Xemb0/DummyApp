@@ -26,6 +26,7 @@ import com.app.harigaji.presentation.tabs.HomeScreen
 import com.app.harigaji.presentation.tabs.MessageScreen
 import com.app.harigaji.presentation.tabs.profile.ProfileScreen
 import harigaji.composeapp.generated.resources.Res
+import harigaji.composeapp.generated.resources.ic_calender
 import harigaji.composeapp.generated.resources.ic_user_check
 import harigaji.composeapp.generated.resources.ic_wallet
 
@@ -97,7 +98,7 @@ fun ScreenHolder(
 
         bottomBar = {
             val fabMenuItems = listOf(
-                FabMenuItem(Res.drawable.ic_user_check, "User", MaterialTheme.colorScheme.secondary),
+                FabMenuItem(Res.drawable.ic_calender, "User", MaterialTheme.colorScheme.secondary),
                 FabMenuItem(Res.drawable.ic_wallet, "Wallet", MaterialTheme.colorScheme.secondary)
             )
             CurvedBottomNavigation(
@@ -126,7 +127,6 @@ fun ScreenHolder(
                         userDetails = userDetails,
                         onClockIn = onClockIn,
                         onBalanceCardClick = onBalanceCardClick,
-
                     )
 
                     3 -> ProfileScreen(

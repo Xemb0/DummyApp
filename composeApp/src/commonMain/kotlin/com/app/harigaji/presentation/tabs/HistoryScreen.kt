@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.app.harigaji.presentation.OptionTab
 import com.app.harigaji.presentation.OptionTabs
-import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.presentation.MyTopBar
 import com.app.harigaji.presentation.TransactionItem
 import com.app.harigaji.theme.SpacerVerticalMedium
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
@@ -187,7 +187,7 @@ fun HistoryScreen(
             Column (
 //                modifier = Modifier.fillMaxWidth().padding(top = paddingValues.calculateTopPadding())
             ){
-                ScreenHeader(
+                MyTopBar(
                     title = "History",
                     modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge()),
                     paddingValues = paddingValues,

@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 
 // Define your app colors
-val Primary = Color(0xFF6200EE)
+val Primary = Color(0xFF2ECA83)
 val Secondary = Color(0xFF2ECA83)
 
 

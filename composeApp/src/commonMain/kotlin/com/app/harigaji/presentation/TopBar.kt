@@ -3,8 +3,9 @@ package com.app.harigaji.presentation
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -23,11 +25,8 @@ import com.app.harigaji.theme.SpacerVerticalMedium
 import com.app.harigaji.theme.rememberInnerVerticalPaddingSmall
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberSizeExtraLarge
-import com.app.harigaji.theme.rememberSizeLarge
 import com.app.harigaji.theme.rememberSizeMedium
 import com.app.harigaji.theme.rememberTextSizeExtraLarge
-import com.app.harigaji.theme.rememberTextSizeLarge
-import com.app.harigaji.theme.rememberTextSizeMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_curve_back
 import org.jetbrains.compose.resources.DrawableResource
@@ -36,11 +35,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScreenHeader(
+fun MyTopBar(
     paddingValues: PaddingValues =PaddingValues(0.dp),
     title: String,
     modifier: Modifier = Modifier,
-    onBackClick: (() -> Unit)? = null,
+    onLeadingClick: (() -> Unit)? = null,
     onTrailingClick: (() -> Unit)? = null,
     backgroundColor: Color = Color.Transparent,
     titleColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -72,13 +71,13 @@ fun ScreenHeader(
 
             ) {
                 // Back Button - only show if onBackClick is provided
-                if (onBackClick != null) {
+                if (onLeadingClick != null) {
                     OutlinedIconButton(
                         border = BorderStroke(1.dp, backButtonBorderColor),
                         colors = IconButtonDefaults.iconButtonColors(
                             containerColor = backButtonBackgroundColor
                         ),
-                        onClick = onBackClick,
+                        onClick = onLeadingClick,
                         modifier = Modifier
                             .size(backButtonSize)
                     ) {
@@ -154,9 +153,9 @@ private fun GenericTopAppBarPreview() {
     MaterialTheme {
         Column(modifier = Modifier.background(Color.White)) {
             // With back button and trailing icon
-            ScreenHeader(
+            MyTopBar(
                 title = "History",
-                onBackClick = {},
+                onLeadingClick = {},
                 onTrailingClick = {},
                 trailingIconVector = Icons.Default.Search
             )
@@ -164,26 +163,67 @@ private fun GenericTopAppBarPreview() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Only title, no buttons
-            ScreenHeader(
+            MyTopBar(
                 title = "Profile"
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // With back button only
-            ScreenHeader(
+            MyTopBar(
                 title = "Settings",
-                onBackClick = {}
+                onLeadingClick = {}
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // With trailing icon only
-            ScreenHeader(
+            MyTopBar(
                 title = "Notifications",
                 onTrailingClick = {},
                 trailingIconVector = Icons.Default.MoreVert
             )
+
+            SpacerVerticalMedium()
+
+            MyBottomNav(
+                text = "Next",
+                onClick = {}
+            )
         }
+    }
+}
+
+
+@Composable
+fun MyBottomNav(
+    text: String,
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(bottom = 0.dp),
+    shape: Shape = CircleShape,
+    enabled: Boolean = true,
+    onClick: (() -> Unit)? = null // ✅ null-safe callback
+) {
+    Button(
+        onClick = { onClick?.invoke() }, // ✅ null-safe trigger
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = paddingValues.calculateBottomPadding())
+            .height(56.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        ),
+        shape = shape,
+        enabled = enabled
+    ) {
+        Text(
+            text = text,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }

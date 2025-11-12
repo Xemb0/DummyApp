@@ -1,6 +1,7 @@
 package com.app.harigaji.core.di
 
-import com.app.harigaji.artical.articleModule
+import com.app.harigaji.about.aboutModule
+import com.app.harigaji.artical.di.articleModule
 import com.app.harigaji.chat.chatModule
 import com.app.harigaji.core.appconfig.di.appConfigModule
 import com.app.harigaji.core.auth.di.authModule
@@ -9,6 +10,7 @@ import com.app.harigaji.core.datastore.di.dataStoreModule
 import com.app.harigaji.core.notification.di.notificationModule
 import com.app.harigaji.core.uiconfig.di.uiConfigModule
 import com.app.harigaji.core.user.di.userModule
+import com.app.harigaji.language.languageModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -23,7 +25,9 @@ fun initKoin(config: KoinAppDeclaration? = null) {
                 authModule,notificationModule,
                 dataStoreModule, databaseModule,
                 notificationModule, appConfigModule, userModule,
-                uiConfigModule
+                uiConfigModule,
+                languageModule,
+                aboutModule,
             )
         )
     }

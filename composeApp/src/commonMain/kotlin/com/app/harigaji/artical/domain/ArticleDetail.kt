@@ -1,6 +1,6 @@
-package com.app.harigaji.artical
+package com.app.harigaji.artical.domain
 
-data class Article(
+data class ArticleDetail(
     val id: Int,
     val title: String,
     val description: String,

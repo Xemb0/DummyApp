@@ -8,7 +8,7 @@ object ColorPresets {
     // Preset 1: Default Purple & Green (Original)
     val defaultPreset = UiConfigEntity(
         id = 1,
-        primaryColor = 0xFF6200EE, // Purple
+        primaryColor = 0xFF2ECA83, // Purple
         secondaryColor = 0xFF2ECA83, // Green
         surfaceColor = 0xFFFFFFFF, // White
         surfaceLowestColor = 0xFFF5F5F5, // Light Gray

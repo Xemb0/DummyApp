@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.app.harigaji.artical.ArticlesViewModel
 import com.app.harigaji.chat.ChatViewModel
 import com.app.harigaji.core.auth.AuthViewModel
 import com.app.harigaji.core.shared.SharedViewModel
@@ -25,6 +24,7 @@ import com.app.harigaji.theme.AppTheme
 import com.app.harigaji.theme.LocalUiConfig
 import com.app.harigaji.theme.LocalOutlineMode
 import androidx.compose.runtime.CompositionLocalProvider
+import com.app.harigaji.dialog.DialogHost
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.roundToInt
@@ -47,7 +47,6 @@ fun App() {
     val userViewModel = koinViewModel<UserViewModel>()
     val authViewModel = koinViewModel<AuthViewModel>()
     val chatViewModel = koinViewModel<ChatViewModel>()
-    val articlesViewModel = koinViewModel<ArticlesViewModel>()
     val uiConfigViewModel = koinViewModel<UiConfigViewModel>()
 
     val uiConfig by uiConfigViewModel.uiConfig.collectAsState()
@@ -90,11 +89,11 @@ fun App() {
                     authViewModel,
                     userViewModel,
                     chatViewModel,
-                    articlesViewModel,
                     sharedViewModel
                 )
             }
         }
+        DialogHost()
 
         FloatingUiControlPanel(
             viewModel = uiConfigViewModel,

@@ -48,11 +48,13 @@ import com.app.harigaji.presentation.OptionTabs
 import com.app.harigaji.presentation.SearchBarM3
 import com.app.harigaji.presentation.SlideToClockIn
 import com.app.harigaji.presentation.WithdrawCard
+import com.app.harigaji.theme.MyMaterialTheme
 import com.app.harigaji.theme.SpacerHorizontalMedium
 import com.app.harigaji.theme.SpacerHorizontalSmall
 import com.app.harigaji.theme.SpacerVerticalLarge
 import com.app.harigaji.theme.SpacerVerticalMedium
 import com.app.harigaji.theme.SpacerVerticalSmall
+import com.app.harigaji.theme.SpacerVerticalExtraLarge
 import com.app.harigaji.theme.rememberCornerRadiusLarge
 import com.app.harigaji.theme.rememberInnerVerticalPaddingSmall
 
@@ -67,6 +69,7 @@ import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberOuterVerticalPaddingMedium
+import com.app.harigaji.theme.rememberOuterVerticalPaddingLarge
 import com.app.harigaji.theme.rememberSizeExtraLarge
 import com.app.harigaji.theme.rememberSizeLarge
 import com.app.harigaji.theme.rememberSizeSmall
@@ -276,8 +279,8 @@ fun HomeScreen(
                         attendanceTabContent(
                             listAttendanceContent = listOf(
                                 KpiData(
-                                    label = "Last Logged out at",
-                                    value = "21 Jan 2024"
+                                    title = "Last Logged out at",
+                                    content = "21 Jan 2024"
                                 )
                             ),
                             onClockIn = onClockIn
@@ -442,7 +445,7 @@ private fun SearchSection(
                 searchHeading = "Search for anything",
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        SpacerVerticalSmall()
     }
 }
 
@@ -578,7 +581,11 @@ fun LazyListScope.salaryTabContent(
     }
 
     item {
-        Spacer(Modifier.height(200.dp))
+        SpacerVerticalExtraLarge()
+        SpacerVerticalExtraLarge()
+        SpacerVerticalExtraLarge()
+        SpacerVerticalExtraLarge()
+        SpacerVerticalExtraLarge()
     }
 }
 
@@ -698,7 +705,16 @@ fun LazyListScope.attendanceTabContent(
 
 
         item(key = "attendance_spacer") {
-            Spacer(modifier = Modifier.height(400.dp))
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
+            SpacerVerticalExtraLarge()
         }
 }
 
@@ -744,8 +760,8 @@ fun TitleWithMoreRow(
 }
 
 data class KpiData(
-    val label: String,
-    val value: String,
+    val title: String,
+    val content: String,
 )
 
 @Composable
@@ -836,9 +852,7 @@ fun InfoCard(
             }
             tag?.let { text ->
 
-            Card(
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            Box(
                 modifier = Modifier
                     .wrapContentWidth()
                     .fillMaxHeight()
@@ -869,7 +883,7 @@ fun InfoCard(
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = rememberOuterHorizontalPaddingLarge()),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -900,7 +914,10 @@ fun InfoCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(
+                    horizontal = rememberOuterHorizontalPaddingLarge(),
+                    vertical = rememberOuterVerticalPaddingLarge()
+                )
                 .debugUi(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -923,7 +940,7 @@ fun InfoCard(
                         modifier = Modifier.size(24.dp)
                     )
                 }
-                Spacer(modifier = Modifier.width(12.dp))
+                SpacerHorizontalMedium()
                 Column(
                     modifier = Modifier.debugUi(),
                     verticalArrangement = Arrangement.Center,
@@ -946,6 +963,9 @@ fun InfoCard(
 @Preview
 @Composable
 fun HomeScreenPreview() {
+
+    MyMaterialTheme {
+
     HomeScreen(
         PaddingValues(0.dp),
         UserDetails(
@@ -954,6 +974,7 @@ fun HomeScreenPreview() {
         ),
         onClockIn = {}
     )
+    }
 }
 
 data class WithdrawData(

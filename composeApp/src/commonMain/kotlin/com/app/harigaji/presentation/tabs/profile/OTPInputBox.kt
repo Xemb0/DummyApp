@@ -127,7 +127,8 @@ fun OTPSection(
     resendColor: Color = Color.Green,
     errorColor: Color = Color.Red,
     fontSize: TextUnit = 14.sp,
-    fontFamily: FontFamily? = null
+    fontFamily: FontFamily? = null,
+    enabled: Boolean,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -146,7 +147,8 @@ fun OTPSection(
             otpTextColor = otpTextColor,
             otpTextSize = otpTextSize,
             cursorColor = cursorColor,
-            fontFamily = fontFamily
+            fontFamily = fontFamily,
+            enabled = enabled
         )
 
         Spacer(modifier = Modifier.height(24.dp))

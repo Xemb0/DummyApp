@@ -1,6 +1,5 @@
 package com.app.harigaji.presentation.chat
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.innerShadow
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
@@ -31,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.app.harigaji.chat.ChatMessage
 import com.app.harigaji.chat.UserMessageDetails
-import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.presentation.MyTopBar
 import com.app.harigaji.theme.SpacerVerticalSmall
 import com.app.harigaji.theme.debugUi
 import com.app.harigaji.theme.rememberCornerRadiusLarge
@@ -39,13 +37,11 @@ import com.app.harigaji.theme.rememberCornerRadiusMediumDp
 import com.app.harigaji.theme.rememberInnerHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberInnerVerticalPaddingMedium
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
-import com.app.harigaji.theme.rememberPaddingMedium
 import com.app.harigaji.theme.rememberPaddingSmall
 import com.app.harigaji.theme.rememberSizeExtraLarge
 import com.app.harigaji.theme.rememberSizeLarge
 import com.app.harigaji.theme.rememberSizeMedium
 import harigaji.composeapp.generated.resources.Res
-import harigaji.composeapp.generated.resources.ic_curve_back
 import harigaji.composeapp.generated.resources.ic_profile
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -68,10 +64,10 @@ fun ChatScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            ScreenHeader(
+            MyTopBar(
                 paddingValues = paddingValues,
                 title = userMessageDetails.sender,
-                onBackClick = onBackClick,
+                onLeadingClick = onBackClick,
                 modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge())
                     .debugUi()
             )

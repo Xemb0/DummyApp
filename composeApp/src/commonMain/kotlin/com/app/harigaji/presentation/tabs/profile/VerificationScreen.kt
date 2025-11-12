@@ -1,124 +1,139 @@
 package com.app.harigaji.presentation.tabs.profile
 
-
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.dropShadow
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.shadow.Shadow
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.app.harigaji.core.auth.AuthViewModel
+import com.app.harigaji.core.user.UserViewModel
+import com.app.harigaji.core.utils.SnackBarEvent
+import com.app.harigaji.data.UiEvent
 import com.app.harigaji.data.UserProgressDetail
-import com.app.harigaji.presentation.ScreenHeader
-import com.darkrockstudios.libraries.mpfilepicker.FilePicker
-import harigaji.composeapp.generated.resources.Res
-import harigaji.composeapp.generated.resources.ic_curve_back
-import harigaji.composeapp.generated.resources.ic_envelop
-import harigaji.composeapp.generated.resources.ic_invalid
-import harigaji.composeapp.generated.resources.ic_profile
-import io.github.ismoy.imagepickerkmp.domain.config.CameraCaptureConfig
-import io.github.ismoy.imagepickerkmp.domain.config.ImagePickerConfig
-import io.github.ismoy.imagepickerkmp.domain.config.PermissionAndConfirmationConfig
-import io.github.ismoy.imagepickerkmp.domain.models.CompressionLevel
-import io.github.ismoy.imagepickerkmp.domain.models.GalleryPhotoResult
-import io.github.ismoy.imagepickerkmp.domain.models.MimeType
-import io.github.ismoy.imagepickerkmp.domain.models.PhotoResult
-import io.github.ismoy.imagepickerkmp.presentation.ui.components.GalleryPickerLauncher
-import io.github.ismoy.imagepickerkmp.presentation.ui.components.ImagePickerLauncher
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
-import kotlinx.datetime.*
-import kotlin.time.Clock
+import com.app.harigaji.presentation.MyBottomNav
+import com.app.harigaji.presentation.MyTopBar
+import com.app.harigaji.theme.MyMaterialTheme
+import com.app.harigaji.theme.SpacerVerticalLarge
+import com.app.harigaji.theme.SpacerVerticalMedium
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
+import com.app.harigaji.theme.rememberOuterVerticalPaddingMedium
+import com.app.harigaji.theme.rememberSizeExtraLarge
+import com.app.harigaji.theme.rememberSizeLarge
+import com.app.harigaji.theme.rememberSizeMedium
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.ExperimentalTime
+
+@Composable
+fun VerificationRoot(
+    paddingValues: PaddingValues,
+    emailId: String? = null,
+    label: String,
+    authViewModel: AuthViewModel = koinViewModel(),
+    onPrevious: () -> Unit = {},
+    onNavigateToResetPassword: () -> Unit = {},
+) {
+    val authState by authViewModel.authState.collectAsStateWithLifecycle()
+
+
+    // Collect UI events
+    LaunchedEffect(Unit) {
+        authViewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    SnackBarEvent(
+                        message = event.message,
+                    )
+                }
+                is UiEvent.Navigate.ResetPassword -> {
+                    onNavigateToResetPassword()
+                }
+                else -> {}
+            }
+        }
+    }
+
+    VerificationScreen(
+        paddingValues = paddingValues,
+        emailId = emailId,
+        label = label,
+        isLoading = authState.isLoading,
+        error = authState.error,
+        onPrevious = onPrevious,
+        onVerifyClick = authViewModel::onVerifyClick,
+        onResendOtp = { authViewModel.onResendEmailOtp(emailId ?: "") }
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
 fun VerificationScreen(
-    emailId: String?=null,
-    label: String,
     paddingValues: PaddingValues,
-    userProgressDetail: UserProgressDetail?,
+    emailId: String? = null,
+    label: String,
+    isLoading: Boolean = false,
+    error: String? = null,
     onPrevious: () -> Unit = {},
-    onNext: () -> Unit = {}
+    onVerifyClick: (String) -> Unit = {},
+    onResendOtp: () -> Unit = {}
 ) {
+    var otp by remember { mutableStateOf("") }
+    var otpTimeout by remember { mutableStateOf(59) }
 
-    var initialEmail by remember { mutableStateOf(TextFieldValue(userProgressDetail?.email?:"")) }
+    val outerHorizontalPadding = rememberOuterHorizontalPaddingExtraLarge()
+    val outerVerticalPadding = rememberOuterVerticalPaddingMedium()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            Button(
-                onClick = onNext,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = paddingValues.calculateBottomPadding())
-                    .padding(horizontal = 16.dp)
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
-                ),
-                shape = CircleShape
-            ) {
-                Text(
-                    text = "Reset Password",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
+            MyBottomNav(
+                paddingValues = paddingValues,
+                text = if (isLoading) "Verifying..." else "Verify Code",
+                onClick = {
+                    if (!isLoading) {
+                        onVerifyClick(otp)
+                    }
+                },
+                enabled = !isLoading && otp.length == 6,
+                modifier = Modifier.padding(
+                    horizontal = outerHorizontalPadding,
+                    vertical = outerVerticalPadding
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-        },
-        topBar = {
-            ScreenHeader(
-                title = "Verification",
-                onBackClick = onPrevious,
-                paddingValues = paddingValues
             )
         },
-    ) { pv ->
-
-        var otp by remember { mutableStateOf("") }
-        var otpTimeout by remember { mutableStateOf(59) }
-        var errorMessage by remember { mutableStateOf<String?>(null) }
-
+        topBar = {
+            MyTopBar(
+                paddingValues = paddingValues,
+                title = "Verification",
+                onLeadingClick = onPrevious,
+                modifier = Modifier.padding(
+                    horizontal = outerHorizontalPadding,
+                    vertical = outerVerticalPadding
+                )
+            )
+        },
+    ) { innerPadding ->
         Box(
-
             modifier = Modifier
-                .padding(pv)
+                .padding(innerPadding)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 0.dp)
-                    .background(MaterialTheme.colorScheme.background)
+                    .padding(vertical = outerVerticalPadding)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -131,52 +146,124 @@ fun VerificationScreen(
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                SpacerVerticalMedium()
 
                 Text(
                     text = label,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = outerHorizontalPadding)
                 )
+
                 emailId?.let {
-                Text(
-                    text = it,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
-                    textAlign = TextAlign.Center
-                )
+                    SpacerVerticalMedium()
+                    Text(
+                        text = it,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
+                        textAlign = TextAlign.Center
+                    )
                 }
-                Spacer(modifier = Modifier.height(32.dp))
+
+                SpacerVerticalLarge()
+
+                // Show error message if exists
+                error?.let { errorMsg ->
+                    Text(
+                        text = errorMsg,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(horizontal = outerHorizontalPadding)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+
+                // Loading indicator
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .padding(bottom = 16.dp),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
                 // Full OTP Section with resend and error handling
                 OTPSection(
                     otp = otp,
-                    onOtpChange = { otp = it },
+                    onOtpChange = { newOtp ->
+                        otp = newOtp
+                    },
                     otpTimeout = otpTimeout,
                     onResendOtp = {
-                        // Handle resend OTP
-                        println("Resending OTP")
+                        onResendOtp()
+                        otpTimeout = 60
                     },
                     onNotMyNumberClick = {
-                        // Handle "Not my number" click
-                        println("Not my number clicked")
+                        onPrevious()
                     },
                     resetOtpTimeout = {
                         otpTimeout = 60
                     },
-                    isError = errorMessage,
+                    isError = error,
                     otpLength = 6,
-                    otpBoxSize = 48.dp,
-                    otpBoxBorderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = .5f),
+                    otpBoxSize = 42.dp,
+                    otpBoxBorderColor = if (error != null) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onBackground.copy(alpha = .5f)
+                    },
                     otpBoxBackgroundColor = MaterialTheme.colorScheme.surface,
-
                     cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     resendColor = MaterialTheme.colorScheme.secondary,
-                    errorColor = Color.Red
+                    errorColor = MaterialTheme.colorScheme.error,
+                    enabled = !isLoading
                 )
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewVerificationScreen() {
+    MyMaterialTheme {
+        VerificationScreen(
+            paddingValues = PaddingValues(),
+            emailId = "user@example.com",
+            label = "Enter the 6-digit code sent to your email",
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewVerificationScreenLoading() {
+    MyMaterialTheme {
+        VerificationScreen(
+            paddingValues = PaddingValues(),
+            emailId = "user@example.com",
+            label = "Enter the 6-digit code sent to your email",
+            isLoading = true
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewVerificationScreenError() {
+    MyMaterialTheme {
+        VerificationScreen(
+            paddingValues = PaddingValues(),
+            emailId = "user@example.com",
+            label = "Enter the 6-digit code sent to your email",
+            error = "Invalid OTP code. Please try again."
+        )
     }
 }

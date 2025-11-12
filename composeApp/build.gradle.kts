@@ -104,13 +104,12 @@ kotlin {
             //Coil
             implementation("io.coil-kt.coil3:coil-compose:3.3.0")
 //            implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
-
+//            implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0")
+            implementation("io.coil-kt.coil3:coil-network-ktor3:3.3.0")
 
 
             implementation("com.darkrockstudios:mpfilepicker:3.1.0")
             implementation("io.github.ismoy:imagepickerkmp:1.0.26")
-
-//            implementation("androidx.compose.material3:material3-android:1.4.0")
 
 
         }
