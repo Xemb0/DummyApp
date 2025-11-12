@@ -75,11 +75,14 @@ sealed class Route {
         @Serializable
         data object Article : Route()
 
+    @Serializable
+    data class ArticleDetail(val articleId: Int) : Route()
+
         @Serializable
         data class Chat(val id: Int) : Route()
 
         @Serializable
-        data object ChangePassword : Route()
+        data object ResetPassword : Route()
 
         @Serializable
         data class Verification(val emailID: String?=null,val label:String,val buttonText:String) : Route()

@@ -11,4 +11,8 @@ interface AuthRepository {
     suspend fun logout()
     suspend fun login(userName: String, password: String) : MyResult<AuthResponse, MyAppError>
 
+    suspend fun changePassword(oldPassword: String, newPassword: String) : MyResult<Unit, MyAppError>
+
+    suspend fun sendResetCode(phone: String) : MyResult<Unit, MyAppError>
+
 }

@@ -28,8 +28,11 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger.Companion.a
-import com.app.harigaji.artical.ArticlesScreen
-import com.app.harigaji.artical.ArticlesViewModel
+import com.app.harigaji.about.PrivacyPolicyRoot
+import com.app.harigaji.about.PrivacyPolicyScreen
+import com.app.harigaji.about.TermsAndConditionsRoot
+import com.app.harigaji.artical.presentation.ArticleDetailRoot
+import com.app.harigaji.artical.presentation.ArticleRoot
 import com.app.harigaji.chat.ChatViewModel
 import com.app.harigaji.core.auth.AuthViewModel
 import com.app.harigaji.core.shared.SharedViewModel
@@ -39,18 +42,16 @@ import com.app.harigaji.core.utils.SnackBarController
 import com.app.harigaji.core.utils.SnackBarEvent
 import com.app.harigaji.core.utils.extract12HourTime
 import com.app.harigaji.data.UiEvent
-import com.app.harigaji.presentation.LanguageSelectionScreen
+import com.app.harigaji.language.LanguageSelectionRoot
 import com.app.harigaji.presentation.LoginScreen
 import com.app.harigaji.presentation.ScreenHolder
-import com.app.harigaji.presentation.about.PrivacyPolicyScreen
-import com.app.harigaji.presentation.about.TermsAndConditionsScreen
 import com.app.harigaji.presentation.chat.ChatScreen
-import com.app.harigaji.presentation.forgetpass.ChangePasswordScreen
+import com.app.harigaji.presentation.forgetpass.ChangePasswordRoot
 import com.app.harigaji.presentation.popups.AttendanceClockScreen
 import com.app.harigaji.presentation.popups.ClockState
-import com.app.harigaji.presentation.tabs.profile.ForgetPassScreen
+import com.app.harigaji.presentation.tabs.profile.ForgetPasswordRoot
 import com.app.harigaji.presentation.tabs.profile.ProfileEditScreen
-import com.app.harigaji.presentation.tabs.profile.VerificationScreen
+import com.app.harigaji.presentation.tabs.profile.VerificationRoot
 import com.app.harigaji.presentation.withdrawal.WithdrawalRequestScreen
 import com.app.harigaji.splash.SplashScreen
 import com.app.harigaji.splash.SplashStartScreen
@@ -65,7 +66,6 @@ fun NavScreen(
     authViewModel: AuthViewModel,
     userViewModel: UserViewModel,
     chatViewModel: ChatViewModel,
-    articlesViewModel: ArticlesViewModel,
     sharedViewModel: SharedViewModel,
 ) {
 
@@ -266,7 +266,7 @@ fun NavScreen(
                         },
                         newNotificationCount = 3,
                         onUserIconClick = {
-                            navController.navigate(Route.Settings)
+                            navController.navigate(Route.Article)
                         },
                         onNotificationClick = {
                             navController.navigate(Route.Notification)
@@ -458,13 +458,13 @@ fun NavScreen(
                         ) + fadeOut(animationSpec = tween(400))
                     }
                 ) {
-                    ForgetPassScreen(
-                        innerPadding, userProgressDetail = userProgressDetail,
+                    ForgetPasswordRoot(
+                       paddingValues =  innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
                         },
-                        onResetClick = { emailID ->
+                        onNavigateToVerification = { emailID ->
                             navController.navigate(Route.Verification(
                                 emailID = emailID,
                                 label = "We've the code send to your email",
@@ -474,7 +474,6 @@ fun NavScreen(
                     )
                 }
 
-                // Verification - Slide from right
                 composable<Route.Verification>(
                     enterTransition = {
                         slideInHorizontally(
@@ -502,28 +501,21 @@ fun NavScreen(
                     }
                 ) { entry ->
                     val args = entry.toRoute<Route.Verification>()
-                    VerificationScreen(
+                    VerificationRoot(
                         emailId = args.emailID,
                         label = args.label,
-                        innerPadding, userProgressDetail = userProgressDetail,
+                       paddingValues =  innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                         },
-                        onNext = {
-                            if(args.emailID!=null){
-                                navController.navigate(Route.ChangePassword)
-                            }else
-                                navController.navigate(Route.HolderScreen){
-                                    popUpTo(Route.NavGraph) {
-                                        inclusive = false
-                                    }
-                                }
+                        onNavigateToResetPassword = {
+                            navController.navigate(Route.ResetPassword)
                         }
                     )
                 }
 
                 // Change Password - Slide from right
-                composable<Route.ChangePassword>(
+                composable<Route.ResetPassword>(
                     enterTransition = {
                         slideInHorizontally(
                             initialOffsetX = { it },
@@ -549,17 +541,13 @@ fun NavScreen(
                         ) + fadeOut(animationSpec = tween(400))
                     }
                 ) { entry ->
-                    ChangePasswordScreen(
-                        innerPadding, userProgressDetail = userProgressDetail,
+                    ChangePasswordRoot(
+                        paddingValues = innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                         },
-                        onNext = { _, _ ->
-                            navController.navigate(Route.HolderScreen){
-                                popUpTo(Route.NavGraph) {
-                                    inclusive = false
-                                }
-                            }
+                        onGoHome = {
+                            navController.navigate(Route.HolderScreen)
                         }
                     )
                 }
@@ -633,7 +621,7 @@ fun NavScreen(
                         ) + fadeOut(animationSpec = tween(400))
                     }
                 ) { entry ->
-                    PrivacyPolicyScreen(
+                    PrivacyPolicyRoot(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
@@ -669,7 +657,7 @@ fun NavScreen(
                         ) + fadeOut(animationSpec = tween(400))
                     }
                 ) { entry ->
-                    TermsAndConditionsScreen(
+                    TermsAndConditionsRoot(
                         innerPadding,
                         onPrevious = {
                             navController.navigateUp()
@@ -705,8 +693,8 @@ fun NavScreen(
                         ) + fadeOut(animationSpec = tween(400))
                     }
                 ) { entry ->
-                    LanguageSelectionScreen(
-                        innerPadding,
+                    LanguageSelectionRoot(
+                       paddingValues =  innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
@@ -779,12 +767,51 @@ fun NavScreen(
                         ) + fadeOut(animationSpec = tween(400))
                     }
                 ) { entry ->
-                    ArticlesScreen(
+                    ArticleRoot(
                         paddingValues = innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                         },
-                        viewModel = articlesViewModel
+                        onArticleClick = { article ->
+                            navController.navigate(Route.ArticleDetail(articleId = article.id))
+                        }
+                    )
+                }
+                composable<Route.ArticleDetail>(
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    exitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { -it },
+                            animationSpec = tween(400)
+                        ) + fadeIn(animationSpec = tween(400))
+                    },
+                    popExitTransition = {
+                        slideOutHorizontally(
+                            targetOffsetX = { it },
+                            animationSpec = tween(400)
+                        ) + fadeOut(animationSpec = tween(400))
+                    }
+                ) { entry ->
+
+
+                    val args = entry.toRoute<Route.ArticleDetail>()
+                    ArticleDetailRoot(
+                        articleID = args.articleId,
+                        paddingValues = innerPadding,
+                        onPrevious = {
+                            navController.navigateUp()
+                        }
                     )
                 }
             }

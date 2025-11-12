@@ -24,8 +24,15 @@ fun ColorScheme(config: UiConfigEntity?): ColorScheme {
     val defaultConfig = UiConfigEntity()
     val uiConfig = config ?: defaultConfig
     
+    // For default config, use secondary color for primary color
+    val primaryColor = if (config == null) {
+        uiConfig.secondaryColor
+    } else {
+        uiConfig.primaryColor
+    }
+
     return lightColorScheme(
-        primary = Color(uiConfig.primaryColor),
+        primary = Color(primaryColor),
         secondary = Color(uiConfig.secondaryColor),
         surface = Color(uiConfig.surfaceColor),
         surfaceContainerLowest = Color(uiConfig.surfaceLowestColor),
@@ -35,6 +42,7 @@ fun ColorScheme(config: UiConfigEntity?): ColorScheme {
         secondaryContainer = Color(uiConfig.secondaryContainerColor)
     )
 }
+
 
 @Composable
 fun Typography(config: UiConfigEntity?): Typography {

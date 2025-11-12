@@ -159,6 +159,17 @@ class AuthRepositoryImpl(
         }
     }
 
+    override suspend fun changePassword(
+        oldPassword: String,
+        newPassword: String
+    ): MyResult<Unit, MyAppError> {
+        return MyResult.Success(Unit)
+    }
+
+    override suspend fun sendResetCode(phone: String): MyResult<Unit, MyAppError> {
+        return MyResult.Success(Unit)
+    }
+
 
     override suspend fun requestOtp(phone: String, type: Int): MyResult<SendOTPResponse, MyAppError> =
         withContext(

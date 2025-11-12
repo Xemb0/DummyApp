@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -42,11 +43,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.app.harigaji.theme.ThemeValues.roundedCornerShapeMedium
 import com.app.harigaji.theme.rememberCornerRadiusLarge
 import com.app.harigaji.theme.rememberCornerRadiusMedium
+import com.app.harigaji.theme.rememberTextSizeMedium
+import com.app.harigaji.theme.rememberTextStyleMedium
 import harigaji.composeapp.generated.resources.Res
 import harigaji.composeapp.generated.resources.ic_message_dot
 import kotlinx.coroutines.NonCancellable.isActive
@@ -103,9 +107,12 @@ fun SearchBarM3(
                     active = isActive
                 },
                 placeholder = {
-                    Text(
+                    BasicText(
                         text = searchHeading,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = rememberTextStyleMedium().copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .8f),
+                            fontWeight = FontWeight.SemiBold
+                        ),
                     )
                 },
                 trailingIcon = {
@@ -173,7 +180,7 @@ fun SearchBarM3(
                                 .padding(4.dp)
                         )
                         Text(
-                            text = searchHeading,
+                            text = "Maybe you’re looking for…",
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(start = 8.dp)

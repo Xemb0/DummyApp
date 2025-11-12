@@ -1,7 +1,6 @@
 package com.app.harigaji.presentation.withdrawal
 
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,11 +17,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.data.UserProgressDetail
-import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.presentation.MyTopBar
 import com.app.harigaji.presentation.tabs.profile.CustomTextField
-import harigaji.composeapp.generated.resources.Res
-import harigaji.composeapp.generated.resources.ic_curve_back
-import org.jetbrains.compose.resources.painterResource
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
@@ -98,9 +94,9 @@ fun WithdrawalRequestScreen(
             }
         },
         topBar = {
-            ScreenHeader(
+            MyTopBar(
                 title = "Withdrawal Request",
-                onBackClick = onPrevious,
+                onLeadingClick = onPrevious,
                 paddingValues = paddingValues
             )
         },

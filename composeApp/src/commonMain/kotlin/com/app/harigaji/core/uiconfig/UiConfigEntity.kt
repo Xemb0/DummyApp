@@ -11,7 +11,7 @@ data class UiConfigEntity(
     val id: Int = 1, // Single config instance
     
     // Colors (stored as ARGB integers)
-    val primaryColor: Long = 0xFF6200EE,
+    val primaryColor: Long = 0xFF2ECA83,
     val secondaryColor: Long = 0xFF2ECA83,
     val surfaceColor: Long = 0xFFFFFFFF,
     val surfaceLowestColor: Long = 0xFFF5F5F5,

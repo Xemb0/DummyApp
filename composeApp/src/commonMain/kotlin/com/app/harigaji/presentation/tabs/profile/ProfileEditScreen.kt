@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.app.harigaji.data.UserProgressDetail
-import com.app.harigaji.presentation.ScreenHeader
+import com.app.harigaji.presentation.MyBottomNav
+import com.app.harigaji.presentation.MyTopBar
 import com.app.harigaji.theme.SpacerVerticalMedium
-import com.app.harigaji.theme.SpacerVerticalSmall
 import com.app.harigaji.theme.rememberCornerRadiusLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
 import com.app.harigaji.theme.rememberOuterVerticalPaddingMedium
@@ -94,39 +94,16 @@ fun ProfileEditScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            Button(
-                onClick = {
-                    onSaveChanges()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = paddingValues.calculateBottomPadding())
-                    .padding(horizontal = 16.dp)
-                    .height(56.dp)
-                    .debugUi(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
-                ),
-                shape = CircleShape
-            ) {
-                Text(
-                    text = "Reset Password",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.debugUi()
-                )
-                Spacer(modifier = Modifier.width(8.dp).debugUi())
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp).debugUi()
-                )
-            }
+            MyBottomNav(
+                paddingValues = paddingValues,
+                text = "Reset password",
+                onClick = {}
+            )
         },
         topBar = {
-            ScreenHeader(
+            MyTopBar(
                 title = "Profile",
-                onBackClick = onPrevious,
+                onLeadingClick = onPrevious,
                 paddingValues = paddingValues,
                 modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge(), vertical = rememberOuterVerticalPaddingMedium()).debugUi(),
             )
@@ -218,6 +195,7 @@ fun ProfileEditScreen(
                         value = firstName,
                         onValueChange = { firstName = it }
                     )
+                    SpacerVerticalMedium()
 
 
                     // Last Name Field
@@ -226,6 +204,7 @@ fun ProfileEditScreen(
                         value = lastName,
                         onValueChange = { lastName = it }
                     )
+                    SpacerVerticalMedium()
 
                     // Email Field
                     CustomTextField(
@@ -234,6 +213,7 @@ fun ProfileEditScreen(
                         onValueChange = { email = it },
                         textColor = Color(0xFF2196F3)
                     )
+                    SpacerVerticalMedium()
 
                     // Date of Birth Field with DatePicker
                     DatePickerField(
@@ -254,7 +234,6 @@ fun ProfileEditScreen(
 
                 DatePickerDialog(
                     onDismissRequest = { showDatePicker = false },
-
                     confirmButton = {
                         TextButton(
                             onClick = {
@@ -278,7 +257,7 @@ fun ProfileEditScreen(
                             onClick = { showDatePicker = false },
                             modifier = Modifier.debugUi(),
                             colors = ButtonDefaults.textButtonColors(
-                                contentColor = Color.Gray
+                                contentColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
                             )
                         ) {
                             Text(
@@ -288,41 +267,36 @@ fun ProfileEditScreen(
                         }
                     },
                     colors = DatePickerDefaults.colors(
-                        containerColor = Color.White,
+                        containerColor = MaterialTheme.colorScheme.surface,
                         titleContentColor = MaterialTheme.colorScheme.onSurface,
                         headlineContentColor = MaterialTheme.colorScheme.secondary,
-                        weekdayContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        weekdayContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                         subheadContentColor = MaterialTheme.colorScheme.onSurface,
-                        yearContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        yearContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                         currentYearContentColor = MaterialTheme.colorScheme.secondary,
-                        selectedYearContentColor = Color.White,
+                        selectedYearContentColor = MaterialTheme.colorScheme.onSecondary,
                         selectedYearContainerColor = MaterialTheme.colorScheme.secondary,
                         dayContentColor = MaterialTheme.colorScheme.onSurface,
                         disabledDayContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
-                        selectedDayContentColor = Color.White,
-                        disabledSelectedDayContentColor = Color.White.copy(alpha = 0.38f),
+                        selectedDayContentColor = MaterialTheme.colorScheme.onSecondary,
+                        disabledSelectedDayContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.38f),
                         selectedDayContainerColor = MaterialTheme.colorScheme.secondary,
-                        disabledSelectedDayContainerColor = MaterialTheme.colorScheme.secondary.copy(
-                            alpha = 0.38f
-                        ),
+                        disabledSelectedDayContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.38f),
                         todayContentColor = MaterialTheme.colorScheme.secondary,
                         todayDateBorderColor = MaterialTheme.colorScheme.secondary,
-                        dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        dateTextFieldColors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = MaterialTheme.colorScheme.secondary,
-                            unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            cursorColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            selectionColors =  TextSelectionColors(
-                                handleColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)),
-                            focusedContainerColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onSurface,
+                        dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.12f),
 
-                        )
-                    ),
-                    ){                    DatePicker(
+                    )
+                ) {
+                    DatePicker(
+                        colors = DatePickerDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            titleContentColor = MaterialTheme.colorScheme.onSurface,
+                            selectedDayContainerColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        ),
                         state = datePickerState,
-                        modifier = Modifier.padding(16.dp).debugUi()
+                        modifier = Modifier.debugUi()
                     )
                 }
             }
@@ -472,17 +446,34 @@ fun CustomTextField(
 ) {
     Column(modifier = modifier.fillMaxWidth().debugUi()) {
         // Label
-        Text(
-            text = label,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth().debugUi()
-        )
-
-        SpacerVerticalSmall()
 
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .debugUi(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = label,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f).debugUi()
+            )
+            Text(
+                text = "${value.text.length}/$maxLength",
+                fontSize = 10.sp,
+                color = if (value.text.length >= maxLength) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                },
+                modifier = Modifier.debugUi()
+            )
+        }
+
+        SpacerVerticalMedium()
         // Text Field
         OutlinedTextField(
             value = value,
@@ -546,25 +537,9 @@ fun CustomTextField(
             isError = isError,
             enabled = enabled
         )
+        SpacerVerticalMedium()
 
-        SpacerVerticalSmall()
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .debugUi(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Text(
-                text = "${value.text.length}/$maxLength",
-                fontSize = 12.sp,
-                color = if (value.text.length >= maxLength) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-                },
-                modifier = Modifier.debugUi()
-            )
-        }
+
 
         // Error Message
         if (isError && errorMessage.isNotEmpty()) {
@@ -573,7 +548,6 @@ fun CustomTextField(
                     .fillMaxWidth()
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.errorContainer)
-                    .padding(12.dp)
                     .debugUi(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -584,8 +558,6 @@ fun CustomTextField(
                     tint = MaterialTheme.colorScheme.onErrorContainer,
                     modifier = Modifier.size(rememberSizeMedium()).debugUi()
                 )
-                SpacerVerticalSmall()
-
                 Text(
                     text = errorMessage,
                     fontSize = 12.sp,
