@@ -66,6 +66,7 @@ import com.app.harigaji.theme.SpacerVerticalSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingSmall
 import com.app.harigaji.theme.rememberHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberCornerRadiusMedium
+import com.app.harigaji.theme.rememberInnerHorizontalPaddingExtraLarge
 import com.app.harigaji.theme.rememberInnerHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberInnerHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberInnerVerticalPaddingLarge
@@ -98,6 +99,7 @@ fun WithdrawCard(amount: String, month: String, color: Color, modifier: Modifier
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(end = rememberInnerHorizontalPaddingExtraLarge())
                 .padding(
                     vertical = rememberInnerVerticalPaddingLarge(),
                     horizontal = rememberInnerHorizontalPaddingLarge()

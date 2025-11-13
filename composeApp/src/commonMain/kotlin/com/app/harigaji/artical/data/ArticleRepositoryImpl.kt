@@ -6,53 +6,75 @@ import kotlinx.coroutines.delay
 
 class ArticleRepositoryImpl : ArticleRepository {
 
-     val dummyArticleDetails = listOf(
+    val dummyArticleDetails = listOf(
+        // 🔥 Trending
         ArticleDetail(
             id = 1,
             title = "Participate in the Corra Finance Airdrop & Earn Rewards 🎉",
-            description = "Join the Corra community and earn up to $50 worth of tokens by completing simple tasks.",
+            description = """
+                Corra Finance has announced its latest community engagement program offering up to $50 in CORRA tokens to early adopters. 
+                Participants can earn rewards by completing simple verification steps, following Corra’s social media handles, and referring friends to the ecosystem. 
+                The initiative aims to boost awareness around decentralized crowdfunding in the DeFi space and support creators looking to launch tokenized campaigns. 
+                According to company officials, the airdrop will remain open until the end of the quarter, with users encouraged to verify their wallets to ensure eligibility.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/airdrop/400/200",
             date = "2024-06-15 09:45 AM",
             category = "Trending"
         ),
+
         ArticleDetail(
             id = 2,
             title = "Web3 Trends: What’s Next for 2025 🚀",
-            description = "Explore the next wave of blockchain innovation shaping the financial world.",
+            description = """
+                The Web3 ecosystem continues to expand as businesses integrate blockchain technology into mainstream applications. 
+                Analysts predict that by 2025, over 40% of Fortune 500 companies will deploy decentralized identity or tokenization services. 
+                The transition from speculative crypto assets to practical blockchain infrastructure is already underway, with projects in supply chain, gaming, and digital identity gaining traction. 
+                Experts say that mass adoption depends on simplifying user experience and improving cross-chain interoperability.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/web3/400/200",
             date = "2024-06-10 10:15 AM",
             category = "Trending"
         ),
+
         ArticleDetail(
             id = 3,
             title = "DeFi 3.0: The Future of Decentralized Finance 💎",
-            description = "A deep dive into next-gen protocols revolutionizing global finance.",
+            description = """
+                The third wave of DeFi innovation—dubbed DeFi 3.0—is redefining how liquidity and yield optimization work. 
+                Unlike earlier versions, which focused heavily on staking and farming, this evolution is introducing AI-driven strategies that automatically rebalance portfolios and hedge against risk. 
+                Platforms like Yearn V3 and GMX V2 are at the forefront, integrating on-chain data analytics with predictive algorithms. 
+                Institutional investors are increasingly exploring these protocols for transparent and high-yield alternatives to traditional banking systems.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/defi/400/200",
             date = "2024-06-08 02:30 PM",
             category = "Trending"
         ),
+
         ArticleDetail(
             id = 4,
             title = "AI Meets Blockchain: Smarter Finance Systems 🤖",
-            description = "Discover how artificial intelligence is enhancing decentralized platforms.",
+            description = """
+                Artificial Intelligence and blockchain are merging to create intelligent financial systems that learn from data while preserving privacy. 
+                Startups in Singapore and Silicon Valley are building AI models that analyze blockchain transaction histories to detect fraud, automate compliance, and predict asset price movements. 
+                This new synergy is already being used by decentralized exchanges to improve liquidity forecasting. 
+                Experts believe that within the next five years, AI-integrated blockchains could reduce transaction fraud by up to 80%.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/aiblockchain/400/200",
             date = "2024-06-18 06:20 PM",
             category = "Trending"
         ),
+
         ArticleDetail(
             id = 13,
             title = "Tokenization of Real-World Assets in 2025 🌍",
-            description = "Explore how real estate and physical assets are going digital.",
+            description = """
+                The financial world is witnessing a paradigm shift as physical assets like real estate, gold, and art are being tokenized on blockchain networks. 
+                Tokenization allows fractional ownership, making traditionally expensive assets accessible to a larger pool of investors. 
+                Major financial institutions, including BlackRock and HSBC, are piloting tokenized bond programs to test liquidity models in decentralized environments. 
+                The trend is expected to unlock trillions of dollars in previously illiquid markets, creating new avenues for cross-border investing.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/tokenization/400/200",
             date = "2024-06-19 11:10 AM",
-            category = "Trending"
-        ),
-        ArticleDetail(
-            id = 14,
-            title = "The Rise of AI Agents in Finance 🤯",
-            description = "Autonomous AI traders are reshaping investment strategies.",
-            imageUrl = "https://picsum.photos/seed/aiagents/400/200",
-            date = "2024-06-20 04:50 PM",
             category = "Trending"
         ),
 
@@ -60,111 +82,82 @@ class ArticleRepositoryImpl : ArticleRepository {
         ArticleDetail(
             id = 5,
             title = "How to Secure Your Wallet in 2025 🔐",
-            description = "Best practices to protect your digital assets from scams and hacks.",
+            description = """
+                As digital assets grow in popularity, so do cyber threats targeting crypto users. 
+                Recent reports show a 30% increase in phishing scams aimed at wallet recovery phrases. 
+                Experts recommend using hardware wallets like Ledger or Trezor, enabling two-factor authentication, and avoiding browser-based extensions for storing private keys. 
+                With multi-chain wallets becoming common, users must also ensure permissions are managed correctly to prevent malicious smart contract approvals.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/security/400/200",
             date = "2024-06-12 08:40 AM",
             category = "Recent"
         ),
+
         ArticleDetail(
             id = 6,
             title = "Top 10 Airdrops to Watch This Month 💰",
-            description = "Don't miss these trending airdrops offering lucrative rewards for early users.",
+            description = """
+                Airdrops are back in the spotlight as projects compete for user attention ahead of major token launches. 
+                Popular DeFi platforms such as ZetaChain, Scroll, and StarkNet are rumored to distribute tokens soon. 
+                Early community members engaging with testnets, governance proposals, and staking mechanisms stand to earn significant rewards. 
+                Always verify authenticity before connecting your wallet, as fake airdrops remain a major phishing vector in the crypto community.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/airdrops/400/200",
             date = "2024-06-14 03:25 PM",
             category = "Recent"
         ),
-        ArticleDetail(
-            id = 7,
-            title = "NFT Market Making a Comeback in 2025 🖼️",
-            description = "After a slow 2024, NFTs are back — here’s what’s driving the resurgence.",
-            imageUrl = "https://picsum.photos/seed/nftcomeback/400/200",
-            date = "2024-06-13 11:30 AM",
-            category = "Recent"
-        ),
-        ArticleDetail(
-            id = 8,
-            title = "Stablecoins: The Backbone of Crypto Payments 💵",
-            description = "Learn how stablecoins are reshaping payment systems worldwide.",
-            imageUrl = "https://picsum.photos/seed/stablecoin/400/200",
-            date = "2024-06-09 09:10 PM",
-            category = "Recent"
-        ),
+
         ArticleDetail(
             id = 15,
             title = "Ethereum Layer-3 Solutions Explained 🔗",
-            description = "A closer look at the third layer of blockchain scalability and privacy.",
+            description = """
+                While Layer-2 networks like Arbitrum and Optimism scaled Ethereum transactions, Layer-3 aims to optimize specific use cases—such as gaming, privacy, and enterprise applications. 
+                Experts describe it as an ‘application-specific scaling layer’, allowing developers to fine-tune security and cost trade-offs. 
+                Coinbase’s Base network and zkSync’s upcoming L3 are among those pioneering this space, promising lower fees and faster settlement times for mainstream adoption.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/layer3/400/200",
             date = "2024-06-21 01:05 PM",
             category = "Recent"
         ),
-        ArticleDetail(
-            id = 16,
-            title = "Crypto Regulation Updates for 2025 📜",
-            description = "What global regulatory changes mean for investors and startups.",
-            imageUrl = "https://picsum.photos/seed/regulations/400/200",
-            date = "2024-06-22 07:55 PM",
-            category = "Recent"
-        ),
-        ArticleDetail(
-            id = 17,
-            title = "How to Use Crypto for Everyday Purchases 🛒",
-            description = "Step-by-step guide to paying for groceries, bills, and more using crypto.",
-            imageUrl = "https://picsum.photos/seed/cryptopayments/400/200",
-            date = "2024-06-23 09:30 AM",
-            category = "Recent"
-        ),
+
+        // 💾 Saved
         ArticleDetail(
             id = 9,
             title = "Saved: Corra Finance Airdrop Details",
-            description = "Full guide to participation steps and reward eligibility.",
+            description = """
+                The Corra Finance Airdrop has attracted over 50,000 participants worldwide within its first week. 
+                The platform is promoting content creators who tokenize their work and allow fans to invest directly. 
+                Users can complete in-app challenges, share referral links, and engage in staking pools to maximize their airdrop eligibility. 
+                According to the team, this event marks the beginning of Corra’s mission to democratize creator economies through blockchain integration.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/saved1/400/200",
             date = "2024-06-15 10:30 AM",
             category = "Saved"
         ),
+
         ArticleDetail(
             id = 10,
             title = "Saved: Top Crypto Wallets for Beginners 🔑",
-            description = "We break down the most secure and beginner-friendly wallets for 2025.",
+            description = """
+                For newcomers entering the crypto space, choosing the right wallet is crucial. 
+                Hardware wallets like Ledger Nano X remain the gold standard for security, while software options like MetaMask and Trust Wallet offer convenience for everyday transactions. 
+                Beginners should start with small amounts, avoid public Wi-Fi when making transfers, and always keep their seed phrases offline. 
+                The article also explores decentralized identity wallets, a growing trend among Web3 users.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/saved2/400/200",
             date = "2024-06-16 01:45 PM",
             category = "Saved"
         ),
-        ArticleDetail(
-            id = 11,
-            title = "Saved: Tax Guide for Crypto Investors in 2025 🧾",
-            description = "A simple breakdown of tax regulations and how to stay compliant.",
-            imageUrl = "https://picsum.photos/seed/saved3/400/200",
-            date = "2024-06-17 05:10 PM",
-            category = "Saved"
-        ),
-        ArticleDetail(
-            id = 12,
-            title = "Saved: Understanding Gas Fees on Ethereum ⚡",
-            description = "Tips to minimize gas fees and optimize your transactions.",
-            imageUrl = "https://picsum.photos/seed/saved4/400/200",
-            date = "2024-06-18 07:25 PM",
-            category = "Saved"
-        ),
-        ArticleDetail(
-            id = 18,
-            title = "Saved: How to Track Portfolio Performance 📈",
-            description = "Use smart dashboards and analytics tools to monitor your crypto assets.",
-            imageUrl = "https://picsum.photos/seed/saved5/400/200",
-            date = "2024-06-19 09:50 AM",
-            category = "Saved"
-        ),
-        ArticleDetail(
-            id = 19,
-            title = "Saved: Decoding Bitcoin Halving Events ⛏️",
-            description = "Understand the long-term impact of Bitcoin halving on market behavior.",
-            imageUrl = "https://picsum.photos/seed/saved6/400/200",
-            date = "2024-06-20 12:40 PM",
-            category = "Saved"
-        ),
+
         ArticleDetail(
             id = 20,
             title = "Saved: Best Crypto Podcasts to Follow 🎧",
-            description = "Stay informed and entertained with top-rated crypto and finance podcasts.",
+            description = """
+                Staying informed is essential for crypto investors. 
+                Podcasts like “The Defiant,” “Unchained” by Laura Shin, and “Bankless” continue to provide top-tier discussions around blockchain trends, regulation, and innovation. 
+                Whether you’re a developer, trader, or simply curious, these shows break down complex concepts into digestible insights. 
+                Newcomers are especially encouraged to listen weekly as the industry’s narrative changes rapidly.
+            """.trimIndent(),
             imageUrl = "https://picsum.photos/seed/saved7/400/200",
             date = "2024-06-21 04:15 PM",
             category = "Saved"
@@ -172,11 +165,11 @@ class ArticleRepositoryImpl : ArticleRepository {
     )
 
     override suspend fun refreshArticles() {
-
+        delay(500)
     }
 
     override suspend fun getArticles(): List<ArticleDetail> {
-        delay(500)
+        delay(400)
         return dummyArticleDetails
     }
 
