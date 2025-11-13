@@ -24,7 +24,7 @@ fun ColorScheme(config: UiConfigEntity?): ColorScheme {
     val defaultConfig = UiConfigEntity()
     val uiConfig = config ?: defaultConfig
     
-    // For default config, use secondary color for primary color
+    // For default config, use secondary color for primary colo
     val primaryColor = if (config == null) {
         uiConfig.secondaryColor
     } else {
