@@ -169,7 +169,7 @@ object ThemeValues {
     
     @Composable
     fun innerPaddingMediumHorizontal(config: UiConfigEntity?): androidx.compose.ui.unit.Dp {
-        val base = config?.baseInnerPaddingMedium ?: 8f
+        val base = config?.baseInnerPaddingMedium ?: 12f
         val multiplier = config?.innerPaddingHorizontalMultiplier ?: 1.0f
         return (base * multiplier).dp
     }

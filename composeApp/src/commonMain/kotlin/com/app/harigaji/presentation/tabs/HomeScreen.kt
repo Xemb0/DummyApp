@@ -64,12 +64,14 @@ import com.app.harigaji.theme.debugUi
 import com.app.harigaji.theme.rememberCornerRadiusMedLargeDp
 import com.app.harigaji.theme.rememberCornerRadiusMedium
 import com.app.harigaji.theme.rememberCornerRadiusMediumDp
+import com.app.harigaji.theme.rememberInnerHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberInnerHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingLarge
 import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import com.app.harigaji.theme.rememberOuterVerticalPaddingMedium
 import com.app.harigaji.theme.rememberOuterVerticalPaddingLarge
+import com.app.harigaji.theme.rememberPaddingSmall
 import com.app.harigaji.theme.rememberSizeExtraLarge
 import com.app.harigaji.theme.rememberSizeLarge
 import com.app.harigaji.theme.rememberSizeSmall
@@ -445,7 +447,7 @@ private fun SearchSection(
                 searchHeading = "Search for anything",
             )
         }
-        SpacerVerticalSmall()
+        SpacerVerticalMedium()
     }
 }
 
@@ -458,7 +460,6 @@ private fun TabHeaderSection(
     onOptionSelected: (Any) -> Unit,
     listOfTabOptions: List<OptionTab>
 ) {
-    // Remove LaunchedEffect logger for better performance
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -756,6 +757,7 @@ fun TitleWithMoreRow(
                     .clickable { onSeeAllClick() }
             )
         }
+
     }
 }
 
@@ -792,6 +794,7 @@ fun InfoCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
+//                .padding(rememberPaddingSmall())
                 .debugUi(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -856,10 +859,8 @@ fun InfoCard(
                 modifier = Modifier
                     .wrapContentWidth()
                     .fillMaxHeight()
-                    .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(
-                        topStart = rememberCornerRadiusMediumDp(),
-                        bottomStart = rememberCornerRadiusMediumDp()
-                    ))
+                    .padding(horizontal = rememberPaddingMedium())
+                    .background(MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(rememberCornerRadiusMediumDp()))
                     .clip(
                         RoundedCornerShape(
                             topStart = rememberCornerRadiusMediumDp(),
@@ -867,9 +868,7 @@ fun InfoCard(
                         )
                     )
                     .innerShadow(
-                        shape = RoundedCornerShape(
-                            topStart = rememberCornerRadiusMediumDp(),
-                            bottomStart = rememberCornerRadiusMediumDp()
+                        shape = RoundedCornerShape(rememberCornerRadiusMediumDp()
                         ),
                         shadow = Shadow(
                             offset = DpOffset(0.dp, 0.dp),

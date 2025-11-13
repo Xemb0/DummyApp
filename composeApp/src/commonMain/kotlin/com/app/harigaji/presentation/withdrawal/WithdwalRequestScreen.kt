@@ -17,8 +17,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.harigaji.data.UserProgressDetail
+import com.app.harigaji.presentation.MyBottomNav
 import com.app.harigaji.presentation.MyTopBar
 import com.app.harigaji.presentation.tabs.profile.CustomTextField
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingExtraLarge
+import com.app.harigaji.theme.rememberOuterHorizontalPaddingMedium
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
@@ -66,35 +69,21 @@ fun WithdrawalRequestScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            Button(
-                onClick = {
-                    onNext()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = paddingValues.calculateBottomPadding())
-                    .padding(horizontal = 16.dp)
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
+            MyBottomNav(
+                modifier = Modifier.padding(
+                    horizontal = rememberOuterHorizontalPaddingExtraLarge(),
+                    vertical = rememberOuterHorizontalPaddingMedium()
                 ),
-                shape = CircleShape
-            ) {
-                Text(
-                    text = "Next",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+                text = "Send",
+                paddingValues = paddingValues,
+                enabled =true ,
+                onClick = onPrevious,
+
+            )
         },
         topBar = {
             MyTopBar(
+                modifier = Modifier.padding(horizontal = rememberOuterHorizontalPaddingExtraLarge(), vertical = rememberOuterHorizontalPaddingMedium()),
                 title = "Withdrawal Request",
                 onLeadingClick = onPrevious,
                 paddingValues = paddingValues
