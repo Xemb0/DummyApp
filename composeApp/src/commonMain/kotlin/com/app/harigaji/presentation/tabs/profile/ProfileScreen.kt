@@ -84,6 +84,7 @@ fun ProfileScreen(
     onLogout: () -> Unit,
     onProfileClick: () -> Unit,
     onForgetPassClick: () -> Unit,
+    onChangePassClick: () -> Unit,
     onUpdatePinClick: () -> Unit,
     onLanguageClick: () -> Unit,
     onClearCacheClick: () -> Unit,
@@ -240,7 +241,7 @@ fun ProfileScreen(
 
                     ProfileMenuItem("Change Password", Icons.Default.Lock, onClick = onForgetPassClick)
                     Divider()
-                    ProfileMenuItem("Forgot Password", Icons.Default.Lock, onClick = onForgetPassClick)
+                    ProfileMenuItem("Forgot Password", Icons.Default.Lock, onClick = onChangePassClick)
                     Divider()
                     ProfileMenuItem("Update PIN", Icons.Default.Pin, onClick = onUpdatePinClick)
                 }

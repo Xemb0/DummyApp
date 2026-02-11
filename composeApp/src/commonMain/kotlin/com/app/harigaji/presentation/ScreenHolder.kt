@@ -41,6 +41,7 @@ fun ScreenHolder(
     onClockIn:()->Unit,
     onLogout:()->Unit,
     onForgetPassClick:()->Unit,
+    onChangePassClick:()->Unit,
     onProfileClick:()->Unit,
     onUserIconClick:()->Unit,
     onNotificationClick:()->Unit,
@@ -139,7 +140,8 @@ fun ScreenHolder(
                         onClearCacheClick = onClearCacheClick,
                         onPrivacyPolicyClick = onPrivacyPolicyClick,
                         onTermsConditionsClick = onTermsConditionsClick,
-                        onArticleClick = onArticleClick
+                        onArticleClick = onArticleClick,
+                        onChangePassClick = onChangePassClick
                     )
 
                     2 -> MessageScreen(

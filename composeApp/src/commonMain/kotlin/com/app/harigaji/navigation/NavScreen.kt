@@ -115,7 +115,9 @@ fun NavScreen(
             }
 
             is UiEvent.Auth.LoginSuccess -> {
+
                 event.loginData?.let { loginData ->
+                    navController.navigateUp()
                     a { "Login Success: $loginData" }
                     navController.navigate(Route.HolderScreen)
                 }
@@ -156,7 +158,6 @@ fun NavScreen(
                             actionColor = MaterialTheme.colorScheme.secondary,
                             shape = RoundedCornerShape(12.dp),
                         )
-
                     }
                 )
             }
@@ -292,7 +293,14 @@ fun NavScreen(
                             navController.navigate(Route.ProfileEdit)
                         },
                         onForgetPassClick = {
-                            navController.navigate(Route.ForgetPassword)
+                            navController.navigate(Route.ForgetPassword(
+                                title = "Forget Password"
+                            ))
+                        },
+                        onChangePassClick = {
+                            navController.navigate(Route.ForgetPassword(
+                                title = "Change Password"
+                            ))
                         },
                         onUpdatePinClick = {},
                         onLanguageClick = {
@@ -457,9 +465,12 @@ fun NavScreen(
                             animationSpec = tween(400)
                         ) + fadeOut(animationSpec = tween(400))
                     }
-                ) {
+                ) { entry ->
+
+                    val args = entry.toRoute<Route.ForgetPassword>()
                     ForgetPasswordRoot(
                        paddingValues =  innerPadding,
+                        title = args.title,
                         onPrevious = {
                             navController.navigateUp()
                             sharedViewModel.setCurrentTab(3)
@@ -504,12 +515,18 @@ fun NavScreen(
                     VerificationRoot(
                         emailId = args.emailID,
                         label = args.label,
+                        buttonText = args.buttonText,
                        paddingValues =  innerPadding,
                         onPrevious = {
                             navController.navigateUp()
                         },
                         onNavigateToResetPassword = {
                             navController.navigate(Route.ResetPassword)
+                        },
+                        onGoHome = {
+                            navController.navigateUp()
+                            navController.navigateUp()
+                            navController.navigate(Route.HolderScreen)
                         }
                     )
                 }
@@ -547,6 +564,9 @@ fun NavScreen(
                             navController.navigateUp()
                         },
                         onGoHome = {
+                            navController.navigateUp()
+                            navController.navigateUp()
+                            navController.navigateUp()
                             navController.navigate(Route.HolderScreen)
                         }
                     )

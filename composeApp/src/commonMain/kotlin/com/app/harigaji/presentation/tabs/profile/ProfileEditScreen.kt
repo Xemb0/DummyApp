@@ -96,7 +96,7 @@ fun ProfileEditScreen(
         bottomBar = {
             MyBottomNav(
                 paddingValues = paddingValues,
-                text = "Reset password",
+                text = "Update profile",
                 onClick = {}
             )
         },

@@ -65,6 +65,7 @@ kotlin {
 
             //Navigation
             implementation(libs.navigation.compose)
+            implementation(libs.compose.ui.backhandler)
             implementation(libs.kotlinx.serialization.json)
 
             //material icon extended

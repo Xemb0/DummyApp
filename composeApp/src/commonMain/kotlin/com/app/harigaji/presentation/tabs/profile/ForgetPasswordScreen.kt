@@ -35,6 +35,7 @@ fun ForgetPasswordRoot(
     paddingValues: PaddingValues,
     authViewModel: AuthViewModel = koinViewModel(),
     onPrevious: () -> Unit = {},
+    title: String? = null,
     onNavigateToVerification: (String) -> Unit = {},
 ) {
     val authState by authViewModel.authState.collectAsStateWithLifecycle()
@@ -61,6 +62,7 @@ fun ForgetPasswordRoot(
         isLoading = authState.isLoading,
         error = authState.error,
         onPrevious = onPrevious,
+        title = title,
         onResetClick = { email ->
             authViewModel.onSendResetCode(email)
         }
@@ -73,6 +75,7 @@ fun ForgetPassScreen(
     paddingValues: PaddingValues,
     isLoading: Boolean = false,
     error: String? = null,
+    title: String? = null,
     onPrevious: () -> Unit = {},
     onResetClick: (String) -> Unit = {},
 ) {
@@ -120,7 +123,7 @@ fun ForgetPassScreen(
         topBar = {
             MyTopBar(
                 paddingValues = paddingValues,
-                title = "Forget Password",
+                title = title?:"Forget Password",
                 onLeadingClick = onPrevious,
                 modifier = Modifier.padding(
                     horizontal = outerHorizontalPadding,

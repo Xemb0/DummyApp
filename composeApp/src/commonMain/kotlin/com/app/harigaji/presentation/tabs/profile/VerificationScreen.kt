@@ -1,6 +1,7 @@
 package com.app.harigaji.presentation.tabs.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -12,6 +13,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +26,9 @@ import com.app.harigaji.core.user.UserViewModel
 import com.app.harigaji.core.utils.SnackBarEvent
 import com.app.harigaji.data.UiEvent
 import com.app.harigaji.data.UserProgressDetail
+import com.app.harigaji.dialog.DialogConfig
+import com.app.harigaji.dialog.DialogManager
+import com.app.harigaji.dialog.DialogType
 import com.app.harigaji.presentation.MyBottomNav
 import com.app.harigaji.presentation.MyTopBar
 import com.app.harigaji.theme.MyMaterialTheme
@@ -42,8 +48,10 @@ fun VerificationRoot(
     paddingValues: PaddingValues,
     emailId: String? = null,
     label: String,
+    buttonText:String,
     authViewModel: AuthViewModel = koinViewModel(),
     onPrevious: () -> Unit = {},
+    onGoHome: () -> Unit = {},
     onNavigateToResetPassword: () -> Unit = {},
 ) {
     val authState by authViewModel.authState.collectAsStateWithLifecycle()
@@ -59,7 +67,24 @@ fun VerificationRoot(
                     )
                 }
                 is UiEvent.Navigate.ResetPassword -> {
-                    onNavigateToResetPassword()
+                    when(buttonText){
+                        "Verify" ->{
+                            DialogManager.showDialog(
+                                DialogConfig(
+                                    type = DialogType.Success,
+                                    title = "Success",
+                                    message = "Withdraw Request have been submitted successfully.",
+                                    confirmText = "Take me Home",
+                                    onConfirm = {
+                                        onGoHome()
+                                    }
+                                )
+                            )
+                        }
+                        else -> {
+                            onNavigateToResetPassword()
+                        }
+                    }
                 }
                 else -> {}
             }
@@ -72,6 +97,7 @@ fun VerificationRoot(
         label = label,
         isLoading = authState.isLoading,
         error = authState.error,
+        buttonText = buttonText,
         onPrevious = onPrevious,
         onVerifyClick = authViewModel::onVerifyClick,
         onResendOtp = { authViewModel.onResendEmailOtp(emailId ?: "") }
@@ -85,6 +111,7 @@ fun VerificationScreen(
     emailId: String? = null,
     label: String,
     isLoading: Boolean = false,
+    buttonText:String?=null,
     error: String? = null,
     onPrevious: () -> Unit = {},
     onVerifyClick: (String) -> Unit = {},
@@ -92,18 +119,27 @@ fun VerificationScreen(
 ) {
     var otp by remember { mutableStateOf("") }
     var otpTimeout by remember { mutableStateOf(59) }
+    val focusManager = LocalFocusManager.current
 
     val outerHorizontalPadding = rememberOuterHorizontalPaddingExtraLarge()
     val outerVerticalPadding = rememberOuterVerticalPaddingMedium()
+
+    // Auto-dismiss keyboard and trigger verification when OTP is complete
+    LaunchedEffect(otp) {
+        if (otp.length == 6 && !isLoading) {
+            focusManager.clearFocus()
+        }
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             MyBottomNav(
                 paddingValues = paddingValues,
-                text = if (isLoading) "Verifying..." else "Verify Code",
+                text = if (isLoading) "Verifying..." else "$buttonText",
                 onClick = {
                     if (!isLoading) {
+                        focusManager.clearFocus()
                         onVerifyClick(otp)
                     }
                 },
@@ -129,6 +165,12 @@ fun VerificationScreen(
         Box(
             modifier = Modifier
                 .padding(innerPadding)
+                .imePadding() // Add IME padding to handle keyboard
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        focusManager.clearFocus()
+                    })
+                }
         ) {
             Column(
                 modifier = Modifier
@@ -225,6 +267,9 @@ fun VerificationScreen(
                     errorColor = MaterialTheme.colorScheme.error,
                     enabled = !isLoading
                 )
+
+                // Add extra spacing at the bottom to ensure content is above keyboard
+                Spacer(modifier = Modifier.height(200.dp))
             }
         }
     }

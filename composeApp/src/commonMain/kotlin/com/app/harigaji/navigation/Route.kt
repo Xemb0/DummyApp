@@ -59,7 +59,9 @@ sealed class Route {
 
 
         @Serializable
-        data object ForgetPassword : Route()
+        data class ForgetPassword(
+            val title: String,
+        ) : Route()
         @Serializable
         data object WithdrawalRequest : Route()
 

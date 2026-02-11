@@ -1,19 +1,126 @@
-*.iml
-.kotlin
-.gradle
+##############################
+# ANDROID / KOTLIN / KMP
+##############################
+
+# Gradle
+.gradle/
 **/build/
-xcuserdata
-!src/**/build/
+build/
+
+# Local config
 local.properties
-.idea
-.DS_Store
-captures
-.externalNativeBuild
-.cxx
+
+# Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Captures
+captures/
+
+# NDK / Native
+.cxx/
+externalNativeBuild/
+obj/
+
+# Logs
+*.log
+
+# APK / AAB
+*.apk
+*.ap_
+*.aab
+
+# DEX / Class files
+*.dex
+*.class
+out/
+
+# Signing keys (uncomment if needed)
+#*.jks
+#*.keystore
+
+##############################
+# iOS / XCODE (for KMP or Flutter)
+##############################
+
+# User data
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Build
+build/
+DerivedData/
+
+# Project files to ignore safely
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
+*.xcworkspace/*
 !*.xcworkspace/contents.xcworkspacedata
-**/xcshareddata/WorkspaceSettings.xcsettings
+
+##############################
+# FLUTTER / DART (optional)
+##############################
+
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+
+# Flutter build output
+build/
+*.lock
+
+##############################
+# NODE / JAVASCRIPT (optional)
+##############################
+
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+package-lock.json
+
+##############################
+# GENERAL SYSTEM FILES
+##############################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+##############################
+# OTHER
+##############################
+
+# IntelliJ plugin files
+.idea_modules/
+
+# Crash logs
+hs_err_pid*
+
+# JetBrains cache
+.idea/caches/
+.idea/libraries/
+.idea/shelf/
+
+# Misc
+*.swp
+*.tmp
+*.orig

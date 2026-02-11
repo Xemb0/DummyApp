@@ -77,7 +77,7 @@ fun WithdrawalRequestScreen(
                 text = "Send",
                 paddingValues = paddingValues,
                 enabled =true ,
-                onClick = onPrevious,
+                onClick = onNext,
 
             )
         },
