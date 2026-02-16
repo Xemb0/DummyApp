@@ -7,6 +7,12 @@
 **/build/
 build/
 
+# Kotlin build metadata
+.kotlin/
+
+# Release artifacts
+**/release/
+
 # Local config
 local.properties
 
